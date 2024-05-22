@@ -1,0 +1,39 @@
+services:
+  backend:
+    build:
+      context: .
+    ports:
+      -"8000:8000"
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - DATABASE_HOST=${DB_HOST}
+      - DATABASE_PORT=${DB_PORT}
+    volumes:
+      - .:/app
+    restart: on-failure
+    depends_on:
+      - db
+    networks:
+      - workout-network
+  db:
+    image: postgres:alpine
+    container_name: postgres_container
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - DATABASE_HOST=${DB_HOST}
+      - DATABASE_PORT=${DB_PORT}
+    ports:
+      -"5432:5432"
+    networks:
+      - workout-network
+    volumes:
+      -./sql:/docker-entrypoint-init.db.d
+
+networks:
+  workout-network:
+    name: workout-network
+    driver: bridge
