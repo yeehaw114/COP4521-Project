@@ -1,5 +1,4 @@
 # Django #
-db.sqlite3
 
 # Environments
 .env
