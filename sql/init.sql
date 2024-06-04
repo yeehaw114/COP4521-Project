@@ -26,16 +26,16 @@ END;
 
 $$ LANGUAGE plpgsql;
 
-CREATE TABLE users {
+CREATE TABLE users (
     username VARCHAR(30) NOT NULL CHECK (username=LOWER(username)),
     password CHAR(60) NOT NULL,
     description VARCHAR(500) NOT NULL DEFAULT '',
     join_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY(username)
-};
+);
 
-CREATE TABLE workouts {
+CREATE TABLE workouts (
     workoutID VARCHAR(10) NOT NULL DEFAULT genAlphaNum(NEXTVAL(wID)),
     name VARCHAR(50) NOT NULL DEFAULT '',
     username VARCHAR(30) NOT NULL,
@@ -44,10 +44,10 @@ CREATE TABLE workouts {
     CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES users(username),
 
     PRIMARY KEY(workoutID)
-}
+);
 
-CREATE TABLE sets {
-    setID VARCHAR(10) NOT NULL DEFAULT genAlphaNum(NEXTVAL(sID)),
+CREATE TABLE sets (
+    exerciseName VARCHAR(20) NOT NULL,
     workoutID VARCHAR(10) NOT NULL,
     reps SMALLINT NOT NULL DEFAULT 0,
     weight SMALLINT NOT NULL DEFAULT 0,
@@ -55,5 +55,5 @@ CREATE TABLE sets {
     --Constraints
     CONSTRAINT fk_workoutid FOREIGN KEY(workoutID) REFERENCES workouts(workoutID)
 
-    PRIMARY KEY(setID)
-}
+    PRIMARY KEY(exerciseName, workoutID)
+);
