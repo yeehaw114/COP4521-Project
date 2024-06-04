@@ -2,8 +2,9 @@
 __pycache__/
 
 # Environments
-.env
-
+.*
+#Bin
+**/bin/
 # Frontend
 
 # Logs
