@@ -4,11 +4,11 @@
       <NavBar />
     </div>
     <div>
-    <v-main>
-      <v-container fluid>
-        <RouterView/>
-      </v-container>
-    </v-main>
+      <v-main>
+        <v-container fluid>
+          <RouterView />
+        </v-container>
+      </v-main>
     </div>
   </v-app>
 </template>
