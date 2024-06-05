@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto pa-12" elevation="10" max-width="450" rounded="lg">
+  <v-card class="mx-auto pa-6" elevation="15" max-width="500" rounded="lg">
     <div class="text-subtitle-1 text-medium-emphasis">Name of Workout</div>
     <v-text-field
       density="compact"
@@ -22,6 +22,7 @@
         <Exercise :ExerciseNum="n" />
       </v-list-item>
     </v-list>
+    <v-btn class="mb-8" color="blue" size="large" variant="tonal" block>Create</v-btn>
   </v-card>
 </template>
 
