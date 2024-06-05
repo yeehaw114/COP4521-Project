@@ -1,5 +1,5 @@
 <template>
-  <div class="text-subtitle-1 text-medium-emphasis">Exercise Name</div>
+  <div class="text-subtitle-1 text-medium-emphasis">Exercise #{{ props.ExerciseNum }} Name</div>
   <v-text-field
     density="compact"
     placeholder="Name"
@@ -18,7 +18,17 @@
   <v-list>
     <v-list-items v-for="n in numSets" :key="n">
       <div>
-        <div class="text-subtitle-1 text-medium-emphasis">Weight of set #{{ n }}</div>
+        <div class="text-subtitle-1 text-medium-emphasis">Set #{{ n }}</div>
+        <div class="text-subtitle-2 text-medium-emphasis">Reps</div>
+        <v-slider
+          prepend-icon="mdi-counter"
+          v-model="repNums[n - 1]"
+          step="1"
+          min="1"
+          max="30"
+          thumb-label
+        ></v-slider>
+        <div class="text-subtitle-2 text-medium-emphasis">Weight</div>
         <v-slider
           prepend-icon="mdi-weight-pound"
           v-model="weightNums[n - 1]"
@@ -27,6 +37,7 @@
           max="500"
           thumb-label
         ></v-slider>
+        <v-divider v-if="n < numSets" :thickness="5"></v-divider>
       </div>
     </v-list-items>
   </v-list>
@@ -34,6 +45,15 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-const numSets = ref(0)
+const numSets = ref(1)
 const weightNums = ref([])
+const repNums = ref([])
+
+const props = defineProps({
+    ExerciseNum: {
+        type: Number,
+        required: true
+    }
+})
+
 </script>

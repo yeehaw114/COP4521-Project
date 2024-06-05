@@ -19,7 +19,7 @@
     ></v-slider>
     <v-list>
       <v-list-item v-for="n in numExercises" :key="n">
-        <Exercise />
+        <Exercise :ExerciseNum="n" />
       </v-list-item>
     </v-list>
   </v-card>
@@ -29,5 +29,5 @@
 import { ref } from 'vue'
 import Exercise from './CreateExercise.vue'
 
-const numExercises = ref(0)
+const numExercises = ref(1)
 </script>
