@@ -1,24 +1,24 @@
 <template>
-    <div class="text-subtitle-1 text-medium-emphasis">Exercise #{{ props.ExerciseNum }} Name</div>
-    <v-text-field
-      density="compact"
-      placeholder="Name"
-      prepend-inner-icon="mdi-tag-text-outline"
-      variant="outlined"
-    ></v-text-field>
-    <div class="text-subtitle-1 text-medium-emphasis">Number of sets</div>
-    <v-slider
-      prepend-icon="mdi-kettlebell"
-      v-model="numSets"
-      step="1"
-      min="1"
-      max="8"
-      thumb-label
-    ></v-slider>
-    <v-list>
-      <v-list-items v-for="n in numSets" :key="n">
-        <div class="py-3">
-         <v-card class="mx-auto pa-3" elevation="8" max-width="350" rounded="md">
+  <div class="text-subtitle-1 text-medium-emphasis">Exercise #{{ props.ExerciseNum }} Name</div>
+  <v-text-field
+    density="compact"
+    placeholder="Name"
+    prepend-inner-icon="mdi-tag-text-outline"
+    variant="outlined"
+  ></v-text-field>
+  <div class="text-subtitle-1 text-medium-emphasis">Number of sets</div>
+  <v-slider
+    prepend-icon="mdi-kettlebell"
+    v-model="numSets"
+    step="1"
+    min="1"
+    max="8"
+    thumb-label
+  ></v-slider>
+  <v-list>
+    <v-list-items v-for="n in numSets" :key="n">
+      <div class="py-3">
+        <v-card class="mx-auto pa-3" elevation="8" max-width="350" rounded="md">
           <div class="text-subtitle-1 text-medium-emphasis">Set #{{ n }}</div>
           <div class="text-subtitle-2 text-medium-emphasis">Reps</div>
           <v-slider
@@ -38,10 +38,10 @@
             max="500"
             thumb-label
           ></v-slider>
-         </v-card>
-        </div>
-      </v-list-items>
-    </v-list>
+        </v-card>
+      </div>
+    </v-list-items>
+  </v-list>
 </template>
 
 <script setup lang="ts">
