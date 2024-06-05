@@ -15,29 +15,33 @@
       ></v-list-item>
     </v-list>
     <template v-else>
-    <v-list>
-      <v-list-item prepend-icon="mdi-dumbbell" link :title="config.appTitle"></v-list-item>
-    </v-list>
-    <v-divider></v-divider>
-    <v-list>
-      <v-list-item prepend-icon="mdi-plus-circle" link title="Add Workout"></v-list-item>
-    </v-list>
-  </template>
+      <v-list>
+        <v-list-item prepend-icon="mdi-dumbbell" link :title="config.appTitle"></v-list-item>
+      </v-list>
+      <v-divider></v-divider>
+      <v-list>
+        <v-list-item prepend-icon="mdi-plus-circle" link to="/create" title="Add Workout"></v-list-item>
+      </v-list>
+    </template>
     <v-divider></v-divider>
     <v-list>
       <v-list-item prepend-icon="mdi-home" link to="/" title="Home"></v-list-item>
-      <v-list-item prepend-icon="mdi-weight-lifter" link to="/workouts" title="My Workouts"></v-list-item>
+      <v-list-item
+        prepend-icon="mdi-weight-lifter"
+        link
+        to="/workouts"
+        title="My Workouts"
+      ></v-list-item>
       <v-list-item prepend-icon="mdi-information" link to="/about" title="About"></v-list-item>
-      
     </v-list>
   </v-navigation-drawer>
 
   <v-dialog v-model="signupDialog">
-      <Signup />
+    <Signup />
   </v-dialog>
 
   <v-dialog v-model="loginDialog">
-      <Login />
+    <Login />
   </v-dialog>
 </template>
 
