@@ -1,6 +1,7 @@
 CREATE SEQUENCE wID
 CREATE SEQUENCE sID
 CREATE SEQUENCE uwID
+CREATE SEQUENCE usID
 
 CREATE OR REPLACE FUNCTION genAlphaNum(num BIGINT)
 RETURNS VARCHAR(255) AS $$
@@ -72,20 +73,26 @@ CREATE TABLE workout_exercises (
 CREATE TABLE user_workouts(
     user_workout_id VARCHAR(10) NOT NULL DEFAULT genAlphaNum(NEXTVAL(uwID)),
     workoutID VARCHAR(10) NOT NULL,
+    username VARCHAR(30) NOT NULL,
 
     --Constraints
-    CONSTRAINT fk_workoutid FOREIGN KEY(workoutID) REFERENCES workouts(workoutID)
+    CONSTRAINT fk_workoutid FOREIGN KEY(workoutID) REFERENCES workouts(workoutID),
+    CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES users(username),
 
     PRIMARY KEY(user_workout_id)
 );
 --Table that stores a user's individual sets of a particular workout
 --which contains how many reps and how much weight they were able to do
 CREATE TABLE user_sets(
+    setID VARCHAR(10) NOT NULL,
     user_workout_id VARCHAR(10) NOT NULL,
     reps SMALLINT NOT NULL DEFAULT 0,
     weight SMALLINT NOT NULL DEFAULT 0,
+    username VARCHAR(30) NOT NULL,
 
+    --Constraints
     CONSTRAINT fk_user_workoutid FOREIGN KEY(user_workout_id) REFERENCES workouts(workoutID),
+    CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES users(username),
 
-    PRIMARY KEY(user_workout_id)
+    PRIMARY KEY(setID)
 );
