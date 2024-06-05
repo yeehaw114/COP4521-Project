@@ -19,7 +19,7 @@ const router = createRouter({
     {
       path: '/create',
       name: 'create',
-      component: CreateView,
+      component: CreateView
     }
   ]
 })

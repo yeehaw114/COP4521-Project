@@ -20,7 +20,12 @@
       </v-list>
       <v-divider></v-divider>
       <v-list>
-        <v-list-item prepend-icon="mdi-plus-circle" link to="/create" title="Add Workout"></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-plus-circle"
+          link
+          to="/create"
+          title="Add Workout"
+        ></v-list-item>
       </v-list>
     </template>
     <v-divider></v-divider>

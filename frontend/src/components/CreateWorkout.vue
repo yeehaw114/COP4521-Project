@@ -1,9 +1,9 @@
 <template>
   <v-card class="mx-auto pa-12" elevation="10" max-width="450" rounded="lg">
-    <div class="text-subtitle-1 text-medium-emphasis">Name</div>
+    <div class="text-subtitle-1 text-medium-emphasis">Name of Workout</div>
     <v-text-field
       density="compact"
-      placeholder="Name of workout"
+      placeholder="Name"
       prepend-inner-icon="mdi-tag-text-outline"
       variant="outlined"
     ></v-text-field>
@@ -29,6 +29,5 @@
 import { ref } from 'vue'
 import Exercise from './CreateExercise.vue'
 
-const numSets = ref(0)
 const numExercises = ref(0)
 </script>
