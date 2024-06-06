@@ -11,4 +11,4 @@ A workout app where you will be able to make a workout routine which consists of
 
 __Frontend:__ `npm ci && npm run dev`
 
-__Backend:__ `idk yet tbh`
+__Backend:__ `docker compose up`
