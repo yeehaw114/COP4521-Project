@@ -86,12 +86,13 @@ CREATE TABLE user_workouts(
 CREATE TABLE user_sets(
     id VARCHAR(10) NOT NULL DEFAULT genAlphaNum(NEXTVAL('usID')),
     user_workout_id VARCHAR(10) NOT NULL,
+    exercise_name VARCHAR(30) NOT NULL,
     reps SMALLINT NOT NULL DEFAULT 0,
     weight SMALLINT NOT NULL DEFAULT 0,
     username VARCHAR(30) NOT NULL,
 
     --Constraints
-    CONSTRAINT fk_user_workoutid FOREIGN KEY(user_workout_id) REFERENCES workouts(workoutID),
+    CONSTRAINT fk_exercise FOREIGN KEY(user_workout_id, exercise_name) REFERENCES workout_exercises(workout_id, exercise_name),
     CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES users(username),
 
     PRIMARY KEY(id)
