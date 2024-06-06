@@ -38,14 +38,14 @@ CREATE TABLE users (
 );
 
 CREATE TABLE workouts (
-    workout_id VARCHAR(10) NOT NULL DEFAULT genAlphaNum(NEXTVAL(wID)),
+    id VARCHAR(10) NOT NULL DEFAULT genAlphaNum(NEXTVAL(wID)),
     name VARCHAR(50) NOT NULL DEFAULT '',
     username VARCHAR(30) NOT NULL,
 
     --Constraints
     CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES users(username),
 
-    PRIMARY KEY(workout_id)
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE exercises (
@@ -65,26 +65,27 @@ CREATE TABLE workout_exercises (
     CONSTRAINT fk_workoutid FOREIGN KEY(workout_id) REFERENCES workouts(workout_id),
     CONSTRAINT fk_exercise_name FOREIGN KEY(exercise_name) REFERENCES exercises(name),
 
-    PRIMARY KEY(workout_id)
+    PRIMARY KEY(workout_id, exercise_name)
 );
 
 
 --Table that stores a user's workout along with a foreign key to the goal workout they were following
 CREATE TABLE user_workouts(
-    user_workout_id VARCHAR(10) NOT NULL DEFAULT genAlphaNum(NEXTVAL(uwID)),
-    workoutID VARCHAR(10) NOT NULL,
+    id VARCHAR(10) NOT NULL DEFAULT genAlphaNum(NEXTVAL(uwID)),
+    workout_id VARCHAR(10) NOT NULL,
     username VARCHAR(30) NOT NULL,
+    done_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     --Constraints
     CONSTRAINT fk_workoutid FOREIGN KEY(workoutID) REFERENCES workouts(workoutID),
     CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES users(username),
 
-    PRIMARY KEY(user_workout_id)
+    PRIMARY KEY(id)
 );
 --Table that stores a user's individual sets of a particular workout
 --which contains how many reps and how much weight they were able to do
 CREATE TABLE user_sets(
-    setID VARCHAR(10) NOT NULL,
+    id VARCHAR(10) NOT NULL,
     user_workout_id VARCHAR(10) NOT NULL,
     reps SMALLINT NOT NULL DEFAULT 0,
     weight SMALLINT NOT NULL DEFAULT 0,
@@ -94,5 +95,5 @@ CREATE TABLE user_sets(
     CONSTRAINT fk_user_workoutid FOREIGN KEY(user_workout_id) REFERENCES workouts(workoutID),
     CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES users(username),
 
-    PRIMARY KEY(setID)
+    PRIMARY KEY(id)
 );
