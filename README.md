@@ -5,7 +5,7 @@ A workout app where you will be able to make a workout routine which consists of
 `git clone git@github.com:yeehaw114/COP4521-Project.git`
 
 ## Dependencies
-Download theses dependencies before running the project.
+Download these dependencies before running the project.
 - [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 - [Docker](https://docs.docker.com/engine/install/)
 
@@ -14,7 +14,7 @@ Download theses dependencies before running the project.
 
 
 ## Getting Started
-You want to ensure the backend is running before starting up the frontend.
+You want to ensure the backend is running before starting up the frontend to avoid network errors.
 
 __Backend:__ `docker compose up`
 
