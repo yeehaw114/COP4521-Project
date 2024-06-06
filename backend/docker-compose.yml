@@ -14,6 +14,8 @@ services:
       - PG_HOST=db
     depends_on:
       - db
+    networks:
+      - work-network
   db:
     container_name: db
     image: postgres:12
@@ -23,7 +25,11 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
+    networks:
+      - work-network
     volumes:
-      - pgdata:/var/lib/postgresql/data
-volumes:
-  pgdata: {}
+      - ./sql:/docker-entrypoint-initdb.d
+networks:
+  work-network:
+    name: work-network
+    driver: bridge

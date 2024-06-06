@@ -7,7 +7,7 @@ from .serializers import UserSerializer
 # Create your views here.
 @api_view(['GET'])
 def getUser(request, pk):
-    users = User.objects.get(id=pk)
+    users = User.objects.get(username=pk)
     s = UserSerializer(users, many=False)
     return Response(s.data)
 
