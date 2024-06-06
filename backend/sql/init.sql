@@ -61,7 +61,7 @@ CREATE TABLE workout_exercises (
     weight SMALLINT NOT NULL DEFAULT 0,
 
     --Constraints
-    CONSTRAINT fk_workoutid FOREIGN KEY(workout_id) REFERENCES workouts(workout_id),
+    CONSTRAINT fk_workoutid FOREIGN KEY(workout_id) REFERENCES workouts(id),
     CONSTRAINT fk_exercise_name FOREIGN KEY(exercise_name) REFERENCES exercises(name),
 
     PRIMARY KEY(workout_id, exercise_name)
@@ -76,7 +76,7 @@ CREATE TABLE user_workouts(
     done_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     --Constraints
-    CONSTRAINT fk_workoutid FOREIGN KEY(workoutID) REFERENCES workouts(workoutID),
+    CONSTRAINT fk_workoutid FOREIGN KEY(workoutID) REFERENCES workouts(id),
     CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES users(username),
     
     PRIMARY KEY(id)
@@ -85,14 +85,14 @@ CREATE TABLE user_workouts(
 --which contains how many reps and how much weight they were able to do
 CREATE TABLE user_sets(
     id VARCHAR(10) NOT NULL DEFAULT genAlphaNum(NEXTVAL('usID')),
-    user_workout_id VARCHAR(10) NOT NULL,
+    workout_id VARCHAR(10) NOT NULL,
     exercise_name VARCHAR(30) NOT NULL,
     reps SMALLINT NOT NULL DEFAULT 0,
     weight SMALLINT NOT NULL DEFAULT 0,
     username VARCHAR(30) NOT NULL,
 
     --Constraints
-    CONSTRAINT fk_exercise FOREIGN KEY(user_workout_id, exercise_name) REFERENCES workout_exercises(workout_id, exercise_name),
+    CONSTRAINT fk_exercise FOREIGN KEY(workout_id, exercise_name) REFERENCES workout_exercises(workout_id, exercise_name),
     CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES users(username),
 
     PRIMARY KEY(id)
