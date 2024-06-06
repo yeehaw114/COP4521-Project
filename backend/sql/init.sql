@@ -76,7 +76,7 @@ CREATE TABLE user_workouts(
     done_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     --Constraints
-    CONSTRAINT fk_workoutid FOREIGN KEY(workoutID) REFERENCES workouts(id),
+    CONSTRAINT fk_workoutid FOREIGN KEY(workout_id) REFERENCES workouts(id),
     CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES users(username),
     
     PRIMARY KEY(id)
