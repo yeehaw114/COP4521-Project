@@ -11,4 +11,4 @@ COPY . .
 
 EXPOSE 8080
 
-ENTRYPOINT [ "/app/django.sh" ]
+ENTRYPOINT [ "./django.sh" ]
