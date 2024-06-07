@@ -17,4 +17,4 @@ RUN chmod -R 777 ./django.sh
 
 EXPOSE 8080
 
-ENTRYPOINT [ "./django.sh" ]
+CMD [ "./django.sh" ]
