@@ -27,23 +27,13 @@ END;
 
 $$ LANGUAGE plpgsql;
 
-CREATE TABLE users (
-    username VARCHAR(30) NOT NULL CHECK (username=LOWER(username)),
-    password CHAR(60) NOT NULL,
-    description VARCHAR(500) NOT NULL DEFAULT '',
-    join_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    premium BOOLEAN
-
-    PRIMARY KEY(username)
-);
-
 CREATE TABLE workouts (
     id VARCHAR(10) NOT NULL DEFAULT genAlphaNum(NEXTVAL('wID')),
     name VARCHAR(50) NOT NULL DEFAULT '',
     username VARCHAR(30) NOT NULL,
 
     --Constraints
-    CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES users(username),
+    CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES auth_user(username),
 
     PRIMARY KEY(id)
 );
@@ -78,7 +68,7 @@ CREATE TABLE user_workouts(
 
     --Constraints
     CONSTRAINT fk_workoutid FOREIGN KEY(workout_id) REFERENCES workouts(id),
-    CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES users(username),
+    CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES auth_user(username),
     
     PRIMARY KEY(id)
 );
@@ -94,17 +84,17 @@ CREATE TABLE user_sets(
 
     --Constraints
     CONSTRAINT fk_exercise FOREIGN KEY(workout_id, exercise_name) REFERENCES workout_exercises(workout_id, exercise_name),
-    CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES users(username),
+    CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES auth_user(username),
 
     PRIMARY KEY(id)
 );
 
 --Role Based Access Roles
 CREATE ROLE Administrator
-GRANT ALL PRIVILEGES ON TABLE user_sets, user_workouts, workout_exercises, exercises, workouts, users TO Administrator
+GRANT ALL PRIVILEGES ON TABLE user_sets, user_workouts, workout_exercises, exercises, workouts, auth_user TO Administrator
 
 CREATE ROLE Trainer
 GRANT SELECT, INSERT, UPDATE ON TABLE workout_exercises, workouts, exercises TO Trainer
 
 CREATE ROLE Trainee
-GRANT SELECT, INSERT, UPDATE ON TABLE users, user_workouts, user_sets TO Trainee
+GRANT SELECT, INSERT, UPDATE ON TABLE auth_user, user_workouts, user_sets TO Trainee
