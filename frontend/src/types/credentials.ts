@@ -7,6 +7,6 @@ export type RegisterCreds = {
 }
 
 export type LoginCreds = {
-    username: string
+    username:string
     password:string
 }
