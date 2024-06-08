@@ -3,7 +3,7 @@
     <v-card class="mx-auto pa-12" elevation="10" max-width="450" rounded="lg">
       <div class="text-subtitle-1 text-medium-emphasis">First Name</div>
       <v-text-field
-        v-model="creds.firstName"
+        v-model="creds.first_name"
         density="compact"
         placeholder="First name (e.g. John)"
         prepend-inner-icon="mdi-account-outline"
@@ -11,7 +11,7 @@
       ></v-text-field>
       <div class="text-subtitle-1 text-medium-emphasis">Last Name</div>
       <v-text-field
-        v-model="creds.lastName"
+        v-model="creds.last_name"
         density="compact"
         placeholder="Last name (e.g. Smith)"
         prepend-inner-icon="mdi-account-outline"
@@ -56,7 +56,7 @@ import type { RegisterCreds } from '../types/credentials'
 import { postSignup } from '@/requests/auth';
 
 const creds:Ref<RegisterCreds> = ref<RegisterCreds>({
-  firstName:'', lastName:'', password:'', email:'',username:''
+  first_name:'', last_name:'', password:'', email:'',username:''
 })
 const visible = ref(false)
 </script>

@@ -1,7 +1,7 @@
 import type { LoginCreds, RegisterCreds } from "@/types/credentials";
 import { SERV_NAME } from '@/ts/host'
 export function postSignup(creds:RegisterCreds) {
-    fetch(SERV_NAME+'register/', {
+    fetch(SERV_NAME+'register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -11,7 +11,7 @@ export function postSignup(creds:RegisterCreds) {
 }
 
 export function postLogin(creds:LoginCreds) {
-    fetch(SERV_NAME+'login/', {
+    fetch(SERV_NAME+'login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
