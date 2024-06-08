@@ -3,6 +3,7 @@
     <v-card class="mx-auto pa-12" elevation="10" max-width="450" rounded="lg">
       <div class="text-subtitle-1 text-medium-emphasis">Username</div>
       <v-text-field
+        v-model="creds.username"
         density="compact"
         placeholder="Username"
         prepend-inner-icon="mdi-account-outline"
@@ -10,6 +11,7 @@
       ></v-text-field>
       <div class="text-subtitle-1 text-medium-emphasis">Password</div>
       <v-text-field
+        v-model="creds.password"
         :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
         :type="visible ? 'text' : 'password'"
         density="compact"
@@ -18,13 +20,20 @@
         variant="outlined"
         @click:append-inner="visible = !visible"
       ></v-text-field>
-      <v-btn class="mb-8" color="green" size="large" variant="tonal" block>Login</v-btn>
+      <v-btn @click="postLogin(creds)" class="mb-8" color="green" size="large" variant="tonal" block>Login</v-btn>
     </v-card>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { Ref } from 'vue'
+import type { LoginCreds } from '../types/credentials'
+import { postLogin } from '@/requests/auth';
+
+const creds:Ref<LoginCreds> = ref<LoginCreds>({
+  username:'',password:''
+})
 
 const visible = ref(false)
 </script>
