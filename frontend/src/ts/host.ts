@@ -1,0 +1,1 @@
+export const SERV_NAME = "localhost:8080"
