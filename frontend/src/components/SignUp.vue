@@ -1,11 +1,32 @@
 <template>
   <div>
     <v-card class="mx-auto pa-12" elevation="10" max-width="450" rounded="lg">
+      <div class="text-subtitle-1 text-medium-emphasis">First Name</div>
+      <v-text-field
+        density="compact"
+        placeholder="First name (e.g. John)"
+        prepend-inner-icon="mdi-account-outline"
+        variant="outlined"
+      ></v-text-field>
+      <div class="text-subtitle-1 text-medium-emphasis">Last Name</div>
+      <v-text-field
+        density="compact"
+        placeholder="Last name (e.g. Smith)"
+        prepend-inner-icon="mdi-account-outline"
+        variant="outlined"
+      ></v-text-field>
+      <div class="text-subtitle-1 text-medium-emphasis">Email</div>
+      <v-text-field
+        density="compact"
+        placeholder="Email name (e.g. john@mail.com)"
+        prepend-inner-icon="mdi-email"
+        variant="outlined"
+      ></v-text-field>
       <div class="text-subtitle-1 text-medium-emphasis">Username</div>
       <v-text-field
         density="compact"
         placeholder="Username"
-        prepend-inner-icon="mdi-account-outline"
+        prepend-inner-icon="mdi-badge-account-horizontal"
         variant="outlined"
       ></v-text-field>
       <div class="text-subtitle-1 text-medium-emphasis">Password</div>
