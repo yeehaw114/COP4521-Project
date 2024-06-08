@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'workout',
     'rest_framework',
     'profiles.apps.ProfilesConfig',
+    'registration.apps.RegistrationConfig',
 ]
 
 MIDDLEWARE = [
