@@ -1,1 +1,1 @@
-export const SERV_NAME = "localhost:8080"
+export const SERV_NAME = "localhost:8080/api/"
