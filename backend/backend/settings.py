@@ -144,5 +144,16 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+INSTALLED_APPS = [
+    'corsheaders'
+]
+
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware'
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 # LOGIN_REDIRECT_URL = '/home'
 # LOGOUT_REDIRECT_URL = '/login'
