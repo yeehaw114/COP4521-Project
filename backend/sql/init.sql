@@ -32,6 +32,7 @@ CREATE TABLE users (
     password CHAR(60) NOT NULL,
     description VARCHAR(500) NOT NULL DEFAULT '',
     join_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    premium BOOLEAN
 
     PRIMARY KEY(username)
 );
@@ -97,3 +98,13 @@ CREATE TABLE user_sets(
 
     PRIMARY KEY(id)
 );
+
+--Role Based Access Roles
+CREATE ROLE Administrator
+GRANT ALL PRIVILEGES ON TABLE user_sets, user_workouts, workout_exercises, exercises, workouts, users TO Administrator
+
+CREATE ROLE Trainer
+GRANT SELECT, INSERT, UPDATE ON TABLE workout_exercises, workouts, exercises TO Trainer
+
+CREATE ROLE Trainee
+GRANT SELECT, INSERT, UPDATE ON TABLE users, user_workouts, user_sets TO Trainee
