@@ -1,6 +1,10 @@
 #!/bin/bash
 
-echo "Making migrations..."
+echo "Creating migrations..."
+python3 manage.py makemigrations
+echo ======================
+
+echo "Starting migrations..."
 python3 manage.py migrate
 echo ======================
 
