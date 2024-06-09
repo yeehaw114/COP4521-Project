@@ -1,10 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Tables
 class Workout(models.Model):
     id = models.CharField(max_length=10, primary_key=True)
     name = models.CharField(max_length=50)
-    username = models.CharField(max_length=30)
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Exercise(models.Model):
     name = models.CharField(max_length=30)
@@ -19,7 +20,7 @@ class Workout_Exercises(models.Model):
 class User_Workouts(models.Model):
     id = models.CharField(max_length=10, primary_key=True)
     workout_id = models.CharField(max_length=10)
-    username = models.CharField(max_length=30)
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
     done_date = models.TimeField()
 
 class User_Sets(models.Model):
@@ -27,4 +28,4 @@ class User_Sets(models.Model):
     user_workout_id = models.CharField(max_length=10)
     reps = models.SmallIntegerField()
     weight = models.SmallIntegerField()
-    username = models.CharField(max_length=30)
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
