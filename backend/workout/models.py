@@ -1,12 +1,6 @@
 from django.db import models
 
 # Tables
-class User(models.Model):
-    name = models.CharField(max_length=30)
-    password = models.CharField(max_length=60)
-    description = models.CharField(max_length=500)
-    join_date = models.TimeField()
-
 class Exercise(models.Model):
     name = models.CharField(max_length=30)
     muscle_group = models.CharField(max_length=30)
