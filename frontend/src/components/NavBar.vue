@@ -4,12 +4,14 @@
       <v-list-item
         prepend-icon="mdi-login"
         @click="openLoginDialog"
+        @login="closeLoginDialog"
         link
         title="Login"
       ></v-list-item>
       <v-list-item
         prepend-icon="mdi-account-plus"
         @click="openSignUpDialog"
+        @signup="closeSignUpDialog"
         link
         title="Signup"
       ></v-list-item>
@@ -63,10 +65,17 @@ const signupDialog = ref(false)
 const openSignUpDialog = () => {
   signupDialog.value = true
 }
+const closeSignUpDialog = () => {
+  signupDialog.value = false
+}
+
 
 const loginDialog = ref(false)
 const openLoginDialog = () => {
   loginDialog.value = true
+}
+const closeLoginDialog = () => {
+  loginDialog.value = false
 }
 </script>
 
