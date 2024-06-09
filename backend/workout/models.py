@@ -1,6 +1,11 @@
 from django.db import models
 
 # Tables
+class Workout(models.Model):
+    id = models.CharField(max_length=10, primary_key=True)
+    name = models.CharField(max_length=50)
+    username = models.CharField(max_length=30)
+
 class Exercise(models.Model):
     name = models.CharField(max_length=30)
     muscle_group = models.CharField(max_length=30)
@@ -10,11 +15,6 @@ class Workout_Exercises(models.Model):
     exercise_name = models.CharField(max_length=30)
     reps = models.SmallIntegerField()
     weight = models.SmallIntegerField()
-
-class Workout(models.Model):
-    id = models.CharField(max_length=10, primary_key=True)
-    name = models.CharField(max_length=50)
-    username = models.CharField(max_length=30)
 
 class User_Workouts(models.Model):
     id = models.CharField(max_length=10, primary_key=True)
