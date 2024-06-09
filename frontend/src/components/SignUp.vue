@@ -44,8 +44,10 @@
         variant="outlined"
         @click:append-inner="passwordVisible = !passwordVisible"
       ></v-text-field>
-      <Error v-if="errorOccured" text="Invalid input"/>
-      <v-btn @click="signUp(creds)" class="mb-8" color="green" size="large" variant="tonal" block>Sign Up</v-btn>
+      <Error v-if="errorOccured" text="Invalid input" />
+      <v-btn @click="signUp(creds)" class="mb-8" color="green" size="large" variant="tonal" block
+        >Sign Up</v-btn
+      >
     </v-card>
   </div>
 </template>
@@ -54,25 +56,29 @@
 import { ref } from 'vue'
 import type { Ref } from 'vue'
 import type { RegisterCreds } from '../types/credentials'
-import { postSignup } from '@/requests/auth';
+import { postSignup } from '@/requests/auth'
 import Error from './ErrorComponent.vue'
 
-const creds:Ref<RegisterCreds> = ref<RegisterCreds>({
-  first_name:'', last_name:'', password:'', email:'',username:''
+const creds: Ref<RegisterCreds> = ref<RegisterCreds>({
+  first_name: '',
+  last_name: '',
+  password: '',
+  email: '',
+  username: ''
 })
 
 const emit = defineEmits<{
-  'signup':string[];
+  signup: string[]
 }>()
 
 const errorOccured = ref(false)
 
-const signUp = async(creds:RegisterCreds) => {
-  errorOccured.value=false
+const signUp = async (creds: RegisterCreds) => {
+  errorOccured.value = false
   try {
     const response = await postSignup(creds)
     emit('signup', creds.username)
-  } catch(err) {
+  } catch (err) {
     errorOccured.value = true
     console.error(err)
   }

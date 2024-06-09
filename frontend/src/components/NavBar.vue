@@ -4,14 +4,12 @@
       <v-list-item
         prepend-icon="mdi-login"
         @click="openLoginDialog"
-        @login="closeLoginDialog"
         link
         title="Login"
       ></v-list-item>
       <v-list-item
         prepend-icon="mdi-account-plus"
         @click="openSignUpDialog"
-        @signup="closeSignUpDialog"
         link
         title="Signup"
       ></v-list-item>
@@ -44,11 +42,11 @@
   </v-navigation-drawer>
 
   <v-dialog v-model="signupDialog">
-    <Signup />
+    <Signup @signup="closeSignUpDialog" />
   </v-dialog>
 
   <v-dialog v-model="loginDialog">
-    <Login />
+    <Login @login="closeLoginDialog" />
   </v-dialog>
 </template>
 
@@ -68,7 +66,6 @@ const openSignUpDialog = () => {
 const closeSignUpDialog = () => {
   signupDialog.value = false
 }
-
 
 const loginDialog = ref(false)
 const openLoginDialog = () => {

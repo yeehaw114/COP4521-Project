@@ -20,8 +20,10 @@
         variant="outlined"
         @click:append-inner="visible = !visible"
       ></v-text-field>
-      <Error v-if="errorOccured" text="Invalid credentials."/>
-      <v-btn @click="login(creds)" class="mb-8" color="green" size="large" variant="tonal" block>Login</v-btn>
+      <Error v-if="errorOccured" text="Invalid credentials." />
+      <v-btn @click="login(creds)" class="mb-8" color="green" size="large" variant="tonal" block
+        >Login</v-btn
+      >
     </v-card>
   </div>
 </template>
@@ -30,24 +32,25 @@
 import { ref } from 'vue'
 import type { Ref } from 'vue'
 import type { LoginCreds } from '../types/credentials'
-import { postLogin } from '@/requests/auth';
+import { postLogin } from '@/requests/auth'
 import Error from './ErrorComponent.vue'
 
 const emit = defineEmits<{
-  'login':string[];
+  login: string[]
 }>()
 
-const creds:Ref<LoginCreds> = ref<LoginCreds>({
-  username:'',password:''
+const creds: Ref<LoginCreds> = ref<LoginCreds>({
+  username: '',
+  password: ''
 })
 const errorOccured = ref(false)
 
-const login = async(creds:LoginCreds) => {
-  errorOccured.value=false
+const login = async (creds: LoginCreds) => {
+  errorOccured.value = false
   try {
     const response = await postLogin(creds)
-      emit('login',creds.username)
-  } catch(err) {
+    emit('login', creds.username)
+  } catch (err) {
     errorOccured.value = true
     console.log(err)
   }
