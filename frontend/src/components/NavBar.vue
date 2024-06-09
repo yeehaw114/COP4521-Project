@@ -41,6 +41,10 @@
     </v-list>
   </v-navigation-drawer>
 
+  <SuccessSnackbar v-model="successLoginSnackbar" text="Successfully logged in"/>
+  <!-- <v-snackbar v-model="successLoginSnackbar" :timeout="3000">Successfully logged in</v-snackbar> -->
+  <v-snackbar v-model="successSignupSnackbar" :timeout="3000">Successfully signed up</v-snackbar>
+
   <v-dialog v-model="signupDialog">
     <Signup @signup="closeSignUpDialog" />
   </v-dialog>
@@ -56,6 +60,10 @@ import config from '../../config.json'
 import { useUserStore } from '../stores/user'
 import Signup from './SignUp.vue'
 import Login from './LoginComponent.vue'
+import SuccessSnackbar from './SuccessfulSnackbar.vue'
+
+const successLoginSnackbar = ref(false)
+const successSignupSnackbar = ref(false)
 
 const userStore = useUserStore()
 
@@ -65,6 +73,7 @@ const openSignUpDialog = () => {
 }
 const closeSignUpDialog = () => {
   signupDialog.value = false
+  successSignupSnackbar.value = true
 }
 
 const loginDialog = ref(false)
@@ -73,6 +82,7 @@ const openLoginDialog = () => {
 }
 const closeLoginDialog = () => {
   loginDialog.value = false
+  successLoginSnackbar.value = true
 }
 </script>
 
