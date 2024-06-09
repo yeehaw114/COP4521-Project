@@ -42,8 +42,7 @@
   </v-navigation-drawer>
 
   <SuccessSnackbar v-model="successLoginSnackbar" text="Successfully logged in"/>
-  <!-- <v-snackbar v-model="successLoginSnackbar" :timeout="3000">Successfully logged in</v-snackbar> -->
-  <v-snackbar v-model="successSignupSnackbar" :timeout="3000">Successfully signed up</v-snackbar>
+  <SuccessSnackbar v-model="successSignupSnackbar" text="Sucessfully signed up"/>
 
   <v-dialog v-model="signupDialog">
     <Signup @signup="closeSignUpDialog" />
