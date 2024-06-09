@@ -41,8 +41,8 @@
     </v-list>
   </v-navigation-drawer>
 
-  <SuccessSnackbar v-model="successLoginSnackbar" text="Successfully logged in"/>
-  <SuccessSnackbar v-model="successSignupSnackbar" text="Sucessfully signed up"/>
+  <SuccessSnackbar v-model="successLoginSnackbar" text="Successfully logged in" />
+  <SuccessSnackbar v-model="successSignupSnackbar" text="Sucessfully signed up" />
 
   <v-dialog v-model="signupDialog">
     <Signup @signup="closeSignUpDialog" />
