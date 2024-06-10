@@ -26,6 +26,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SESSION_COOKIE_SECURE = False
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_HTTPONLY = True
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -35,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'workout.apps.WorkoutConfig',
+    'workout',
     'rest_framework',
     'userauth.apps.UserauthConfig',
     'corsheaders',
@@ -145,6 +149,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# LOGIN_REDIRECT_URL = '/home'
-# LOGOUT_REDIRECT_URL = '/login'
