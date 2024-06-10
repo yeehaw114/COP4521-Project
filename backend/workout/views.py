@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 def create_workout(request):
     user = request.user
     data = request.data.copy()
-    data['username'] = user.username
+    data['username'] = user.id
     workout_name = request.data.get('name')
     exercise_name = request.data.get('exercise_name')
     reps = request.data.get('reps')
