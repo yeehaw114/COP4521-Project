@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import Workout, Workout_Exercises, Exercise, User_Workouts, User_Sets
+from .models import Workouts, Workout_Exercises, Exercise, User_Workouts, User_Sets
 
 class WorkoutSerializer(serializers.ModelSerializer):
-    model = Workout
+    model = Workouts
     fields = ['id', 'name', 'username']
 
 class ExerciseSerializer(serializers.ModelSerializer):
