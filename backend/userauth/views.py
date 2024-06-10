@@ -12,8 +12,9 @@ def register_view(request):
     serializer = RegisterSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
-        print("User created:", user)
-        return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
+        login(request, user)
+        session_id = request.session.session_key
+        return Response({'message': 'User created successfully', 'session_id': session_id}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
@@ -24,7 +25,8 @@ def login_view(request):
     user = authenticate(username=username, password=password)
     if user:
         login(request, user)
-        return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
+        session_id = request.session.session_key
+        return Response({'user': UserSerializer(user).data, 'session_id': session_id}, status=status.HTTP_200_OK)
     return Response({'error': 'Invalid Credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
