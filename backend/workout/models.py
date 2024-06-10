@@ -22,6 +22,7 @@ class User_Workouts(models.Model):
 class User_Sets(models.Model):
     id = models.CharField(max_length=10, primary_key=True)
     user_workout_id = models.ForeignKey(User_Workouts, on_delete=models.CASCADE)
+    set_id = models.ForeignKey(Sets, on_delete=models.CASCADE)
     reps = models.SmallIntegerField()
     weight = models.SmallIntegerField()
     username = models.ForeignKey(User, on_delete=models.CASCADE)
