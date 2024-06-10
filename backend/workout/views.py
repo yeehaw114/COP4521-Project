@@ -11,3 +11,9 @@ from django.contrib.auth.decorators import login_required
 @permission_classes([IsAuthenticated])
 @csrf_protect
 @login_required
+class WorkoutsViewSet(viewsets.ModelViewSet):
+    queryset = Workouts.objects.all()
+    serializer_class = WorkoutsSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(username=self.request.user)
