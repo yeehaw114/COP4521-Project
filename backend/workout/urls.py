@@ -1,7 +1,6 @@
 from django.urls import path
-from . import views
+from .views import create_workout
 
 urlpatterns = [
-    path('user/create', views.addUser),
-    path('user/<str:pk>', views.getUser)
+    path('api/create_workout', create_workout, name='create_workout'),
 ]
