@@ -26,13 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 3600
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'workout',
+    'workout.apps.WorkoutConfig',
     'rest_framework',
     'userauth.apps.UserauthConfig',
     'corsheaders',
