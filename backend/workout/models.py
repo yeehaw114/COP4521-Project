@@ -6,7 +6,7 @@ class Workout(models.Model):
     name = models.CharField(max_length=50)
     username = models.ForeignKey(User, on_delete=models.CASCADE)
 
-class Workout_Sets(models.Model):
+class Sets(models.Model):
     id = models.CharField(max_length=10, primary_key=True)
     workout_id = models.ForeignKey(Workout, on_delete=models.CASCADE)
     exercise = models.CharField()
