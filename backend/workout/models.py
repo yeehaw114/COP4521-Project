@@ -13,7 +13,11 @@ class Exercise(models.Model):
 
 class Workout_Exercises(models.Model):
     workout_id = models.CharField(max_length=10)
-    exercise_name = models.CharField(max_length=30)
+    exercise_name = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+
+class Workout_Sets(models.Model):
+    id = models.CharField(max_length=10, primary_key=True)
+    exercise_name = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     reps = models.SmallIntegerField()
     weight = models.SmallIntegerField()
 
