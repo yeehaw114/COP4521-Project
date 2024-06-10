@@ -14,8 +14,14 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
+import { getToken } from './requests/auth';
 import { RouterView } from 'vue-router'
 import NavBar from '@/components/NavBar.vue'
+
+onMounted(()=> { getToken() })
+
+
 </script>
 
 <style scoped></style>
