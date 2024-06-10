@@ -24,11 +24,11 @@ SECRET_KEY = 'django-insecure-_8#m_yv$a+&g$s2mdzj(ry=uu1#b8$rdik#(p(2=m6@mh7ufd=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
-SESSION_COOKIE_SECURE = False
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-SESSION_COOKIE_HTTPONLY = True
+ALLOWED_HOSTS = [
+    'localhost',
+    '0.0.0.0',
+    '127.0.0.1',
+]
 
 # Application definition
 
@@ -61,6 +61,7 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 
 REST_FRAMEWORK = {
