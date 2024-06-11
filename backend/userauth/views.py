@@ -46,6 +46,7 @@ def logout_view(request):
     csrf_token = get_token(request)
     return Response({'message': 'Logged out successfully', 'csrf_token': csrf_token}, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
 @ensure_csrf_cookie
 def get_csrf_token(request):
     csrf_token = get_token(request)

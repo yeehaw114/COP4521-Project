@@ -1,22 +1,39 @@
 from rest_framework import serializers
-from .models import Workouts, Workout_Exercises, Exercise, User_Workouts, User_Sets
+from django.contrib.auth.models import User
+from .models import Workouts, Sets, User_Workouts, User_Sets
 
-class WorkoutSerializer(serializers.ModelSerializer):
-    model = Workouts
-    fields = ['id', 'name', 'username']
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username']
 
-class ExerciseSerializer(serializers.ModelSerializer):
-    model = Exercise
-    fields = ['id', 'name', 'muscle_group']
+class WorkoutsSerializer(serializers.ModelSerializer):
+    username = UserSerializer(read_only=True)
 
-class WorkoutExercisesSerializer(serializers.ModelSerializer):
-    model = Workout_Exercises
-    fields = ['id', 'workout_id', 'exercise_name', 'reps', 'weight']
+    class Meta:
+        model = Workouts
+        fields = ['id', 'name', 'username']
+
+class SetsSerializer(serializers.ModelSerializer):
+    workout_id = WorkoutsSerializer(read_only=True)
+
+    class Meta:
+        model = Sets
+        fields = ['id', 'workout_id', 'exercise', 'reps', 'weight']
 
 class UserWorkoutsSerializer(serializers.ModelSerializer):
-    model = User_Workouts
-    fields = ['id', 'workout_id', 'username', 'done_date']
+    workout_id = WorkoutsSerializer(read_only=True)
+    username = UserSerializer(read_only=True)
+
+    class Meta:
+        model = User_Workouts
+        fields = ['id', 'workout_id', 'username', 'done_date']
 
 class UserSetsSerializer(serializers.ModelSerializer):
-    model = User_Sets
-    fields = ['id', 'user_workout_id', 'reps', 'weight', 'username']
+    user_workout_id = UserWorkoutsSerializer(read_only=True)
+    set_id = SetsSerializer(read_only=True)
+    username = UserSerializer(read_only=True)
+
+    class Meta:
+        model = User_Sets
+        fields = ['id', 'user_workout_id', 'set_id', 'reps', 'weight', 'username']

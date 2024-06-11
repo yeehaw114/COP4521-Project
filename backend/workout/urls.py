@@ -1,6 +1,13 @@
 from django.urls import include, path
-from .views import create_workout
+from rest_framework.routers import DefaultRouter
+from .views import WorkoutViewSet, SetViewSet, UserWorkoutViewSet, UserSetViewSet
+
+router = DefaultRouter()
+router.register(r'workouts', WorkoutViewSet)
+router.register(r'sets', SetViewSet)
+router.register(r'user_workouts', UserWorkoutViewSet)
+router.register(r'user_sets', UserSetViewSet)
 
 urlpatterns = [
-    path('api/create_workout', create_workout, name='create_workout'),
+    path('', include(router.urls)),
 ]
