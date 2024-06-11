@@ -1,19 +1,30 @@
 from rest_framework import viewsets
-from rest_framework import status
-from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 from .models import Workouts, Sets, User_Workouts, User_Sets
-from .serializers import WorkoutsSerializer, SetsSerializer, UserWorkoutsSerializer, UserSetsSerializer
-from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth.decorators import login_required
+from .serializers import WorkoutSerializer, SetSerializer, UserWorkoutSerializer, UserSetSerializer
 
-@permission_classes([IsAuthenticated])
-@csrf_protect
-@login_required
-class WorkoutsViewSet(viewsets.ModelViewSet):
+class WorkoutViewSet(viewsets.ModelViewSet):
     queryset = Workouts.objects.all()
-    serializer_class = WorkoutsSerializer
+    serializer_class = WorkoutSerializer
+    permission_classes = [IsAuthenticated]
+
+class SetViewSet(viewsets.ModelViewSet):
+    queryset = Sets.objects.all()
+    serializer_class = SetSerializer
+    permission_classes = [IsAuthenticated]
+
+class UserWorkoutViewSet(viewsets.ModelViewSet):
+    queryset = User_Workouts.objects.all()
+    serializer_class = UserWorkoutSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(username=self.request.user)
+
+class UserSetViewSet(viewsets.ModelViewSet):
+    queryset = User_Sets.objects.all()
+    serializer_class = UserSetSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(username=self.request.user)
