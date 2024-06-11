@@ -2,7 +2,7 @@
     <v-container class="bg-surface-variant scrollable">
       <v-row no-gutters>
         <v-col
-          v-for="n in 3"
+          v-for="n in 6"
           :key="n"
           cols="12"
           sm="4"
