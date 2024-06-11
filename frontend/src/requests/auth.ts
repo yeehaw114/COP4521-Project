@@ -1,6 +1,10 @@
 import type { LoginCreds, RegisterCreds } from '@/types/credentials'
 import { SERV_NAME } from '@/ts/host'
 
+type getToken = {
+  csrfToken:string
+}
+
 export async function getToken() {
   await fetch(SERV_NAME + '/api/csrf-token', {
     method: 'GET'
@@ -9,10 +13,11 @@ export async function getToken() {
     if (!response.ok) {
      throw new Error(response.statusText) 
     }
+    return response.json()
   })
-  .then((data)=> {
-    console.log(data)
-    //localStorage.setItem('csrf-token',data)
+  .then((data:getToken)=> {
+    console.log("data is "+data.csrfToken)
+    localStorage.setItem('csrfToken',data.csrfToken)
   })
   .catch((error)=>{
     console.error(`App may not work as expected: ${error}` )
