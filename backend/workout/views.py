@@ -1,19 +1,30 @@
-from django.shortcuts import render
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from .models import User
-from .serializers import UserSerializer
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from .models import Workouts, Sets, User_Workouts, User_Sets
+from .serializers import WorkoutSerializer, SetSerializer, UserWorkoutSerializer, UserSetSerializer
 
-# Create your views here.
-@api_view(['GET'])
-def getUser(request, pk):
-    users = User.objects.get(username=pk)
-    s = UserSerializer(users, many=False)
-    return Response(s.data)
+class WorkoutViewSet(viewsets.ModelViewSet):
+    queryset = Workouts.objects.all()
+    serializer_class = WorkoutSerializer
+    permission_classes = [IsAuthenticated]
 
-@api_view(['POST'])
-def addUser(request):
-    s = UserSerializer(data=request.data)
-    if s.is_valid():
-        s.save()
-    return Response(s.data)
+class SetViewSet(viewsets.ModelViewSet):
+    queryset = Sets.objects.all()
+    serializer_class = SetSerializer
+    permission_classes = [IsAuthenticated]
+
+class UserWorkoutViewSet(viewsets.ModelViewSet):
+    queryset = User_Workouts.objects.all()
+    serializer_class = UserWorkoutSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(username=self.request.user)
+
+class UserSetViewSet(viewsets.ModelViewSet):
+    queryset = User_Sets.objects.all()
+    serializer_class = UserSetSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(username=self.request.user)
