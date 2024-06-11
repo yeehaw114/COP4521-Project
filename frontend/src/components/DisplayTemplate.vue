@@ -1,5 +1,5 @@
 <template>
-    <v-container class="bg-surface-variant">
+    <v-container class="bg-surface-variant scrollable">
       <v-row no-gutters>
         <v-col
           v-for="n in 3"
@@ -27,3 +27,9 @@
 <script>
 
 </script>
+
+<style>
+  .scrollable {
+   overflow-y: scroll;
+}
+</style>
