@@ -6,7 +6,7 @@ type getToken = {
 }
 
 export async function getToken() {
-  await fetch(SERV_NAME + '/api/csrf-token', {
+  await fetch(SERV_NAME + '/auth/csrf-token', {
     method: 'GET'
   })
   .then((response) => {
@@ -25,7 +25,7 @@ export async function getToken() {
 }
 
 export async function postSignup(creds: RegisterCreds) {
-  await fetch(SERV_NAME + '/api/register', {
+  await fetch(SERV_NAME + '/auth/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -44,7 +44,7 @@ export async function postSignup(creds: RegisterCreds) {
 }
 
 export async function postLogin(creds: LoginCreds) {
-  await fetch(SERV_NAME + '/api/login', {
+  await fetch(SERV_NAME + '/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
