@@ -11,7 +11,7 @@
     <v-row>
       <v-col>
         <v-sheet height="200">
-          <v-calendar color="primary" style="width: 600px;"></v-calendar>
+          <v-calendar class="h-10 w-20" color="primary"></v-calendar>
         </v-sheet>
       </v-col>
     </v-row>
