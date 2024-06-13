@@ -1,5 +1,5 @@
 export type User = {
-  Username: string
-  Email: string
-  Id:number
+  username: string
+  email: string
+  id: number
 }

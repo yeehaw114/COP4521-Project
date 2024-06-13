@@ -1,15 +1,16 @@
 import type { LoginCreds, RegisterCreds } from '@/types/credentials'
 import type { User } from '@/types/user'
 import { SERV_NAME } from '@/ts/host'
+import { useUserStore } from '@/stores/user'
 
 type authResponse = {
-  access:string
-  refresh:string
-  user:User
+  access: string
+  refresh: string
+  user: User
 }
 
 export async function postSignup(creds: RegisterCreds) {
-  await fetch(SERV_NAME + '/auth/register', {
+  await fetch(SERV_NAME + '/api/auth/register/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -22,15 +23,17 @@ export async function postSignup(creds: RegisterCreds) {
       }
       return response.json()
     })
-    .then((data) => {
-      const res:authResponse = JSON.parse(data)
-      localStorage.setItem('jwt-token',res.access)
-      return res
+    .then((data: authResponse) => {
+      localStorage.setItem('jwt-token', data.access)
+      const userStore = useUserStore()
+      userStore.user = data.user
+      userStore.isLoggedIn = true
+      return data
     })
 }
 
 export async function postLogin(creds: LoginCreds) {
-  await fetch(SERV_NAME + '/auth/login', {
+  await fetch(SERV_NAME + '/api/auth/login/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -43,8 +46,10 @@ export async function postLogin(creds: LoginCreds) {
       }
       return response.json()
     })
-    .then((data) => {
-      const res:authResponse = JSON.parse(data)
-      localStorage.setItem('jwt-token',res.access)
+    .then((data: authResponse) => {
+      localStorage.setItem('jwt-token', data.access)
+      const userStore = useUserStore()
+      userStore.user = data.user
+      userStore.isLoggedIn = true
     })
 }

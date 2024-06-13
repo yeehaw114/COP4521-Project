@@ -9,15 +9,15 @@
         prepend-inner-icon="mdi-account-outline"
         variant="outlined"
       ></v-text-field>
-      <div class="text-subtitle-1 text-medium-emphasis">Password</div>
+      <div class="text-subtitle-1 text-medium-emphasis">Email</div>
       <v-text-field
         v-model="creds.email"
         density="compact"
-        placeholder="Username"
-        prepend-inner-icon="mdi-account-outline"
+        placeholder="Email"
+        prepend-inner-icon="mdi-email-outline"
         variant="outlined"
       ></v-text-field>
-      <div class="text-subtitle-1 text-medium-emphasis">Email</div>
+      <div class="text-subtitle-1 text-medium-emphasis">Password</div>
       <v-text-field
         v-model="creds.password"
         :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
