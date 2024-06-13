@@ -1,27 +1,11 @@
 import type { LoginCreds, RegisterCreds } from '@/types/credentials'
+import type { User } from '@/types/user'
 import { SERV_NAME } from '@/ts/host'
 
-type getToken = {
-  csrfToken:string
-}
-
-export async function getToken() {
-  await fetch(SERV_NAME + '/auth/csrf-token', {
-    method: 'GET'
-  })
-  .then((response) => {
-    if (!response.ok) {
-     throw new Error(response.statusText) 
-    }
-    return response.json()
-  })
-  .then((data:getToken)=> {
-    console.log("data is "+data.csrfToken)
-    localStorage.setItem('csrfToken',data.csrfToken)
-  })
-  .catch((error)=>{
-    console.error(`App may not work as expected: ${error}` )
-  })
+type postSignupResponse = {
+  access:string
+  refresh:string
+  user:User
 }
 
 export async function postSignup(creds: RegisterCreds) {
@@ -39,7 +23,8 @@ export async function postSignup(creds: RegisterCreds) {
       return response.json()
     })
     .then((data) => {
-      console.log('signup successful:', data)
+      const res:postSignupResponse = JSON.parse(data)
+      return res
     })
 }
 
