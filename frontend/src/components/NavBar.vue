@@ -16,7 +16,9 @@
     </v-list>
     <template v-else>
       <v-list>
-        <v-list-item prepend-icon="mdi-dumbbell" link :title="config.appTitle"></v-list-item>
+        <v-list-item link>
+          <UserAvatar />
+        </v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list>
@@ -54,17 +56,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import config from '../../config.json'
+import { ref, watch } from 'vue'
 import { useUserStore } from '../stores/user'
 import Signup from './SignUp.vue'
 import Login from './LoginComponent.vue'
 import SuccessSnackbar from './SuccessfulSnackbar.vue'
+import UserAvatar from './UserAvatar.vue'
 
 const successLoginSnackbar = ref(false)
 const successSignupSnackbar = ref(false)
 
 const userStore = useUserStore()
+const username = ref('')
+
+watch(username, (newUsername) => {
+  console.log(`username changed to ${username}`)
+  //username.value = newUsername ?? ""
+})
 
 const signupDialog = ref(false)
 const openSignUpDialog = () => {

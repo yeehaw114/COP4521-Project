@@ -9,6 +9,14 @@
         prepend-inner-icon="mdi-account-outline"
         variant="outlined"
       ></v-text-field>
+      <div class="text-subtitle-1 text-medium-emphasis">Email</div>
+      <v-text-field
+        v-model="creds.email"
+        density="compact"
+        placeholder="Email"
+        prepend-inner-icon="mdi-email-outline"
+        variant="outlined"
+      ></v-text-field>
       <div class="text-subtitle-1 text-medium-emphasis">Password</div>
       <v-text-field
         v-model="creds.password"
@@ -41,7 +49,8 @@ const emit = defineEmits<{
 
 const creds: Ref<LoginCreds> = ref<LoginCreds>({
   username: '',
-  password: ''
+  password: '',
+  email: ''
 })
 const errorOccured = ref(false)
 
