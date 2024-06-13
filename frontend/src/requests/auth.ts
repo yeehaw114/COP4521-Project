@@ -2,7 +2,7 @@ import type { LoginCreds, RegisterCreds } from '@/types/credentials'
 import type { User } from '@/types/user'
 import { SERV_NAME } from '@/ts/host'
 
-type postSignupResponse = {
+type authResponse = {
   access:string
   refresh:string
   user:User
@@ -23,7 +23,8 @@ export async function postSignup(creds: RegisterCreds) {
       return response.json()
     })
     .then((data) => {
-      const res:postSignupResponse = JSON.parse(data)
+      const res:authResponse = JSON.parse(data)
+      localStorage.setItem('jwt-token',res.access)
       return res
     })
 }
@@ -43,6 +44,7 @@ export async function postLogin(creds: LoginCreds) {
       return response.json()
     })
     .then((data) => {
-      console.log('login successful:', data)
+      const res:authResponse = JSON.parse(data)
+      localStorage.setItem('jwt-token',res.access)
     })
 }

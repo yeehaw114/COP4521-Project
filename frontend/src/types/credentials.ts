@@ -8,5 +8,6 @@ export type RegisterCreds = {
 
 export type LoginCreds = {
   username: string
+  email: string
   password: string
 }
