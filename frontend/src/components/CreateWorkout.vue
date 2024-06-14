@@ -100,7 +100,7 @@ const appendExercise = () => {
   if (name == '' || exercises.value.findIndex((i) => i.name === name) != -1) {
     return
   }
-  console.log('PUSHING')
+
   const copy = JSON.parse(JSON.stringify(newExercise.value))
   exercises.value.push(copy)
   newExercise.value.name = ''
@@ -110,7 +110,6 @@ const convertToWorkout = () => {
   for(const e of exercises.value) {
     for(const s of e.sets) {
       const copy = JSON.parse(JSON.stringify(s))
-      copy.name = e.name
       workout.value.sets.push(copy)
     }
   }
