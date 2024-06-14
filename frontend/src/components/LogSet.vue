@@ -46,14 +46,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { Set } from '@/types/workout'
 const numSets = ref(1)
 const weightNums = ref([])
 const repNums = ref([])
 
-const props = defineProps({
-  ExerciseNum: {
-    type: Number,
-    required: true
-  }
-})
+const props = defineProps<{
+  set: Set
+}>()
 </script>
