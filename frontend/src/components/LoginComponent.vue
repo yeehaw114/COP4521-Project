@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card class="mx-auto pa-12" elevation="10" max-width="450" rounded="lg">
-      <div class="text-subtitle-1 text-medium-emphasis">Username</div>
+      <!-- <div class="text-subtitle-1 text-medium-emphasis">Username</div> -->
       <!-- <v-text-field
         v-model="creds.username"
         density="compact"
