@@ -51,7 +51,7 @@
         <v-btn rounded="0" icon="mdi-plus" @click="appendExercise"></v-btn>
       </v-col>
     </v-row>
-    <v-btn class="mb-8" color="green" size="large" variant="tonal" block>Create</v-btn>
+    <v-btn class="mb-8" color="green" size="large" variant="tonal" @click="createWorkout" block>Create</v-btn>
   </v-card>
 </template>
 
@@ -60,6 +60,12 @@ import { ref } from 'vue'
 import type { Ref } from 'vue'
 import type { Workout, Set } from '@/types/workout'
 import { VNumberInput } from 'vuetify/labs/components'
+import { postWorkout } from '@/requests/workout'
+
+type Exercise = {
+  name: string
+  sets: Set[]
+}
 
 const workout: Ref<Workout> = ref<Workout>({
   name: '',
@@ -96,8 +102,19 @@ const appendExercise = () => {
   newExercise.value.name = ''
 }
 
-type Exercise = {
-  name: string
-  sets: Set[]
+const convertToWorkout = () => {
+  for(const e of exercises.value) {
+    for(const s of e.sets) {
+      const copy = JSON.parse(JSON.stringify(s))
+      copy.name = e.name
+      workout.value.sets.push(copy)
+    }
+  }
 }
+
+const createWorkout = async() => {
+  convertToWorkout()
+  await postWorkout(workout.value)
+}
+
 </script>
