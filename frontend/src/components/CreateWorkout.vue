@@ -52,6 +52,7 @@
       </v-col>
     </v-row>
     <v-btn class="mb-8" color="green" size="large" variant="tonal" @click="createWorkout" block>Create</v-btn>
+    <Error v-if="errorOccured" text="Could not create workout." />
   </v-card>
 </template>
 
@@ -61,6 +62,9 @@ import type { Ref } from 'vue'
 import type { Workout, Set } from '@/types/workout'
 import { VNumberInput } from 'vuetify/labs/components'
 import { postWorkout } from '@/requests/workout'
+import Error from '@/components/ErrorComponent.vue'
+
+const errorOccured = ref(false)
 
 type Exercise = {
   name: string
@@ -114,7 +118,11 @@ const convertToWorkout = () => {
 
 const createWorkout = async() => {
   convertToWorkout()
-  await postWorkout(workout.value)
+  try {
+    await postWorkout(workout.value)
+  } catch(e) {
+    errorOccured.value = true
+  }
 }
 
 </script>
