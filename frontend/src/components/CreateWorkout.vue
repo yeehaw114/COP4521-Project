@@ -8,39 +8,42 @@
       <v-list-item v-for="e in exercises" :key="e.name">
         <div class="text-h4">{{ e.name }}</div>
         <!-- New set -->
-         <v-card>
+        <v-card>
           <v-row>
-        <v-col>
-          <VNumberInput
-            inset
-            :min="1"
-            label="Reps"
-            v-model="newSet.reps"
-            control-variant="stacked"
-          ></VNumberInput>
-        </v-col>
-        <v-col>
-          <VNumberInput
-            :min="1"
-            inset
-            label="Weight (lbs)"
-            v-model="newSet.weight"
-            :step="5"
-            control-variant="split"
-          ></VNumberInput>
-        </v-col>
-          <v-col>
-            <v-btn rounded="0" icon="mdi-plus" @click="appendSet(e)"></v-btn>
-          </v-col>
-        </v-row>
-      <div class="text-subtitle-2 text-medium-emphasis">Sets</div>
-        <v-list>
-          <v-list-item v-for="(s, i) in e.sets" :key="i">
-            <div class="text-h8">{{ i+1 }}<v-icon icon="mdi-chevron-right"></v-icon> Reps: {{ s.reps }}<v-icon icon="mdi-weight-lifter"
-              ></v-icon> Weight: {{ s.weight }} <v-icon icon="mdi-weight-pound"></v-icon></div>
-          </v-list-item>
-        </v-list>
-      </v-card>
+            <v-col>
+              <VNumberInput
+                inset
+                :min="1"
+                label="Reps"
+                v-model="newSet.reps"
+                control-variant="stacked"
+              ></VNumberInput>
+            </v-col>
+            <v-col>
+              <VNumberInput
+                :min="1"
+                inset
+                label="Weight (lbs)"
+                v-model="newSet.weight"
+                :step="5"
+                control-variant="split"
+              ></VNumberInput>
+            </v-col>
+            <v-col>
+              <v-btn rounded="0" icon="mdi-plus" @click="appendSet(e)"></v-btn>
+            </v-col>
+          </v-row>
+          <div class="text-subtitle-2 text-medium-emphasis">Sets</div>
+          <v-list>
+            <v-list-item v-for="(s, i) in e.sets" :key="i">
+              <div class="text-h8">
+                {{ i + 1 }}<v-icon icon="mdi-chevron-right"></v-icon> Reps: {{ s.reps
+                }}<v-icon icon="mdi-weight-lifter"></v-icon> Weight: {{ s.weight }}
+                <v-icon icon="mdi-weight-pound"></v-icon>
+              </div>
+            </v-list-item>
+          </v-list>
+        </v-card>
       </v-list-item>
     </v-list>
     <v-row align="center">
@@ -51,7 +54,9 @@
         <v-btn rounded="0" icon="mdi-plus" @click="appendExercise"></v-btn>
       </v-col>
     </v-row>
-    <v-btn class="mb-8" color="green" size="large" variant="tonal" @click="createWorkout" block>Create</v-btn>
+    <v-btn class="mb-8" color="green" size="large" variant="tonal" @click="createWorkout" block
+      >Create</v-btn
+    >
     <Error v-if="errorOccured" text="Could not create workout." />
   </v-card>
 </template>
@@ -59,17 +64,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { Ref } from 'vue'
-import type { Workout, Set } from '@/types/workout'
+import type { Workout, Set, Exercise } from '@/types/workout'
 import { VNumberInput } from 'vuetify/labs/components'
 import { postWorkout } from '@/requests/workout'
 import Error from '@/components/ErrorComponent.vue'
 
 const errorOccured = ref(false)
-
-type Exercise = {
-  name: string
-  sets: Set[]
-}
 
 const workout: Ref<Workout> = ref<Workout>({
   name: '',
@@ -107,21 +107,20 @@ const appendExercise = () => {
 }
 
 const convertToWorkout = () => {
-  for(const e of exercises.value) {
-    for(const s of e.sets) {
+  for (const e of exercises.value) {
+    for (const s of e.sets) {
       const copy = JSON.parse(JSON.stringify(s))
       workout.value.sets.push(copy)
     }
   }
 }
 
-const createWorkout = async() => {
+const createWorkout = async () => {
   convertToWorkout()
   try {
     await postWorkout(workout.value)
-  } catch(e) {
+  } catch (e) {
     errorOccured.value = true
   }
 }
-
 </script>
