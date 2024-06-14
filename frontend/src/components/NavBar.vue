@@ -23,10 +23,16 @@
       <v-divider></v-divider>
       <v-list>
         <v-list-item
-          prepend-icon="mdi-plus-circle"
+          prepend-icon="mdi-plus-box-outline"
           link
           to="/create"
-          title="Add Workout"
+          title="Create Workout"
+        ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-plus-circle-outline"
+          link
+          to="/log"
+          title="Log Workout"
         ></v-list-item>
       </v-list>
     </template>
