@@ -11,7 +11,7 @@ class UserWorkoutsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User_Workouts
-        fields = ['id', 'workout_id', 'username', 'done_date', 'sets']
+        fields = ['id', 'workout_id', 'done_date', 'sets']
 
         def create(self, validated_data):
             sets_data = validated_data.pop('sets', [])
@@ -35,7 +35,7 @@ class WorkoutsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workouts
-        fields = ['id', 'name', 'username', 'sets']
+        fields = ['id', 'name', 'sets']
 
         def create(self, validated_data):
             set_data = validated_data.pop('sets')

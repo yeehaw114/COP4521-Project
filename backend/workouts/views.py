@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db import transaction
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -84,6 +84,15 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return self.queryset.filter(username=self.request.user)
     
+    def perform_create(self, serializer):
+        sets_data = serializer.validated_data.pop('sets', [])
+        request_user = self.request.user
+        
+        with transaction.atomic():
+            workout = Workouts.objects.create(username=request_user, **serializer.validated_data)
+            for set_data in sets_data:
+                Sets.objects.create(workout_id=workout, **set_data)
+
     @action(detail=False, methods=['get'])
     def all(self, request):
         queryset = self.queryset.filter(username=self.request.user)
