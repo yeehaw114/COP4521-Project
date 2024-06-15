@@ -112,4 +112,12 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
         queryset = self.queryset.filter(username=self.request.user)
         queryset.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    @action(detail=True, methods=['delete'], url_path='delete')
+    def delete_workout(self, request, pk=None):
+        workout = self.get_object()
+        with transaction.atomic():
+            Sets.objects.filter(workout_id=workout).delete()
+            workout.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
