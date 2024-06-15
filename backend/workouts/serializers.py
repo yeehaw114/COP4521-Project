@@ -7,9 +7,10 @@ class LogSetSerializer(serializers.Serializer):
     weight = serializers.IntegerField(required=True)
 
 class UserSetsSerializer(serializers.ModelSerializer):
+    exercise = serializers.CharField(source='set_id.exercise', read_only=True)
     class Meta:
         model = User_Sets
-        fields = ['id', 'reps', 'weight']
+        fields = ['id', 'exercise', 'reps', 'weight']
 
 class UserWorkoutsSerializer(serializers.ModelSerializer):
     sets = UserSetsSerializer(many=True, required=False)
@@ -53,3 +54,10 @@ class WorkoutsSerializer(serializers.ModelSerializer):
             for set_data in set_data:
                 Sets.objects.create(workout_id=instance, **set_data)
             return instance
+
+class WorkoutLogSerializer(serializers.ModelSerializer):
+    sets = UserSetsSerializer(many=True)
+
+    class Meta:
+        model = User_Workouts
+        fields = ['workout_id', 'sets']
