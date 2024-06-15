@@ -120,4 +120,19 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
             Sets.objects.filter(workout_id=workout).delete()
             workout.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    @action(detail=True, methods=['post'], url_path='log')
+    def log_workout(self, request, pk=None):
+        workout = self.get_object()
+        user = request.user
+
+        data = request.data
+        data['workout_id'] = workout.id
+        data['username'] = user.id
+        serializer = UserWorkoutsSerializer(data=data, context={'request': request})
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
