@@ -149,3 +149,14 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
         }
 
         return Response(response_data, status=status.HTTP_200_OK)
+    
+    @action(detail=True, methods=['delete'], url_path='log')
+    def delete_workout_log(self, request, pk=None):
+        workout = self.get_object()
+        user_workouts = User_Workouts.objects.filter(workout_id=workout, username=request.user)
+        
+        with transaction.atomic():
+            User_Sets.objects.filter(user_workout_id__in=user_workouts).delete()
+            user_workouts.delete()
+
+        return Response(status=status.HTTP_200_OK)

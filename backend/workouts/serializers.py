@@ -10,7 +10,7 @@ class UserSetsSerializer(serializers.ModelSerializer):
     exercise = serializers.CharField(source='set_id.exercise', read_only=True)
     class Meta:
         model = User_Sets
-        fields = ['id', 'exercise', 'reps', 'weight']
+        fields = ['id', 'exercise', 'reps', 'weight'] # delete id if not needed
 
 class UserWorkoutsSerializer(serializers.ModelSerializer):
     sets = UserSetsSerializer(many=True, required=False)
