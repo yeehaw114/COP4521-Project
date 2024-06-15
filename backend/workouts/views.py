@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from workouts.models import Workouts, Sets, User_Workouts, User_Sets
-from workouts.serializers import WorkoutsSerializer, SetsSerializer, UserWorkoutsSerializer, UserSetsSerializer
+from workouts.serializers import WorkoutsSerializer, SetsSerializer, UserWorkoutsSerializer, UserSetsSerializer, LogSetSerializer
 
 class UserSetsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
@@ -28,7 +28,7 @@ class UserSetsViewSet(viewsets.ModelViewSet):
     def clear(self, request):
         queryset = self.queryset.filter(username=self.request.user)
         queryset.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_200_OK)
     
 class UserWorkoutsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
@@ -52,7 +52,7 @@ class UserWorkoutsViewSet(viewsets.ModelViewSet):
     def clear(self, request):
         queryset = self.queryset.filter(username=self.request.user)
         queryset.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_200_OK)
     
 class SetsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
@@ -73,7 +73,7 @@ class SetsViewSet(viewsets.ModelViewSet):
     def clear(self, request, workout_id=None):
         queryset = self.queryset.filter(workout_id=workout_id)
         queryset.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_200_OK)
     
 class WorkoutsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
@@ -111,7 +111,7 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
     def clear(self, request):
         queryset = self.queryset.filter(username=self.request.user)
         queryset.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_200_OK)
     
     @action(detail=True, methods=['delete'], url_path='delete')
     def delete_workout(self, request, pk=None):
@@ -119,20 +119,20 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
         with transaction.atomic():
             Sets.objects.filter(workout_id=workout).delete()
             workout.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_200_OK)
     
     @action(detail=True, methods=['post'], url_path='log')
     def log_workout(self, request, pk=None):
         workout = self.get_object()
-        user = request.user
+        serializer = LogSetSerializer(data=request.data, many=True)
+        serializer.is_valid(raise_exception=True)
+        sets_data = serializer.validated_data
 
-        data = request.data
-        data['workout_id'] = workout.id
-        data['username'] = user.id
-        serializer = UserWorkoutsSerializer(data=data, context={'request': request})
+        user_workout = User_Workouts.objects.create(workout_id=workout, username=request.user)
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        with transaction.atomic():
+            for set_data in sets_data:
+                set_instance = Sets.objects.get(workout_id=workout, exercise=set_data['exercise'], reps= set_data['reps'], weight=set_data['weight'])
+                User_Sets.objects.create(user_workout_id=user_workout, set_id=set_instance, reps=set_data['reps'], weight=set_data['weight'], username=request.user)
 
+        return Response(status=status.HTTP_200_OK)
