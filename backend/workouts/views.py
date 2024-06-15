@@ -93,6 +93,14 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
             for set_data in sets_data:
                 Sets.objects.create(workout_id=workout, **set_data)
 
+    @action(detail=True, methods=['get'], url_path='details')
+    def workout_details(self, request, pk=None):
+        workout = self.get_object()
+        sets = Sets.objects.filter(workout_id=workout)
+        workout.sets = sets
+        serializer = self.get_serializer(workout)
+        return Response(serializer.data)
+    
     @action(detail=False, methods=['get'])
     def all(self, request):
         queryset = self.queryset.filter(username=self.request.user)
