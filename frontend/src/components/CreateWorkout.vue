@@ -22,11 +22,10 @@
               <VNumberInput
                 :min="1"
                 inset
-                label="Weight"
+                label="Weight (lbs)"
                 v-model="newSet.weight"
                 :step="5"
                 control-variant="split"
-                suffix="lbs"
               ></VNumberInput>
             </v-col>
             <v-col>
