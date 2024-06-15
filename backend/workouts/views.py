@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from workouts.models import Workouts, Sets, User_Workouts, User_Sets
-from workouts.serializers import WorkoutsSerializer, SetsSerializer, UserWorkoutsSerializer, UserSetsSerializer, LogSetSerializer, WorkoutLogSerializer
+from workouts.serializers import WorkoutsSerializer, SetsSerializer, UserWorkoutsSerializer, UserSetsSerializer, LogSetSerializer
 
 class UserSetsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
@@ -132,7 +132,7 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
 
         with transaction.atomic():
             for set_data in sets_data:
-                set_instance = Sets.objects.get(workout_id=workout, exercise=set_data['exercise'], reps= set_data['reps'], weight=set_data['weight'])
+                set_instance = Sets.objects.get(workout_id=workout, exercise=set_data['exercise'], reps=set_data['reps'], weight=set_data['weight'])
                 User_Sets.objects.create(user_workout_id=user_workout, set_id=set_instance, reps=set_data['reps'], weight=set_data['weight'], username=request.user)
 
         return Response(status=status.HTTP_200_OK)
