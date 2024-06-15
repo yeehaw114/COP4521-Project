@@ -1,7 +1,6 @@
 <template>
   <v-card class="mx-auto pa-6" elevation="15" max-width="800" rounded="lg">
-    <div class="text-h5">New Workout</div>
-    <v-text-field v-model="workout.name" label="Name" required></v-text-field>
+    <v-text-field v-model="workout.name" placeholder="New Workout" label="Name of Workout" required></v-text-field>
     <!-- All the exercises -->
     <div class="text-subtitle-1 text-medium-emphasis">Exercises</div>
     <v-list>
@@ -23,10 +22,11 @@
               <VNumberInput
                 :min="1"
                 inset
-                label="Weight (lbs)"
+                label="Weight"
                 v-model="newSet.weight"
                 :step="5"
                 control-variant="split"
+                suffix="lbs"
               ></VNumberInput>
             </v-col>
             <v-col>
