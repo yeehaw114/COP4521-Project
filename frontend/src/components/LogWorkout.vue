@@ -79,25 +79,6 @@ const goalExercises:Ref<Exercise[]> = ref([])
 const loggedExercises:Ref<Exercise[]> = ref([])
 const contentLoaded = ref(false)
 
-onMounted(async() => {
-  try {
-    workoutid.value = parseInt(useRoute().params.workoutid[0])
-    try {
-      workout.value = await getWorkout(workoutid.value)
-      console.log(workout.value)
-      goalExercises.value = convertSetsToExercises()
-      loggedExercises.value = JSON.parse(JSON.stringify(goalExercises))
-      contentLoaded.value = true
-      console.log(goalExercises.value)
-    } catch(error) {
-      console.error(error)
-    }
-  } catch(error) {
-    workoutid.value = 0
-  }
-  workout.value = await getWorkout(workoutid.value)
-})
-
 const convertSetsToExercises = ():Exercise[] => {
   const exerciseMap: Map<string, Exercise> = workout.value.sets.reduce((map, set) => {
     if (!map.has(set.exercise)) {
@@ -110,5 +91,27 @@ const convertSetsToExercises = ():Exercise[] => {
   console.log(Array.from(exerciseMap.values()))
   return Array.from(exerciseMap.values()) as Exercise[]
 }
+
+onMounted(async() => {
+  try {
+    workoutid.value = parseInt(useRoute().params.workoutid[0])
+    if(isNaN(workoutid.value)) {
+      throw new Error("Invalid workout id")
+    }
+    console.log(workoutid.value)
+    try {
+      workout.value = await getWorkout(workoutid.value)
+      console.log(workout.value)
+      goalExercises.value = convertSetsToExercises()
+      loggedExercises.value = JSON.parse(JSON.stringify(goalExercises))
+      contentLoaded.value = true
+      console.log(goalExercises.value)
+    } catch(error) {
+      console.error(error)
+    }
+  } catch(error) {
+    console.error(error)
+  }
+})
 
 </script>
