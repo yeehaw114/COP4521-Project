@@ -1,27 +1,11 @@
 <template>
   <div>
     <v-card class="mx-auto pa-12" elevation="10" max-width="450" rounded="lg">
-      <!-- <div class="text-subtitle-1 text-medium-emphasis">First Name</div> -->
-      <!-- <v-text-field
-        v-model="creds.first_name"
-        density="compact"
-        placeholder="First name (e.g. John)"
-        prepend-inner-icon="mdi-account-outline"
-        variant="outlined"
-      ></v-text-field>
-      <div class="text-subtitle-1 text-medium-emphasis">Last Name</div> -->
-      <!-- <v-text-field
-        v-model="creds.last_name"
-        density="compact"
-        placeholder="Last name (e.g. Smith)"
-        prepend-inner-icon="mdi-account-outline"
-        variant="outlined"
-      ></v-text-field> -->
       <div class="text-subtitle-1 text-medium-emphasis">Email</div>
       <v-text-field
         v-model="creds.email"
         density="compact"
-        placeholder="Email name (e.g. john@mail.com)"
+        placeholder="Email (e.g. john@mail.com)"
         prepend-inner-icon="mdi-email"
         variant="outlined"
         required
@@ -30,7 +14,7 @@
       <v-text-field
         v-model="creds.username"
         density="compact"
-        placeholder="Username"
+        placeholder="Username (e.g. john)"
         prepend-inner-icon="mdi-badge-account-horizontal"
         variant="outlined"
         required
