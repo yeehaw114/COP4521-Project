@@ -5,6 +5,6 @@ export type RegisterCreds = {
 }
 
 export type LoginCreds = {
-  email: string
+  username: string
   password: string
 }
