@@ -1,11 +1,6 @@
 from rest_framework import serializers
 from .models import Workouts, Sets, User_Workouts, User_Sets
 
-class LogSetSerializer(serializers.Serializer):
-    exercise = serializers.CharField(max_length=50, required=True)
-    reps = serializers.IntegerField(required=True)
-    weight = serializers.IntegerField(required=True)
-
 class UserSetsSerializer(serializers.ModelSerializer):
     exercise = serializers.CharField(source='set_id.exercise', read_only=True)
     class Meta:

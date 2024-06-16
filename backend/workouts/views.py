@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from workouts.models import Workouts, Sets, User_Workouts, User_Sets
-from workouts.serializers import WorkoutsSerializer, SetsSerializer, UserWorkoutsSerializer, UserSetsSerializer, LogSetSerializer, WorkoutLogSerializer
+from workouts.serializers import WorkoutsSerializer, SetsSerializer, UserWorkoutsSerializer, UserSetsSerializer
 
 class UserSetsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
@@ -120,32 +120,3 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
             Sets.objects.filter(workout_id=workout).delete()
             workout.delete()
         return Response(status=status.HTTP_200_OK)
-    
-    @action(detail=True, methods=['post'], url_path='log')
-    def log_workout(self, request, pk=None):
-        workout = self.get_object()
-        serializer = LogSetSerializer(data=request.data, many=True)
-        serializer.is_valid(raise_exception=True)
-        sets_data = serializer.validated_data.pop('sets', [])
-
-        user_workout = User_Workouts.objects.create(workout_id=workout, username=request.user)
-
-        with transaction.atomic():
-            for set_data in sets_data:
-                set_instance = Sets.objects.get(workout_id=workout, exercise=set_data['exercise'], reps=set_data['reps'], weight=set_data['weight'])
-                User_Sets.objects.create(user_workout_id=user_workout, set_id=set_instance, reps=set_data['reps'], weight=set_data['weight'], username=request.user)
-
-        return Response(status=status.HTTP_200_OK)
-    
-    @action(detail=True, methods=['get'], url_path='log')
-    def get_workout_log(self, request, pk=None):
-        workout = self.get_object()
-        user_workouts = User_Workouts.objects.filter(workout_id=workout, username=request.user)
-        sets = User_Sets.objects.filter(user_workout_id__in=user_workouts).select_related('set_id')
-
-        response_data = {
-            "name": workout.name,
-            "sets": UserSetsSerializer(sets, many=True).data
-        }
-
-        return Response(response_data, status=status.HTTP_200_OK)
