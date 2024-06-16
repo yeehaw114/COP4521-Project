@@ -54,10 +54,3 @@ class WorkoutsSerializer(serializers.ModelSerializer):
             for set_data in set_data:
                 Sets.objects.create(workout_id=instance, **set_data)
             return instance
-
-class WorkoutLogSerializer(serializers.ModelSerializer):
-    sets = UserSetsSerializer(many=True)
-
-    class Meta:
-        model = User_Workouts
-        fields = ['workout_id', 'sets']
