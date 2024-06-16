@@ -126,13 +126,13 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
         workout = self.get_object()
         serializer = LogSetSerializer(data=request.data, many=True)
         serializer.is_valid(raise_exception=True)
-        sets_data = serializer.validated_data
+        sets_data = serializer.validated_data.pop('sets', [])
 
         user_workout = User_Workouts.objects.create(workout_id=workout, username=request.user)
 
         with transaction.atomic():
             for set_data in sets_data:
-                set_instance = Sets.objects.get(workout_id=workout, exercise=set_data['exercise'], reps= set_data['reps'], weight=set_data['weight'])
+                set_instance = Sets.objects.get(workout_id=workout, exercise=set_data['exercise'], reps=set_data['reps'], weight=set_data['weight'])
                 User_Sets.objects.create(user_workout_id=user_workout, set_id=set_instance, reps=set_data['reps'], weight=set_data['weight'], username=request.user)
 
         return Response(status=status.HTTP_200_OK)
