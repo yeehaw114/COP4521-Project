@@ -190,3 +190,10 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
             return Response({'message': 'User workout log deleted successfully'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+    @action(detail=True, methods=['get'], url_path='user-workouts')
+    def user_workouts(self, request):
+        user = request.user
+        workouts = Workouts.objects.filter(username=user)
+        serializer = WorkoutsSerializer(workouts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
