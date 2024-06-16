@@ -120,3 +120,25 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
             Sets.objects.filter(workout_id=workout).delete()
             workout.delete()
         return Response(status=status.HTTP_200_OK)
+    
+    @action(detail=True, methods=['post'], url_path='log')
+    def log_workout(self, request, pk=None):
+        workout_id = pk
+        user = request.user
+        data = request.data
+
+        try:
+            user_workout = User_Workouts.objects.create(workout_id_id=workout_id, username=user)
+
+            sets = data.get('sets', [])
+            for set_data in sets:
+                exercise = set_data.get('exercise')
+                reps = set_data.get('reps')
+                weight = set_data.get('weight')
+
+                set_instance, created = Sets.objects.get_or_create(workout_id=workout_id, exercise=exercise, defaults={'reps': reps, 'weight': weight})
+                User_Sets.objects.create(user_workout_id=user_workout, set_id=set_instance, reps=reps, weight=weight, username=user)
+
+            return Response({'message': 'Workout logged successfully'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
