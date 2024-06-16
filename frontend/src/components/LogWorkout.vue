@@ -9,7 +9,7 @@
           <v-col v-for="(s, si) in e.sets" :key="si" cols="6">
             <div class="py-3">
               <v-card class="mx-auto pa-3" elevation="8" max-width="300" rounded="md">
-                <div class="text-subtitle-1 text-medium-emphasis">Set #{{ si + 1 }}</div>
+                <div class="text-subtitle-1 text-medium-emphasis">Set {{ si + 1 }}</div>
                 <div class="text-subtitle-2 text-medium-emphasis">Reps</div>
                 <v-slider
                   prepend-icon="mdi-counter"
@@ -87,8 +87,6 @@ const convertSetsToExercises = ():Exercise[] => {
     map.get(set.exercise)?.sets.push({ exercise: set.exercise, reps: set.reps, weight: set.weight })
     return map
   }, new Map<string, Exercise>())
-  console.log("func array:")
-  console.log(Array.from(exerciseMap.values()))
   return Array.from(exerciseMap.values()) as Exercise[]
 }
 
@@ -98,14 +96,11 @@ onMounted(async() => {
     if(isNaN(workoutid.value)) {
       throw new Error("Invalid workout id")
     }
-    console.log(workoutid.value)
     try {
       workout.value = await getWorkout(workoutid.value)
-      console.log(workout.value)
       goalExercises.value = convertSetsToExercises()
-      loggedExercises.value = JSON.parse(JSON.stringify(goalExercises))
+      loggedExercises.value = JSON.parse(JSON.stringify(goalExercises.value))
       contentLoaded.value = true
-      console.log(goalExercises.value)
     } catch(error) {
       console.error(error)
     }
