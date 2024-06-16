@@ -1,6 +1,11 @@
 <template>
   <v-card class="mx-auto pa-6" elevation="15" max-width="800" rounded="lg">
-    <v-text-field v-model="workout.name" placeholder="New Workout" label="Name of Workout" required></v-text-field>
+    <v-text-field
+      v-model="workout.name"
+      placeholder="New Workout"
+      label="Name of Workout"
+      required
+    ></v-text-field>
     <!-- All the exercises -->
     <div class="text-subtitle-1 text-medium-emphasis">Exercises</div>
     <v-list>

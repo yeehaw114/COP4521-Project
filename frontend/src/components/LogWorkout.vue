@@ -57,7 +57,7 @@
         </v-row>
       </v-list-item>
     </v-list>
-    <Error v-if="errorOccured" text="Could not log workout"/>
+    <Error v-if="errorOccured" text="Could not log workout" />
     <v-btn class="mb-8" color="green" size="large" variant="tonal" @click="log" block>Log</v-btn>
   </v-card>
 </template>
@@ -65,27 +65,26 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import type { Ref } from 'vue'
-import { postLog } from '@/requests/log' 
+import { postLog } from '@/requests/log'
 import type { Workout, Set, Exercise } from '@/types/workout'
 import Error from '@/components/ErrorComponent.vue'
-import { useRoute } from 'vue-router';
-import { getWorkout } from '@/requests/workout';
+import { useRoute } from 'vue-router'
+import { getWorkout } from '@/requests/workout'
 
-const workout:Ref<Workout> = ref({
+const workout: Ref<Workout> = ref({
   name: '',
-  sets: [],
+  sets: []
 })
 
+const workoutid: Ref<number> = ref(0)
 
-const workoutid:Ref<number> = ref(0)
-
-const goalExercises:Ref<Exercise[]> = ref([])
-const loggedExercises:Ref<Exercise[]> = ref([])
+const goalExercises: Ref<Exercise[]> = ref([])
+const loggedExercises: Ref<Exercise[]> = ref([])
 
 const contentLoaded = ref(false)
 const errorOccured = ref(false)
 
-const convertSetsToExercises = ():Exercise[] => {
+const convertSetsToExercises = (): Exercise[] => {
   const exerciseMap: Map<string, Exercise> = workout.value.sets.reduce((map, set) => {
     if (!map.has(set.exercise)) {
       map.set(set.exercise, { name: set.exercise, sets: [] })
@@ -96,32 +95,31 @@ const convertSetsToExercises = ():Exercise[] => {
   return Array.from(exerciseMap.values()) as Exercise[]
 }
 
-const log = async() => {
+const log = async () => {
   try {
     await postLog(workoutid.value, workout.value)
-  } catch(error) {
+  } catch (error) {
     console.error(error)
     errorOccured.value = true
   }
 }
 
-onMounted(async() => {
+onMounted(async () => {
   try {
     workoutid.value = parseInt(useRoute().params.workoutid[0])
-    if(isNaN(workoutid.value)) {
-      throw new Error("Invalid workout id")
+    if (isNaN(workoutid.value)) {
+      throw new Error('Invalid workout id')
     }
     try {
       workout.value = await getWorkout(workoutid.value)
       goalExercises.value = convertSetsToExercises()
       loggedExercises.value = JSON.parse(JSON.stringify(goalExercises.value))
       contentLoaded.value = true
-    } catch(error) {
+    } catch (error) {
       console.error(error)
     }
-  } catch(error) {
+  } catch (error) {
     console.error(error)
   }
 })
-
 </script>

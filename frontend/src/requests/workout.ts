@@ -22,35 +22,34 @@ export async function postWorkout(workout: Workout) {
     })
 }
 
-export async function getWorkout(id: number):Promise<Workout> {
+export async function getWorkout(id: number): Promise<Workout> {
   const token = localStorage.getItem('jwt-token')
-  return await fetch(SERV_NAME + '/api/workouts/'+id+'/details/', {
+  return await fetch(SERV_NAME + '/api/workouts/' + id + '/details/', {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`
     }
   })
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(response.statusText)
-    }
-    return response.json()
-  })
-  .then((data:Workout) => {
-    console.log(data)
-    return data
-  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.statusText)
+      }
+      return response.json()
+    })
+    .then((data: Workout) => {
+      console.log(data)
+      return data
+    })
 }
 
 export async function deleteWorkout(id: number) {
   const token = localStorage.getItem('jwt-token')
-  await fetch(SERV_NAME + '/api/workouts/'+id+'/', {
+  await fetch(SERV_NAME + '/api/workouts/' + id + '/', {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`
     }
-  })
-  .then((response) => {
+  }).then((response) => {
     if (!response.ok) {
       throw new Error(response.statusText)
     }

@@ -4,7 +4,7 @@ export type Workout = {
 }
 
 export type CreateWorkoutu = {
-  name: string,
+  name: string
   sets: Set[]
 }
 
@@ -19,7 +19,6 @@ export type CreateSet = {
   reps: number
   weight: number
 }
-
 
 export type Exercise = {
   name: string
