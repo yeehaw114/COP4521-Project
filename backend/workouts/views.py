@@ -54,6 +54,13 @@ class UserWorkoutsViewSet(viewsets.ModelViewSet):
         queryset.delete()
         return Response(status=status.HTTP_200_OK)
     
+    @action(detail=False, methods=['get'], url_path='logs')
+    def user_workout_logs(self, request):
+        user = request.user
+        user_workouts = User_Workouts.objects.filter(username=user)
+        serializer = UserWorkoutsSerializer(user_workouts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
 class SetsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     http_method_names = ['get', 'post', 'delete']
@@ -191,7 +198,7 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
-    @action(detail=True, methods=['get'], url_path='user-workouts')
+    @action(detail=False, methods=['get'], url_path='user-templates')
     def user_workouts(self, request):
         user = request.user
         workouts = Workouts.objects.filter(username=user)
