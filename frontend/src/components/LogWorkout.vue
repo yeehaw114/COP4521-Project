@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto pa-6" elevation="15" max-width="800" rounded="lg">
+  <v-card v-if="contentLoaded" class="mx-auto pa-6" elevation="15" max-width="800" rounded="lg">
     <div class="text-h3">{{ workout.name }}</div>
     <v-divider></v-divider>
     <v-list>
@@ -62,25 +62,53 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import type { Ref } from 'vue'
 import type { Workout, Set, Exercise } from '@/types/workout'
+import { useRoute } from 'vue-router';
+import { getWorkout } from '@/requests/workout';
 
-const props = defineProps<{
-  workout: Workout
-}>()
+const workout:Ref<Workout> = ref({
+  name: '',
+  sets: [],
+})
 
-const goalExercises: Exercise[] = (() => {
-  const exerciseMap: Map<string, Exercise> = props.workout.sets.reduce((map, set) => {
+const workoutid:Ref<number> = ref(0)
+
+const goalExercises:Ref<Exercise[]> = ref([])
+const loggedExercises:Ref<Exercise[]> = ref([])
+const contentLoaded = ref(false)
+
+onMounted(async() => {
+  try {
+    workoutid.value = parseInt(useRoute().params.workoutid[0])
+    try {
+      workout.value = await getWorkout(workoutid.value)
+      console.log(workout.value)
+      goalExercises.value = convertSetsToExercises()
+      loggedExercises.value = JSON.parse(JSON.stringify(goalExercises))
+      contentLoaded.value = true
+      console.log(goalExercises.value)
+    } catch(error) {
+      console.error(error)
+    }
+  } catch(error) {
+    workoutid.value = 0
+  }
+  workout.value = await getWorkout(workoutid.value)
+})
+
+const convertSetsToExercises = ():Exercise[] => {
+  const exerciseMap: Map<string, Exercise> = workout.value.sets.reduce((map, set) => {
     if (!map.has(set.exercise)) {
       map.set(set.exercise, { name: set.exercise, sets: [] })
     }
     map.get(set.exercise)?.sets.push({ exercise: set.exercise, reps: set.reps, weight: set.weight })
     return map
   }, new Map<string, Exercise>())
+  console.log("func array:")
+  console.log(Array.from(exerciseMap.values()))
+  return Array.from(exerciseMap.values()) as Exercise[]
+}
 
-  return Array.from(exerciseMap.values())
-})()
-
-const loggedExercises: Ref<Exercise[]> = ref(JSON.parse(JSON.stringify(goalExercises)))
 </script>

@@ -22,9 +22,9 @@ export async function postWorkout(workout: Workout) {
     })
 }
 
-export async function getWorkout(id: number) {
+export async function getWorkout(id: number):Promise<Workout> {
   const token = localStorage.getItem('jwt-token')
-  await fetch(SERV_NAME + '/api/workouts/'+id+'/details/', {
+  return await fetch(SERV_NAME + '/api/workouts/'+id+'/details/', {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`
@@ -37,6 +37,7 @@ export async function getWorkout(id: number) {
     return response.json()
   })
   .then((data:Workout) => {
+    console.log(data)
     return data
   })
 }

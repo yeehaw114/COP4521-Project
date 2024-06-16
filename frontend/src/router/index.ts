@@ -24,7 +24,7 @@ const router = createRouter({
       component: CreateView
     },
     {
-      path: '/log',
+      path: '/log/:workoutid',
       name: 'log',
       component: LogView
     },
