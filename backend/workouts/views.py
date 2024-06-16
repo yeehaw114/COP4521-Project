@@ -121,7 +121,7 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
             workout.delete()
         return Response(status=status.HTTP_200_OK)
     
-    @action(detail=True, methods=['post'], url_path='log')
+    @action(detail=True, methods=['post'], url_path='log-workout')
     def log_workout(self, request, pk=None):
         workout_id = pk
         user = request.user
@@ -168,5 +168,25 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
                 response_data.append(workout_data)
 
             return Response(response_data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+    @action(detail=True, methods=['delete'], url_path='delete-log')
+    def delete_log(self, request, pk=None):
+        workout_id = pk
+        user = request.user
+
+        try:
+            user_workouts = User_Workouts.objects.filter(workout_id_id=workout_id, username=user)
+
+            if not user_workouts.exists():
+                return Response({'error': 'User workout log not found'}, status=status.HTTP_404_NOT_FOUND)
+            
+            with transaction.atomic():
+                for user_workout in user_workouts:
+                    User_Sets.objects.filter(user_workout_id=user_workout).delete()
+                    user_workout.delete()
+
+            return Response({'message': 'User workout log deleted successfully'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
