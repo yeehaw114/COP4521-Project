@@ -27,6 +27,18 @@ export type Exercise = {
   sets: Set[]
 }
 
+export type MiniLog = {
+  id: number
+  workout_id: number
+  done_date: Date
+  username: string
+}
+
+export type MiniWorkout = {
+  id: number
+  name: string
+}
+
 
 export function convertSetsToExercises(sets:Set[]): Exercise[] {
   const exerciseMap: Map<string, Exercise> = sets.reduce((map, set) => {
