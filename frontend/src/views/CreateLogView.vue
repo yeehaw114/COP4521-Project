@@ -1,5 +1,10 @@
 <template>
-  <LogWorkout v-if="contentLoaded" :workoutid="workoutid" :name="workout.name" :exercises="exercises" />
+  <LogWorkout
+    v-if="contentLoaded"
+    :workoutid="workoutid"
+    :name="workout.name"
+    :exercises="exercises"
+  />
 </template>
 
 <script setup lang="ts">
@@ -11,10 +16,10 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { getWorkout } from '@/requests/workout'
 
-const workoutid:Ref<number> = ref(0)
-const exercises:Ref<Exercise[]> = ref([])
+const workoutid: Ref<number> = ref(0)
+const exercises: Ref<Exercise[]> = ref([])
 const contentLoaded = ref(false)
-const workout:Ref<Workout> = ref({
+const workout: Ref<Workout> = ref({
   name: '',
   id: 0,
   sets: []
@@ -37,7 +42,6 @@ onMounted(async () => {
     console.error(error)
   }
 })
-
 </script>
 
 <style scoped></style>

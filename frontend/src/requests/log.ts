@@ -54,19 +54,21 @@ export async function deleteLog(id: number) {
   })
 }
 
-export async function getUserLogs():Promise<MiniLog[]> {
+export async function getUserLogs(): Promise<MiniLog[]> {
   const token = localStorage.getItem('jwt-token')
   return await fetch(SERV_NAME + '/api/user-workouts/logs/', {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`
     }
-  }).then((response) => {
-    if(!response.ok) {
-      throw new Error(response.statusText)
-    }
-    return response.json()
-  }).then((data:MiniLog[]) => {
-    return data
   })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.statusText)
+      }
+      return response.json()
+    })
+    .then((data: MiniLog[]) => {
+      return data
+    })
 }
