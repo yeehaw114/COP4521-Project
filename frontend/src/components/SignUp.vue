@@ -1,37 +1,23 @@
 <template>
   <div>
     <v-card class="mx-auto pa-12" elevation="10" max-width="450" rounded="lg">
-      <div class="text-subtitle-1 text-medium-emphasis">First Name</div>
-      <v-text-field
-        v-model="creds.first_name"
-        density="compact"
-        placeholder="First name (e.g. John)"
-        prepend-inner-icon="mdi-account-outline"
-        variant="outlined"
-      ></v-text-field>
-      <div class="text-subtitle-1 text-medium-emphasis">Last Name</div>
-      <v-text-field
-        v-model="creds.last_name"
-        density="compact"
-        placeholder="Last name (e.g. Smith)"
-        prepend-inner-icon="mdi-account-outline"
-        variant="outlined"
-      ></v-text-field>
       <div class="text-subtitle-1 text-medium-emphasis">Email</div>
       <v-text-field
         v-model="creds.email"
         density="compact"
-        placeholder="Email name (e.g. john@mail.com)"
+        placeholder="Email (e.g. john@mail.com)"
         prepend-inner-icon="mdi-email"
         variant="outlined"
+        required
       ></v-text-field>
       <div class="text-subtitle-1 text-medium-emphasis">Username</div>
       <v-text-field
         v-model="creds.username"
         density="compact"
-        placeholder="Username"
+        placeholder="Username (e.g. john)"
         prepend-inner-icon="mdi-badge-account-horizontal"
         variant="outlined"
+        required
       ></v-text-field>
       <div class="text-subtitle-1 text-medium-emphasis">Password</div>
       <v-text-field
@@ -42,6 +28,7 @@
         placeholder="Enter your password"
         prepend-inner-icon="mdi-lock-outline"
         variant="outlined"
+        required
         @click:append-inner="passwordVisible = !passwordVisible"
       ></v-text-field>
       <Error v-if="errorOccured" text="Invalid input" />
@@ -60,8 +47,6 @@ import { postSignup } from '@/requests/auth'
 import Error from './ErrorComponent.vue'
 
 const creds: Ref<RegisterCreds> = ref<RegisterCreds>({
-  first_name: '',
-  last_name: '',
   password: '',
   email: '',
   username: ''

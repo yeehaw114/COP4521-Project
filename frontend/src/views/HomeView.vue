@@ -1,11 +1,11 @@
 <template>
   <div>
     <h1>Your Templates</h1>
-    <displayTemplate/>
+    <displayTemplate />
   </div>
   <div>
     <h1>Sample Templates</h1>
-    <displayTemplate/>
+    <displayTemplate />
   </div>
   <div>
     <v-row>
@@ -19,8 +19,8 @@
 </template>
 
 <script setup lang="ts">
-  import displayTemplate from "../components/DisplayTemplate.vue"
-  import { VCalendar } from 'vuetify/labs/VCalendar'
+import displayTemplate from '../components/DisplayTemplate.vue'
+import { VCalendar } from 'vuetify/labs/VCalendar'
 </script>
 
 <style scoped></style>

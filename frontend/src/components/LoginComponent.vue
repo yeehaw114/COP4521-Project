@@ -6,15 +6,7 @@
         v-model="creds.username"
         density="compact"
         placeholder="Username"
-        prepend-inner-icon="mdi-account-outline"
-        variant="outlined"
-      ></v-text-field>
-      <div class="text-subtitle-1 text-medium-emphasis">Email</div>
-      <v-text-field
-        v-model="creds.email"
-        density="compact"
-        placeholder="Email"
-        prepend-inner-icon="mdi-email-outline"
+        prepend-inner-icon="mdi-at"
         variant="outlined"
       ></v-text-field>
       <div class="text-subtitle-1 text-medium-emphasis">Password</div>
@@ -48,7 +40,6 @@ const emit = defineEmits<{
 }>()
 
 const creds: Ref<LoginCreds> = ref<LoginCreds>({
-  username: '',
   password: '',
   email: ''
 })
@@ -58,7 +49,7 @@ const login = async (creds: LoginCreds) => {
   errorOccured.value = false
   try {
     const response = await postLogin(creds)
-    emit('login', creds.username)
+    emit('login', creds.email)
   } catch (err) {
     errorOccured.value = true
     console.log(err)
