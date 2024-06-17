@@ -25,7 +25,7 @@
         <v-list-item
           prepend-icon="mdi-plus-box-outline"
           link
-          to="/create"
+          to="/workout/create"
           title="Create Workout"
         ></v-list-item>
         <!-- <v-list-item
