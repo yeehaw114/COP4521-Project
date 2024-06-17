@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
+
+// Define types for the data
+interface Workout {
+  id: number;
+  name: string;
+  description: string;
+  created_at: string;
+}
 
 // Create refs for data and loading state
 const data = ref<Workout[]>([]);
@@ -8,22 +16,20 @@ const dataLoaded = ref(false);
 // Function to fetch data
 const getData = async (): Promise<void> => {
   try {
-    const response = await fetch("http://localhost:8000/api/workouts/");
+    const response = await fetch("http://localhost:8080/api/workouts/");
     if (!response.ok) {
       throw new Error("Failed to fetch data");
     }
-    const workouts: Workout[] = await response.json();
-    data.value = workouts;
-    dataLoaded.value = true;
+    const workouts: Workout[] = await response.json();  // Expecting the response to be an array of Workout objects
+    data.value = workouts;  // Assigning the fetched workouts to the reactive ref
+    dataLoaded.value = true;  // Setting dataLoaded to true indicating data has been loaded
   } catch (error) {
-    console.warn(error.message);
+    console.warn(error.message);  // Logging any errors that occur during the fetch
   }
 };
 
-// Fetch data when component is mounted
-onMounted(() => {
-  getData();
-});
+getData();
+
 </script>
 
 <template>
