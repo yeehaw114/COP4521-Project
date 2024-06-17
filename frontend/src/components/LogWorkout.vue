@@ -1,6 +1,6 @@
 <template>
-  <v-card v-if="contentLoaded" class="mx-auto pa-6" elevation="15" max-width="800" rounded="lg">
-    <div class="text-h3">{{ workout.name }}</div>
+  <v-card class="mx-auto pa-6" elevation="15" max-width="800" rounded="lg">
+    <div class="text-h3">{{ props.name }}</div>
     <v-divider></v-divider>
     <v-list>
       <v-list-item v-for="(e, ei) in loggedExercises" :key="ei">
@@ -16,7 +16,7 @@
                   v-model="s.reps"
                   step="1"
                   :min="0"
-                  :max="goalExercises[ei].sets[si].reps"
+                  :max="props.exercises[ei].sets[si].reps"
                 >
                   <template v-slot:append>
                     <v-text-field
@@ -24,7 +24,7 @@
                       density="compact"
                       style="width: 100px"
                       :min="0"
-                      :max="goalExercises[ei].sets[si].reps"
+                      :max="props.exercises[ei].sets[si].reps"
                       type="number"
                       hide-details
                     ></v-text-field>
@@ -36,7 +36,7 @@
                   v-model="s.weight"
                   step="5"
                   :min="0"
-                  :max="goalExercises[ei].sets[si].weight"
+                  :max="props.exercises[ei].sets[si].weight"
                 >
                   <template v-slot:append>
                     <v-text-field
@@ -45,7 +45,7 @@
                       density="compact"
                       style="width: 100px"
                       :min="0"
-                      :max="goalExercises[ei].sets[si].weight"
+                      :max="props.exercises[ei].sets[si].weight"
                       type="number"
                       hide-details
                     ></v-text-field>
@@ -63,63 +63,35 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import type { Ref } from 'vue'
 import { postLog } from '@/requests/log'
-import type { Workout, Set, Exercise } from '@/types/workout'
+import { type Workout, type Set, type Exercise, convertExercisesToSets } from '@/types/workout'
 import Error from '@/components/ErrorComponent.vue'
-import { useRoute } from 'vue-router'
-import { getWorkout } from '@/requests/workout'
+
+const props = defineProps<{
+  name: string
+  exercises: Exercise[]
+  workoutid: number
+}>()
 
 const workout: Ref<Workout> = ref({
   name: '',
+  id: 0,
   sets: []
 })
 
-const workoutid: Ref<number> = ref(0)
+const loggedExercises: Ref<Exercise[]> = ref(JSON.parse(JSON.stringify(props.exercises)))
 
-const goalExercises: Ref<Exercise[]> = ref([])
-const loggedExercises: Ref<Exercise[]> = ref([])
-
-const contentLoaded = ref(false)
 const errorOccured = ref(false)
-
-const convertSetsToExercises = (): Exercise[] => {
-  const exerciseMap: Map<string, Exercise> = workout.value.sets.reduce((map, set) => {
-    if (!map.has(set.exercise)) {
-      map.set(set.exercise, { name: set.exercise, sets: [] })
-    }
-    map.get(set.exercise)?.sets.push({ exercise: set.exercise, reps: set.reps, weight: set.weight })
-    return map
-  }, new Map<string, Exercise>())
-  return Array.from(exerciseMap.values()) as Exercise[]
-}
 
 const log = async () => {
   try {
-    await postLog(workoutid.value, workout.value)
+    const sets = convertExercisesToSets(loggedExercises.value)
+    await postLog(props.workoutid, sets)
   } catch (error) {
     console.error(error)
     errorOccured.value = true
   }
 }
-
-onMounted(async () => {
-  try {
-    workoutid.value = parseInt(useRoute().params.workoutid[0])
-    if (isNaN(workoutid.value)) {
-      throw new Error('Invalid workout id')
-    }
-    try {
-      workout.value = await getWorkout(workoutid.value)
-      goalExercises.value = convertSetsToExercises()
-      loggedExercises.value = JSON.parse(JSON.stringify(goalExercises.value))
-      contentLoaded.value = true
-    } catch (error) {
-      console.error(error)
-    }
-  } catch (error) {
-    console.error(error)
-  }
-})
 </script>

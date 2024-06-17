@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer :width="200" :close-delay="200" absolute rail expand-on-hover>
+  <v-navigation-drawer :width="200" :close-delay="200" permanent absolute rail expand-on-hover>
     <v-list v-if="!userStore.isLoggedIn">
       <v-list-item
         prepend-icon="mdi-login"
@@ -25,26 +25,26 @@
         <v-list-item
           prepend-icon="mdi-plus-box-outline"
           link
-          to="/create"
+          to="/workout/create"
           title="Create Workout"
         ></v-list-item>
-        <v-list-item
+        <!-- <v-list-item
           prepend-icon="mdi-plus-circle-outline"
           link
           to="/log"
           title="Log Workout"
-        ></v-list-item>
+        ></v-list-item> -->
       </v-list>
     </template>
     <v-divider></v-divider>
     <v-list>
       <v-list-item prepend-icon="mdi-home" link to="/" title="Home"></v-list-item>
-      <v-list-item
+      <!-- <v-list-item
         prepend-icon="mdi-weight-lifter"
         link
         to="/workouts"
         title="My Workouts"
-      ></v-list-item>
+      ></v-list-item> -->
       <v-list-item prepend-icon="mdi-information" link to="/about" title="About"></v-list-item>
     </v-list>
   </v-navigation-drawer>

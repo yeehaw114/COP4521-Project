@@ -77,7 +77,8 @@ const errorOccured = ref(false)
 
 const workout: Ref<Workout> = ref<Workout>({
   name: '',
-  sets: []
+  sets: [],
+  id: 0
 })
 
 const exercises: Ref<Exercise[]> = ref([])
@@ -89,6 +90,7 @@ const newExercise: Ref<Exercise> = ref({
 
 const newSet: Ref<Set> = ref({
   exercise: '',
+  id: 0,
   reps: 10,
   weight: 50
 })
