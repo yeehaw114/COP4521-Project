@@ -28,12 +28,12 @@
           to="/create"
           title="Create Workout"
         ></v-list-item>
-        <v-list-item
+        <!-- <v-list-item
           prepend-icon="mdi-plus-circle-outline"
           link
           to="/log"
           title="Log Workout"
-        ></v-list-item>
+        ></v-list-item> -->
       </v-list>
     </template>
     <v-divider></v-divider>
