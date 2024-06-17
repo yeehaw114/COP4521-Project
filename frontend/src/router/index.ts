@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
-import CreateView from '../views/CreateView.vue'
+import CreateWorkoutView from '../views/CreateWorkoutView.vue'
 import WorkoutView from '../views/WorkoutView.vue'
-import LogView from '../views/LogView.vue'
+import CreateLogView from '../views/CreateLogView.vue'
+import LogView from '@/views/LogView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,20 +19,26 @@ const router = createRouter({
       name: 'about',
       component: AboutView
     },
+    //The actual real important routes below
     {
-      path: '/create',
+      path: '/workout/create',
       name: 'create',
-      component: CreateView
+      component: CreateWorkoutView
     },
     {
-      path: '/log/:workoutid',
+      path: '/workout/:workoutid/log',
       name: 'log',
-      component: LogView
+      component: CreateLogView
     },
     {
-      path: '/workouts',
-      name: 'workouts',
+      path: '/workout/:workoutid',
+      name: 'workoutview',
       component: WorkoutView
+    },
+    {
+      path: '/workout/:workoutid/log/:logid',
+      name: 'logview',
+      component: LogView
     }
   ]
 })

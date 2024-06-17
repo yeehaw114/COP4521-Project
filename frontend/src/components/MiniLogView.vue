@@ -2,12 +2,14 @@
   <v-container class="pa-4" style="max-width: 400px">
     <v-card>
       <v-card-title class="d-flex justify-center">
-        <h2>{{ props.workout.name }}</h2>
+        <h2>{{ formatDate(props.log.done_date) }}</h2>
       </v-card-title>
-      <v-card-actions v-if="props.template">
+      <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" link :to="`/workout/${props.workout.id}`">View</v-btn>
-        <v-btn color="secondary" link :to="`/workout/${props.workout.id}/log`">Log</v-btn>
+        <v-btn color="primary" link :to="`/workout/${props.log.workout_id}/log/${props.log.id}`"
+          >View</v-btn
+        >
+        <!-- <v-btn color="secondary" link :to="`/workout/${props.log.workout_id}/log/${props.log.id}`">Log</v-btn> -->
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -15,12 +17,10 @@
 </template>
 
 <script setup lang="ts">
-import type { MiniWorkout } from '@/types/workout'
+import type { MiniLog } from '@/types/workout'
 
 const props = defineProps<{
-  workout: MiniWorkout
-  template?: boolean
-  log?: boolean
+  log: MiniLog
 }>()
 
 const formatDate = (date: Date): string => {

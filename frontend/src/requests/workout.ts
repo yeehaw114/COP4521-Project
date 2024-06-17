@@ -1,5 +1,5 @@
 import { SERV_NAME } from '@/requests/host'
-import type { Workout } from '@/types/workout'
+import type { Workout, MiniWorkout } from '@/types/workout'
 
 export async function postWorkout(workout: Workout) {
   const token = localStorage.getItem('jwt-token')
@@ -42,7 +42,7 @@ export async function getWorkout(id: number): Promise<Workout> {
     })
 }
 
-export async function getUserWorkouts() {
+export async function getUserWorkouts(): Promise<MiniWorkout[]> {
   const token = localStorage.getItem('jwt-token')
   return await fetch(SERV_NAME+'/api/workouts/user-templates/', {
     method: 'GET',
@@ -50,15 +50,15 @@ export async function getUserWorkouts() {
       Authorization: `Bearer ${token}`
     }
   })
-  .then((response) => {
-    if(!response.ok) {
-      throw new Error(response.statusText)
-    }
-    return response.json()
-  })
-  .then((data:Workout[]) => {
-    return data
-  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.statusText)
+      }
+      return response.json()
+    })
+    .then((data: MiniWorkout[]) => {
+      return data
+    })
 }
 
 export async function deleteWorkout(id: number) {

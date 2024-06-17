@@ -25,7 +25,7 @@
         <v-list-item
           prepend-icon="mdi-plus-box-outline"
           link
-          to="/create"
+          to="/workout/create"
           title="Create Workout"
         ></v-list-item>
         <!-- <v-list-item
@@ -39,12 +39,12 @@
     <v-divider></v-divider>
     <v-list>
       <v-list-item prepend-icon="mdi-home" link to="/" title="Home"></v-list-item>
-      <v-list-item
+      <!-- <v-list-item
         prepend-icon="mdi-weight-lifter"
         link
         to="/workouts"
         title="My Workouts"
-      ></v-list-item>
+      ></v-list-item> -->
       <v-list-item prepend-icon="mdi-information" link to="/about" title="About"></v-list-item>
     </v-list>
   </v-navigation-drawer>
