@@ -9,7 +9,6 @@ from rest_framework.decorators import action
 from auth.serializers import LoginSerializer, RegisterSerializer
 from user.models import User
 
-
 class RegistrationViewSet(ModelViewSet, TokenObtainPairView):
     permission_classes = (AllowAny,)
     http_method_names = ['post']
@@ -30,7 +29,6 @@ class RegistrationViewSet(ModelViewSet, TokenObtainPairView):
 
         return Response(res, status=status.HTTP_201_CREATED)
 
-
 class LoginViewSet(ModelViewSet, TokenObtainPairView):
     permission_classes = (AllowAny,)
     http_method_names = ['post']
@@ -45,7 +43,6 @@ class LoginViewSet(ModelViewSet, TokenObtainPairView):
             raise InvalidToken(e.args[0])
 
         return Response(serializer.validated_data, status=status.HTTP_200_OK)
-
 
 class RefreshViewSet(viewsets.ViewSet, TokenRefreshView):
     persmission_classes = (AllowAny,)
