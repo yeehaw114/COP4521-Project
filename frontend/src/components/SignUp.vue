@@ -31,6 +31,14 @@
         required
         @click:append-inner="passwordVisible = !passwordVisible"
       ></v-text-field>
+      <div class="text-subtitle-1 text-medium-emphasis">Account Tier</div>
+      <v-col class="py-2" cols="12">
+        <v-btn-toggle color="teal-lighten-2" rounded="3" group>
+          <v-btn prepend-icon="mdi-account-outline" value="left">Free</v-btn>
+          <v-btn prepend-icon="mdi-currency-usd" value="center">Premium</v-btn>
+          <v-btn prepend-icon="mdi-gavel" value="right">Admin</v-btn>
+        </v-btn-toggle>
+      </v-col>
       <Error v-if="errorOccured" text="Invalid input" />
       <v-btn @click="signUp(creds)" class="mb-8" color="green" size="large" variant="tonal" block
         >Sign Up</v-btn
