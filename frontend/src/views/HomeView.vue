@@ -1,26 +1,19 @@
 <template>
-  <div>
-    <h1>Your Templates</h1>
-    <displayTemplate />
-  </div>
-  <div>
-    <h1>Sample Templates</h1>
-    <displayTemplate />
-  </div>
-  <div>
-    <v-row>
-      <v-col>
-        <v-sheet height="200">
-          <v-calendar class="h-10 w-20" color="primary"></v-calendar>
-        </v-sheet>
-      </v-col>
-    </v-row>
-  </div>
+  <UserContent v-if="userStore.isLoggedIn" />
+  <LoggedOut v-else />
 </template>
 
 <script setup lang="ts">
-import displayTemplate from '../components/DisplayTemplate.vue'
-import { VCalendar } from 'vuetify/labs/VCalendar'
+import UserContent from '@/components/UserContentView.vue'
+import LoggedOut from '@/components/LoggedOutView.vue'
+import { useUserStore } from '@/stores/user'
+import { onMounted, ref } from 'vue'
+
+const userStore = ref(useUserStore())
+
+onMounted(() => {
+  console.log(userStore.value.isLoggedIn)
+})
 </script>
 
 <style scoped></style>
