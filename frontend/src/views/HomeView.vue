@@ -1,6 +1,6 @@
 <template>
-  <UserContent v-if="userStore.isLoggedIn"/>
-  <LoggedOut v-else/>
+  <UserContent v-if="userStore.isLoggedIn" />
+  <LoggedOut v-else />
 </template>
 
 <script setup lang="ts">
@@ -14,7 +14,6 @@ const userStore = ref(useUserStore())
 onMounted(() => {
   console.log(userStore.value.isLoggedIn)
 })
-
 </script>
 
 <style scoped></style>
