@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer :width="200" :close-delay="200" absolute rail expand-on-hover>
+  <v-navigation-drawer :width="200" :close-delay="200" permanent absolute rail expand-on-hover>
     <v-list v-if="!userStore.isLoggedIn">
       <v-list-item
         prepend-icon="mdi-login"
