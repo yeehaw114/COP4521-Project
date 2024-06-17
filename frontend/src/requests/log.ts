@@ -1,5 +1,5 @@
 import { SERV_NAME } from '@/requests/host'
-import type { Workout, Set } from '@/types/workout'
+import type { Workout, Set, MiniLog } from '@/types/workout'
 
 export async function getLog(id: number): Promise<Workout> {
   const token = localStorage.getItem('jwt-token')
@@ -51,5 +51,22 @@ export async function deleteLog(id: number) {
       throw new Error(response.statusText)
     }
     return response.json()
+  })
+}
+
+export async function getUserLogs():Promise<MiniLog[]> {
+  const token = localStorage.getItem('jwt-token')
+  return await fetch(SERV_NAME + '/api/user-workouts/logs/', {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).then((response) => {
+    if(!response.ok) {
+      throw new Error(response.statusText)
+    }
+    return response.json()
+  }).then((data:MiniLog[]) => {
+    return data
   })
 }
