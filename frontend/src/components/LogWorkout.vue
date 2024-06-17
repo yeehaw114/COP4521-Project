@@ -68,7 +68,9 @@ import type { Ref } from 'vue'
 import { postLog } from '@/requests/log'
 import { type Workout, type Set, type Exercise, convertExercisesToSets } from '@/types/workout'
 import Error from '@/components/ErrorComponent.vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const props = defineProps<{
   name: string
   exercises: Exercise[]
@@ -87,8 +89,10 @@ const errorOccured = ref(false)
 
 const log = async () => {
   try {
+    errorOccured.value = false
     const sets = convertExercisesToSets(loggedExercises.value)
     await postLog(props.workoutid, sets)
+    router.push('/')
   } catch (error) {
     console.error(error)
     errorOccured.value = true

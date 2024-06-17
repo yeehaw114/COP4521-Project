@@ -37,7 +37,6 @@ export async function getWorkout(id: number): Promise<Workout> {
       return response.json()
     })
     .then((data: Workout) => {
-      console.log(data)
       return data
     })
 }

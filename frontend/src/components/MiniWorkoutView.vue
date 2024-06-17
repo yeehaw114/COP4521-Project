@@ -4,7 +4,7 @@
       <v-card-title class="d-flex justify-center">
         <h2>{{ props.workout.name }}</h2>
       </v-card-title>
-      <v-card-actions v-if="props.template">
+      <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" link :to="`/workout/${props.workout.id}`">View</v-btn>
         <v-btn color="secondary" link :to="`/workout/${props.workout.id}/log`">Log</v-btn>
@@ -19,8 +19,6 @@ import type { MiniWorkout } from '@/types/workout'
 
 const props = defineProps<{
   workout: MiniWorkout
-  template?: boolean
-  log?: boolean
 }>()
 
 const formatDate = (date: Date): string => {
