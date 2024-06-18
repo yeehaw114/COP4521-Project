@@ -17,15 +17,15 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'created', 'modified', 'role']
+        fields = ['id', 'username', 'email', 'password', 'role']
 
     def create(self, validated_data):
-        role = validated_data.pop('role')
+        role_name = validated_data.pop('role')
         try:
             user = User.objects.get(email=validated_data['email'])
         except ObjectDoesNotExist:
             user = User.objects.create_user(**validated_data)
-            role = Role.objects.get(name=Role)
+            role = Role.objects.get(name=role_name)
             user.roles.add(role)
         return user
 
