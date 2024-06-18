@@ -97,7 +97,7 @@ class SetsViewSet(viewsets.ModelViewSet):
     
 class WorkoutsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
-    http_method_names = ['get', 'post', 'delete']
+    http_method_names = ['get', 'post', 'put', 'delete']
     serializer_class = WorkoutsSerializer
     queryset = Workouts.objects.all()
 
@@ -228,6 +228,22 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
                     user_workout.delete()
 
             return Response({'message': 'User workout log deleted successfully'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+    @has_permission('auth.can_edit_workouts')
+    @action(detail=True, methods=['put'], url_path='update-log')
+    def update_log(self, request, pk=None):
+        try:
+            user_workout = User_Workouts.objects.get(pk=pk, username=request.user)
+            serializer = UserWorkoutsSerializer(user_workout, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                serializer.perform_update(serializer)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except User_Workouts.DoesNotExist:
+            return Response({'error': 'User workout log not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
