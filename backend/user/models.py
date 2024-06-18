@@ -1,7 +1,26 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
+from django.conf import settings
+from django.contrib.auth import get_user_model
 
+class Role(models.Model):
+    Role = [
+        ('Admin', 'Admin'),
+        ('Trainer', 'Trainer'),
+        ('User', 'User'),
+    ]
 
+    name = models.CharField(max_length=50, choices=Role, unique=True, verbose_name='Role')
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='roles', verbose_name='Users with this Role')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Role'
+        verbose_name_plural = 'Roles'
+
+    
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **kwargs):
         email = self.normalize_email(email)
@@ -21,6 +40,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(db_index=True, max_length=255, unique=True)
     email = models.EmailField(db_index=True, max_length=255, unique=True)
+    role = models.ManyToManyField(Role)
     is_staff = models.BooleanField(
         default=False, help_text="Designates whether the user can log into this admin site."
     )
