@@ -36,7 +36,7 @@ const props = defineProps<{
 }>()
 
 const emits = defineEmits<{
-  'delete': null[]
+  delete: null[]
 }>()
 
 const deleteWork = async () => {

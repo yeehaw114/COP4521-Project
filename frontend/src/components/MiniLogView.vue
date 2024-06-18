@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { deleteWorkout } from '@/requests/workout';
+import { deleteWorkout } from '@/requests/workout'
 import type { MiniLog } from '@/types/workout'
 
 const props = defineProps<{
@@ -30,22 +30,22 @@ const props = defineProps<{
 }>()
 
 const emits = defineEmits<{
-  'delete':null[]
+  delete: null[]
 }>()
 
-const deleteWork = async() => {
+const deleteWork = async () => {
   try {
     await deleteWorkout(props.log.id)
     emits('delete')
-    console.log("deleting...")
-  } catch(error) {
+    console.log('deleting...')
+  } catch (error) {
     console.error(error)
   }
 }
 
 const formatDate = (date: Date): string => {
   const dateDate = new Date(date)
-  const options: Intl.DateTimeFormatOptions = { month: 'long', day: '2-digit', year: 'numeric', }
+  const options: Intl.DateTimeFormatOptions = { month: 'long', day: '2-digit', year: 'numeric' }
   const formattedDate = dateDate.toLocaleDateString('en-US', options)
   return formattedDate
 }

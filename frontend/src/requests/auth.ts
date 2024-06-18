@@ -69,8 +69,8 @@ export async function tokenLogin() {
   if (!localStorage.getItem('refresh-token')) {
     return
   }
-  const refreshToken = localStorage.getItem('refresh-token') ?? ""
-  const jwtToken = localStorage.getItem('jwt-token') ?? ""
+  const refreshToken = localStorage.getItem('refresh-token') ?? ''
+  const jwtToken = localStorage.getItem('jwt-token') ?? ''
   const refresh: refreshRequest = {
     refresh: refreshToken ?? ''
   }
@@ -104,7 +104,7 @@ export function logout() {
   localStorage?.removeItem('refresh-token')
   const userStore = useUserStore()
   if (userStore.user) {
-    userStore.user.username = ""
+    userStore.user.username = ''
     userStore.isLoggedIn = false
   }
 }

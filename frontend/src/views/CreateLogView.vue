@@ -38,7 +38,7 @@ onMounted(async () => {
     } catch (error) {
       console.error(error)
     }
-    console.log("workoutid: "+workoutid.value)
+    console.log('workoutid: ' + workoutid.value)
   } catch (error) {
     console.error(error)
   }

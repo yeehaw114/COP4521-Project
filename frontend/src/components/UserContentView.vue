@@ -35,12 +35,12 @@ const userLogs: Ref<MiniLog[]> = ref([])
 
 const success = ref(false)
 
-const refetchLogs = async() => {
+const refetchLogs = async () => {
   userLogs.value = await getUserLogs()
   success.value = true
 }
 
-const refetchWorkouts = async() => {
+const refetchWorkouts = async () => {
   userWorkouts.value = await getUserWorkouts()
   success.value = true
 }
