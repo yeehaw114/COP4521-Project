@@ -4,7 +4,7 @@
       <div align="center" class="mx-auto text-h3">About Us</div>
       <v-divider :thickness="5"></v-divider>
       <div class="text-h6">
-        Contributors: Alex Gonzalez, Zachary Lima, Gavin Mcdavitt, Ethan Burke, Zachary Herman,
+        Contributors: Alex Gonzalez, Zachary Lima, Gavin McDavitt, Ethan Burke, Zachary Herman,
         Fernando de Torres
       </div>
       <div class="text-body-1">
