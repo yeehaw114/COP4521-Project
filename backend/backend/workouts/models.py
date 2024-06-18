@@ -1,10 +1,10 @@
 from django.db import models
-from user.models import User
+from django.conf import settings 
 
 class Workouts(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
-    username = models.ForeignKey(User, on_delete=models.CASCADE)
+    username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
         permissions = [
@@ -16,13 +16,16 @@ class Workouts(models.Model):
     def __str__(self):
         return f"Workout(user={self.username}, name={self.name})"
 
+
 class Sets(models.Model):
     id = models.AutoField(primary_key=True)
     workout_id = models.ForeignKey(Workouts, on_delete=models.CASCADE)
-    exercise = models.CharField()
+    exercise = models.CharField(max_length=100)  # Specify max_length for CharField
     reps = models.SmallIntegerField()
     weight = models.SmallIntegerField()
-    permissions = [
+
+    class Meta:
+        permissions = [
             ("can_view_sets", "Can view Sets"),
             ("can_edit_sets", "Can edit Sets"),
             ("can_delete_sets", "Can delete Sets"),
@@ -31,19 +34,23 @@ class Sets(models.Model):
     def __str__(self):
         return f"Set(workout={self.workout_id}, exercise={self.exercise}, reps={self.reps}, weight={self.weight})"
 
+
 class User_Workouts(models.Model):
     id = models.AutoField(primary_key=True)
     workout_id = models.ForeignKey(Workouts, on_delete=models.CASCADE)
-    username = models.ForeignKey(User, on_delete=models.CASCADE)
+    username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     done_date = models.TimeField(auto_now_add=True)
-    permissions = [
-            ("can_view_userworkouts", "Can view UserWorkouts"),
-            ("can_edit_userworkouts", "Can edit UserWorkouts"),
-            ("can_delete_userworkouts", "Can delete UserWorkouts"),
+
+    class Meta:
+        permissions = [
+            ("can_view_user_workouts", "Can view User Workouts"),
+            ("can_edit_user_workouts", "Can edit User Workouts"),
+            ("can_delete_user_workouts", "Can delete User Workouts"),
         ]
 
     def __str__(self):
         return f"User_Workout(user={self.username}, workout={self.workout_id}, date={self.done_date})"
+
 
 class User_Sets(models.Model):
     id = models.AutoField(primary_key=True)
@@ -51,11 +58,13 @@ class User_Sets(models.Model):
     set_id = models.ForeignKey(Sets, on_delete=models.CASCADE)
     reps = models.SmallIntegerField()
     weight = models.SmallIntegerField()
-    username = models.ForeignKey(User, on_delete=models.CASCADE)
-    permissions = [
-            ("can_view_usersets", "Can view UserSets"),
-            ("can_edit_usersets", "Can edit UserSets"),
-            ("can_delete_usersets", "Can delete UserSets"),
+    username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    class Meta:
+        permissions = [
+            ("can_view_user_sets", "Can view User Sets"),
+            ("can_edit_user_sets", "Can edit User Sets"),
+            ("can_delete_user_sets", "Can delete User Sets"),
         ]
 
     def __str__(self):

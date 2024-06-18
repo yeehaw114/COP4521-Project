@@ -32,8 +32,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-    'user',
-    'workouts',
+    'backend.user',
+    'backend.workouts',
+    'backend.custom_auth',
 ]
 
 MIDDLEWARE = [

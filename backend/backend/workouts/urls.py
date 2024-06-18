@@ -1,5 +1,5 @@
 from rest_framework.routers import SimpleRouter
-from workouts.views import SetsViewSet, UserWorkoutsViewSet, UserSetsViewSet, WorkoutsViewSet
+from backend.workouts.views import SetsViewSet, UserWorkoutsViewSet, UserSetsViewSet, WorkoutsViewSet
 
 workout_router = SimpleRouter()
 

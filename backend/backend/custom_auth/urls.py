@@ -1,7 +1,6 @@
 from rest_framework.routers import SimpleRouter
 from django.urls import path, include
-
-from auth.views import LoginViewSet, RegistrationViewSet, RefreshViewSet, TokenViewSet
+from backend.custom_auth.views import LoginViewSet, RegistrationViewSet, RefreshViewSet, TokenViewSet
 
 auth_router = SimpleRouter()
 

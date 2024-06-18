@@ -1,7 +1,7 @@
 from rest_framework import viewsets, filters
 from rest_framework.permissions import IsAuthenticated
 from .models import User
-from user.serializers import UserSerializer
+from backend.user.serializers import UserSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):

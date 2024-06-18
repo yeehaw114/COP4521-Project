@@ -4,8 +4,8 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.settings import api_settings
 from django.contrib.auth import get_user_model
-from user.models import User, Role
-from user.serializers import UserSerializer
+from backend.user.models import User, Role
+from backend.user.serializers import UserSerializer
 
 
 User = get_user_model()
@@ -13,7 +13,7 @@ User = get_user_model()
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=128, min_length=8, write_only=True, required=True)
     email = serializers.EmailField(required=True, max_length=128)
-    role = serializers.ChoiceField(choices=Role.Role, write_only=True, required=True)
+    role = serializers.ChoiceField(choices=Role.ROLE_CHOICES, write_only=True, required=True)
 
     class Meta:
         model = User

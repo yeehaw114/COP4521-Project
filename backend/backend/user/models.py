@@ -3,13 +3,13 @@ from django.db import models
 from django.conf import settings
 
 class Role(models.Model):
-    Role = [
+    ROLE_CHOICES = [
         ('Admin', 'Admin'),
         ('Trainer', 'Trainer'),
         ('User', 'User'),
     ]
 
-    name = models.CharField(max_length=50, choices=Role, unique=True, verbose_name='Role')
+    name = models.CharField(max_length=50, choices=ROLE_CHOICES, unique=True, verbose_name='Role')
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='roles', verbose_name='Users with this Role')
 
     def __str__(self):
@@ -19,7 +19,7 @@ class Role(models.Model):
         verbose_name = 'Role'
         verbose_name_plural = 'Roles'
 
-    
+
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **kwargs):
         email = self.normalize_email(email)
