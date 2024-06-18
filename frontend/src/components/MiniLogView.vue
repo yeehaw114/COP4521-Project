@@ -13,7 +13,7 @@
           :to="`/workout/${props.log.workout_id}/log/${props.log.id}`"
           >View</v-btn
         >
-        <v-btn color="red" prepend-icon="mdi-delete-outline" link>Delete</v-btn>
+        <v-btn color="red" prepend-icon="mdi-delete-outline" link @click="deleteWork">Delete</v-btn>
         <!-- <v-btn color="secondary" link :to="`/workout/${props.log.workout_id}/log/${props.log.id}`">Log</v-btn> -->
         <v-spacer></v-spacer>
       </v-card-actions>
@@ -22,6 +22,7 @@
 </template>
 
 <script setup lang="ts">
+import { deleteWorkout } from '@/requests/workout';
 import type { MiniLog } from '@/types/workout'
 
 const props = defineProps<{
@@ -31,6 +32,16 @@ const props = defineProps<{
 const emits = defineEmits<{
   'delete':null[]
 }>()
+
+const deleteWork = async() => {
+  try {
+    await deleteWorkout(props.log.id)
+    emits('delete')
+    console.log("deleting...")
+  } catch(error) {
+    console.error(error)
+  }
+}
 
 const formatDate = (date: Date): string => {
   const dateDate = new Date(date)

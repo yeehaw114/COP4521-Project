@@ -35,9 +35,14 @@ const props = defineProps<{
   workout: MiniWorkout
 }>()
 
+const emits = defineEmits<{
+  'delete': null[]
+}>()
+
 const deleteWork = async () => {
   try {
     await deleteWorkout(props.workout.id)
+    emits('delete')
   } catch (error) {
     console.error(error)
   }

@@ -3,16 +3,17 @@
   <div v-if="contentLoaded">
     <div class="text-h4">My Workouts</div>
     <v-col v-for="w in userWorkouts" cols="12">
-      <MiniWorkoutView :workout="w" />
+      <MiniWorkoutView @delete="refetchWorkouts" :workout="w" />
     </v-col>
     <div class="text-h6" v-if="userWorkouts.length == 0">No workouts created yet.</div>
     <div class="text-h4">My Logs</div>
     <div v-for="l in userLogs" cols="12">
-      <MiniLogView :log="l" />
+      <MiniLogView @delete="refetchLogs" :log="l" />
     </div>
     <div class="text-h6" v-if="userLogs.length == 0">No workouts logged yet.</div>
     <div></div>
   </div>
+  <SuccessfulSnackbar v-model="success" text="Successfully deleted workout" />
 </template>
 
 <script setup lang="ts">
@@ -25,11 +26,24 @@ import MiniLogView from '@/components/MiniLogView.vue'
 import Error from '@/components/ErrorComponent.vue'
 import { getUserWorkouts } from '@/requests/workout'
 import { getUserLogs } from '@/requests/log'
+import SuccessfulSnackbar from './SuccessfulSnackbar.vue'
 
 const contentLoaded = ref(false)
 const errorOccured = ref(false)
 const userWorkouts: Ref<MiniWorkout[]> = ref([])
 const userLogs: Ref<MiniLog[]> = ref([])
+
+const success = ref(false)
+
+const refetchLogs = async() => {
+  userLogs.value = await getUserLogs()
+  success.value = true
+}
+
+const refetchWorkouts = async() => {
+  userWorkouts.value = await getUserWorkouts()
+  success.value = true
+}
 
 onMounted(async () => {
   try {

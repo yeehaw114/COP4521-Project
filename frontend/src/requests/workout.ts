@@ -63,7 +63,7 @@ export async function getUserWorkouts(): Promise<MiniWorkout[]> {
 export async function deleteWorkout(id: number) {
   const token = localStorage.getItem('jwt-token')
   await fetch(SERV_NAME + '/api/workouts/' + id + '/', {
-    method: 'GET',
+    method: 'DELETE',
     headers: {
       Authorization: `Bearer ${token}`
     }
@@ -71,6 +71,5 @@ export async function deleteWorkout(id: number) {
     if (!response.ok) {
       throw new Error(response.statusText)
     }
-    return response.json()
   })
 }

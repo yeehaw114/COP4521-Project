@@ -64,7 +64,7 @@
     <Error v-if="errorOccured" text="Could not create workout." />
   </v-card>
 
-  <SuccessSnackbar v-model="success" text="Successfully posted workout" />
+  <SuccessfulSnackbar v-model="success" text="Successfully posted workout" />
 </template>
 
 <script setup lang="ts">
@@ -75,6 +75,7 @@ import { VNumberInput } from 'vuetify/labs/components'
 import { postWorkout } from '@/requests/workout'
 import Error from '@/components/ErrorComponent.vue'
 import { useRouter } from 'vue-router'
+import SuccessfulSnackbar from './SuccessfulSnackbar.vue'
 
 const errorOccured = ref(false)
 const success = ref(false)
