@@ -9,8 +9,15 @@
     <!-- All the exercises -->
     <div class="text-subtitle-1 text-medium-emphasis">Exercises</div>
     <v-list>
-      <v-list-item v-for="e in exercises" :key="e.name">
-        <div class="text-h4">{{ e.name }}</div>
+      <v-list-item v-for="(e, ei) in exercises" :key="e.name">
+        <v-row>
+          <v-col>
+            <div class="text-h4">{{ e.name }}</div>
+          </v-col>
+          <v-col>
+            <v-btn prepend-icon="mdi-trash-can-outline" color="red" @click="removeExercise(ei)">Delete</v-btn>
+          </v-col>
+        </v-row>
         <!-- New set -->
         <v-card>
           <v-row>
@@ -19,7 +26,7 @@
                 inset
                 :min="1"
                 label="Reps"
-                v-model="newSet.reps"
+                v-model="newSet[ei].reps"
                 control-variant="stacked"
               ></VNumberInput>
             </v-col>
@@ -28,22 +35,23 @@
                 :min="1"
                 inset
                 label="Weight (lbs)"
-                v-model="newSet.weight"
+                v-model="newSet[ei].weight"
                 :step="5"
                 control-variant="split"
               ></VNumberInput>
             </v-col>
             <v-col>
-              <v-btn rounded="0" icon="mdi-plus" @click="appendSet(e)"></v-btn>
+              <v-btn color="green" icon="mdi-plus" @click="appendSet(ei)"></v-btn>
             </v-col>
           </v-row>
           <div class="text-subtitle-2 text-medium-emphasis">Sets</div>
           <v-list>
-            <v-list-item v-for="(s, i) in e.sets" :key="i">
+            <v-list-item v-for="(s, si) in e.sets" :key="si">
               <div class="text-h8">
-                {{ i + 1 }}<v-icon icon="mdi-chevron-right"></v-icon> Reps: {{ s.reps
+                {{ si + 1 }}<v-icon icon="mdi-chevron-right"></v-icon> Reps: {{ s.reps
                 }}<v-icon icon="mdi-weight-lifter"></v-icon> Weight: {{ s.weight }}
                 <v-icon icon="mdi-weight-pound"></v-icon>
+                <v-btn icon="mdi-trash-can-outline" color="red" @click="removeSet(ei, si)"></v-btn>
               </div>
             </v-list-item>
           </v-list>
@@ -86,6 +94,14 @@ const workout: Ref<Workout> = ref<Workout>({
   id: 0
 })
 
+const removeSet = (ei:number, si:number) => {
+  exercises.value[ei].sets.splice(si, 1)
+}
+
+const removeExercise = (ei:number) => {
+  exercises.value.splice(ei,1)
+}
+
 const router = useRouter()
 
 const exercises: Ref<Exercise[]> = ref([])
@@ -95,17 +111,17 @@ const newExercise: Ref<Exercise> = ref({
   sets: []
 })
 
-const newSet: Ref<Set> = ref({
+const newSet: Ref<Set[]> = ref([{
   exercise: '',
   id: 0,
   reps: 10,
   weight: 50
-})
+}])
 
-const appendSet = (e: Exercise) => {
-  const copy = JSON.parse(JSON.stringify(newSet.value))
-  copy.exercise = e.name
-  e.sets.push(copy)
+const appendSet = (ei:number) => {
+  const copy = JSON.parse(JSON.stringify(newSet.value[ei]))
+  copy.exercise = exercises.value[ei].name
+  exercises.value[ei].sets.push(copy)
 }
 
 const appendExercise = () => {
@@ -113,6 +129,9 @@ const appendExercise = () => {
   if (name == '' || exercises.value.findIndex((i) => i.name === name) != -1) {
     return
   }
+
+  const newSetCopy = JSON.parse(JSON.stringify(newSet.value[newSet.value.length-1]))
+  newSet.value.push(newSetCopy)
 
   const copy = JSON.parse(JSON.stringify(newExercise.value))
   exercises.value.push(copy)
