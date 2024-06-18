@@ -43,7 +43,7 @@ export async function getWorkout(id: number): Promise<Workout> {
 
 export async function getUserWorkouts(): Promise<MiniWorkout[]> {
   const token = localStorage.getItem('jwt-token')
-  return await fetch(SERV_NAME+'/api/workouts/user-templates/', {
+  return await fetch(SERV_NAME + '/api/workouts/user-templates/', {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`

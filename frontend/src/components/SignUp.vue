@@ -33,10 +33,10 @@
       ></v-text-field>
       <div class="text-subtitle-1 text-medium-emphasis">Account Tier</div>
       <v-col class="py-2" cols="12">
-        <v-btn-toggle color="teal-lighten-2" rounded="3" group>
-          <v-btn prepend-icon="mdi-account-outline" value="left">Free</v-btn>
-          <v-btn prepend-icon="mdi-currency-usd" value="center">Premium</v-btn>
-          <v-btn prepend-icon="mdi-gavel" value="right">Admin</v-btn>
+        <v-btn-toggle v-model="creds.role" color="teal-lighten-2" rounded="3" group>
+          <v-btn prepend-icon="mdi-account-outline" value="free">Free</v-btn>
+          <v-btn prepend-icon="mdi-currency-usd" value="premium">Premium</v-btn>
+          <v-btn prepend-icon="mdi-gavel" value="admin">Admin</v-btn>
         </v-btn-toggle>
       </v-col>
       <Error v-if="errorOccured" text="Invalid input" />
@@ -57,7 +57,8 @@ import Error from './ErrorComponent.vue'
 const creds: Ref<RegisterCreds> = ref<RegisterCreds>({
   password: '',
   email: '',
-  username: ''
+  username: '',
+  role: ''
 })
 
 const emit = defineEmits<{
