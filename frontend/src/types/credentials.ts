@@ -2,7 +2,7 @@ export type RegisterCreds = {
   email: string
   username: string
   password: string
-  tier: string
+  role: string
 }
 
 export type LoginCreds = {
