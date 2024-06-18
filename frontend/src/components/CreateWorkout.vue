@@ -63,6 +63,8 @@
     >
     <Error v-if="errorOccured" text="Could not create workout." />
   </v-card>
+
+  <SuccessSnackbar v-model="success" text="Successfully posted workout" />
 </template>
 
 <script setup lang="ts">
@@ -72,14 +74,18 @@ import type { Workout, Set, Exercise } from '@/types/workout'
 import { VNumberInput } from 'vuetify/labs/components'
 import { postWorkout } from '@/requests/workout'
 import Error from '@/components/ErrorComponent.vue'
+import { useRouter } from 'vue-router'
 
 const errorOccured = ref(false)
+const success = ref(false)
 
 const workout: Ref<Workout> = ref<Workout>({
   name: '',
   sets: [],
   id: 0
 })
+
+const router = useRouter()
 
 const exercises: Ref<Exercise[]> = ref([])
 
@@ -125,6 +131,8 @@ const createWorkout = async () => {
   convertToWorkout()
   try {
     await postWorkout(workout.value)
+    success.value = true
+    router.push('/')
   } catch (e) {
     errorOccured.value = true
   }
