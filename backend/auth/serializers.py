@@ -22,10 +22,13 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         role_name = validated_data.pop('role')
         try:
+            role = Role.objects.get(name=role_name)
+        except ObjectDoesNotExist:
+            raise serializers.ValidationError(f"Role {role_name} does not exist")
+        try:
             user = User.objects.get(email=validated_data['email'])
         except ObjectDoesNotExist:
             user = User.objects.create_user(**validated_data)
-            role = Role.objects.get(name=role_name)
             user.roles.add(role)
         return user
 
