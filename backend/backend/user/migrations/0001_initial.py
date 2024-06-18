@@ -51,7 +51,7 @@ class Migration(migrations.Migration):
                 ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
                 ('username', models.CharField(db_index=True, max_length=255, unique=True)),
                 ('email', models.EmailField(db_index=True, max_length=255, unique=True)),
-                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
+                ('role', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
                 ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),
             ],
             options={
@@ -70,10 +70,6 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'Roles',
             },
         ),
-        migrations.AddField(
-            model_name='user',
-            name='role',
-            field=models.ManyToManyField(to='backend.user.Role'),  # Corrected to reference 'backend.user.Role'
-        ),
+        
         migrations.RunPython(create_initial_roles),  # Added custom operation
     ]
