@@ -115,6 +115,16 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
             for set_data in sets_data:
                 Sets.objects.create(workout_id=workout, **set_data)
 
+    @has_permission('auth.can_edit_workouts')
+    def update_template(self, request, pk=None):
+        workout = self.get_object()
+        serializer = self.get_serializer(workout, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            self.perform_update(serializer)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     @has_permission('auth.can_view_workouts')
     @action(detail=False, methods=['get'])
     def all(self, request):

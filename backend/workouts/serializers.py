@@ -49,3 +49,24 @@ class WorkoutsSerializer(serializers.ModelSerializer):
             for set_data in set_data:
                 Sets.objects.create(workout_id=instance, **set_data)
             return instance
+        
+        def update(self, instance, validated_data):
+            sets_data = validated_data.pop('sets', [])
+            instance.name = validated_data.get('name', instance.name)
+            instance.save()
+
+            current_set_ids = [item['id'] for item in sets_data if 'id' in item]
+            Sets.objects.filter(workout_id=instance).exclude(id__in=current_set_ids).delete()
+
+            for set_data in sets_data:
+                set_id = set_data.get('id', None)
+                if set_id:
+                    set_instance = Sets.objects.get(id=set_id, workout_id=instance)
+                    set_instance.exercise = set_data.get('exercise', set_instance.exercise)
+                    set_instance.reps = set_data.get('reps', set_instance.reps)
+                    set_instance.weight = set_data.get('weight', set_instance.weight)
+                    set_instance.save()
+                else:
+                    Sets.objects.create(workout_id=instance, **set_data)
+
+            return instance
