@@ -19,6 +19,7 @@
         <v-list-item link>
           <UserAvatar />
         </v-list-item>
+        <v-list-item prepend-icon="mdi-logout" title="Logout" link @click="logout"></v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list>
@@ -28,23 +29,11 @@
           to="/workout/create"
           title="Create Workout"
         ></v-list-item>
-        <!-- <v-list-item
-          prepend-icon="mdi-plus-circle-outline"
-          link
-          to="/log"
-          title="Log Workout"
-        ></v-list-item> -->
       </v-list>
     </template>
     <v-divider></v-divider>
     <v-list>
       <v-list-item prepend-icon="mdi-home" link to="/" title="Home"></v-list-item>
-      <!-- <v-list-item
-        prepend-icon="mdi-weight-lifter"
-        link
-        to="/workouts"
-        title="My Workouts"
-      ></v-list-item> -->
       <v-list-item prepend-icon="mdi-information" link to="/about" title="About"></v-list-item>
     </v-list>
   </v-navigation-drawer>
@@ -64,6 +53,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useUserStore } from '../stores/user'
+import { logout } from '@/requests/auth'
 import Signup from './SignUp.vue'
 import Login from './LoginComponent.vue'
 import SuccessSnackbar from './SuccessfulSnackbar.vue'

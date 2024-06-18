@@ -16,6 +16,11 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import NavBar from '@/components/NavBar.vue'
+import { onMounted } from 'vue';
+import { tokenLogin } from './requests/auth';
+
+onMounted(async() => { await tokenLogin() })
+
 </script>
 
 <style scoped></style>

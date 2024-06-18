@@ -15,6 +15,7 @@ type refreshRequest = {
 
 type refreshResponse = {
   access: string
+  username: string
 }
 
 export async function postSignup(creds: RegisterCreds) {
@@ -68,14 +69,16 @@ export async function tokenLogin() {
   if (!localStorage.getItem('refresh-token')) {
     return
   }
-  const token = localStorage.getItem('refresh-token')
+  const refreshToken = localStorage.getItem('refresh-token') ?? ""
+  const jwtToken = localStorage.getItem('jwt-token') ?? ""
   const refresh: refreshRequest = {
-    refresh: token ?? ''
+    refresh: refreshToken ?? ''
   }
   await fetch(SERV_NAME + '/api/auth/refresh/', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: jwtToken
     },
     body: JSON.stringify(refresh)
   })
@@ -88,7 +91,20 @@ export async function tokenLogin() {
     .then((data: refreshResponse) => {
       localStorage.setItem('jwt-token', data.access)
       const userStore = useUserStore()
-      // userStore.user = data.user
+      if (userStore.user) {
+        userStore.user.username = data.username
+        userStore.isLoggedIn = true
+      }
       userStore.isLoggedIn = true
     })
+}
+
+export function logout() {
+  localStorage?.removeItem('jwt-token')
+  localStorage?.removeItem('refresh-token')
+  const userStore = useUserStore()
+  if (userStore.user) {
+    userStore.user.username = ""
+    userStore.isLoggedIn = false
+  }
 }

@@ -29,10 +29,10 @@ const props = defineProps<{
 }>()
 
 const formatDate = (date: Date): string => {
-  const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric', year: 'numeric' }
-  const dateString = date.toLocaleString('en-US', options)
-  console.log(dateString)
-  return dateString
+  const dateDate = new Date(date)
+  const options: Intl.DateTimeFormatOptions = { month: 'long', day: '2-digit', year: 'numeric', }
+  const formattedDate = dateDate.toLocaleDateString('en-US', options)
+  return formattedDate
 }
 </script>
 
