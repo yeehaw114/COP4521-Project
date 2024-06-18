@@ -41,7 +41,7 @@ const emit = defineEmits<{
 
 const creds: Ref<LoginCreds> = ref<LoginCreds>({
   password: '',
-  email: ''
+  username: ''
 })
 const errorOccured = ref(false)
 
@@ -49,7 +49,7 @@ const login = async (creds: LoginCreds) => {
   errorOccured.value = false
   try {
     const response = await postLogin(creds)
-    emit('login', creds.email)
+    emit('login', creds.username)
   } catch (err) {
     errorOccured.value = true
     console.log(err)

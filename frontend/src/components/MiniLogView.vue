@@ -28,6 +28,10 @@ const props = defineProps<{
   log: MiniLog
 }>()
 
+const emits = defineEmits<{
+  'delete':null[]
+}>()
+
 const formatDate = (date: Date): string => {
   const dateDate = new Date(date)
   const options: Intl.DateTimeFormatOptions = { month: 'long', day: '2-digit', year: 'numeric', }
