@@ -5,6 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from workouts.models import Workouts, Sets, User_Workouts, User_Sets
 from workouts.serializers import WorkoutsSerializer, SetsSerializer, UserWorkoutsSerializer, UserSetsSerializer
+from auth.decorators import has_permission
 
 class UserSetsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
@@ -12,18 +13,22 @@ class UserSetsViewSet(viewsets.ModelViewSet):
     serializer_class = UserSetsSerializer
     queryset = User_Sets.objects.all()
 
+    @has_permission('auth.can_view_usersets')
     def get_queryset(self):
         return self.queryset.filter(username=self.request.user)
     
+    @has_permission('auth.can_edit_usersets')
     def perform_create(self, serializer):
         serializer.save(username=self.request.user)
     
+    @has_permission('auth.can_edit_usersets')
     @action(detail=False, methods=['get'])
     def all(self, request):
         queryset = self.queryset.filter(username=self.request.user)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
+    @has_permission('auth.can_delete_usersets')
     @action(detail=False, methods=['delete'])
     def clear(self, request):
         queryset = self.queryset.filter(username=self.request.user)
@@ -36,24 +41,29 @@ class UserWorkoutsViewSet(viewsets.ModelViewSet):
     serializer_class = UserWorkoutsSerializer
     queryset = User_Workouts.objects.all()
 
+    @has_permission('auth.can_view_userworkouts')
     def get_queryset(self):
         return self.queryset.filter(username=self.request.user)
     
+    @has_permission('auth.can_edit_userworkouts')
     def perform_create(self, serializer):
         serializer.save(username=self.request.user)
     
+    @has_permission('auth.can_view_userworkouts')
     @action(detail=False, methods=['get'])
     def all(self, request):
         queryset = self.queryset.filter(username=self.request.user)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
+    @has_permission('auth.can_edit_userworkouts')
     @action(detail=False, methods=['delete'])
     def clear(self, request):
         queryset = self.queryset.filter(username=self.request.user)
         queryset.delete()
         return Response(status=status.HTTP_200_OK)
     
+    @has_permission('auth.can_view_userworkouts')
     @action(detail=False, methods=['get'], url_path='logs')
     def user_workout_logs(self, request):
         user = request.user
@@ -67,15 +77,18 @@ class SetsViewSet(viewsets.ModelViewSet):
     serializer_class = SetsSerializer
     queryset = Sets.objects.all()
 
+    @has_permission('auth.can_view_sets')
     def get_queryset(self):
         return self.queryset.filter(workout_id=self.kwargs['workout_id'])
     
+    @has_permission('auth.can_view_sets')
     @action(detail=False, methods=['get'])
     def all(self, request, workout_id=None):
         queryset = self.queryset.filter(workout_id=workout_id)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
+    @has_permission('auth.can_edit_sets')
     @action(detail=False, methods=['delete'])
     def clear(self, request, workout_id=None):
         queryset = self.queryset.filter(workout_id=workout_id)
@@ -88,9 +101,11 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
     serializer_class = WorkoutsSerializer
     queryset = Workouts.objects.all()
 
+    @has_permission('auth.can_view_workouts')
     def get_queryset(self):
         return self.queryset.filter(username=self.request.user)
     
+    @has_permission('auth.can_edit_workouts')
     def perform_create(self, serializer):
         sets_data = serializer.validated_data.pop('sets', [])
         request_user = self.request.user
@@ -100,18 +115,21 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
             for set_data in sets_data:
                 Sets.objects.create(workout_id=workout, **set_data)
 
+    @has_permission('auth.can_view_workouts')
     @action(detail=False, methods=['get'])
     def all(self, request):
         queryset = self.queryset.filter(username=self.request.user)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-    
+
+    @has_permission('auth.can_edit_workouts')
     @action(detail=False, methods=['delete'])
     def clear(self, request):
         queryset = self.queryset.filter(username=self.request.user)
         queryset.delete()
         return Response(status=status.HTTP_200_OK)
 
+    @has_permission('auth.can_view_workouts')
     @action(detail=True, methods=['get'], url_path='details')
     def workout_details(self, request, pk=None):
         workout = self.get_object()
@@ -120,6 +138,7 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(workout)
         return Response(serializer.data)
     
+    @has_permission('auth.can_edit_workouts')
     @action(detail=True, methods=['delete'], url_path='delete')
     def delete_workout(self, request, pk=None):
         workout = self.get_object()
@@ -128,6 +147,8 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
             workout.delete()
         return Response(status=status.HTTP_200_OK)
     
+
+    @has_permission('auth.can_edit_workouts')
     @action(detail=True, methods=['post'], url_path='log-workout')
     def log_workout(self, request, pk=None):
         workout_id = pk
@@ -150,6 +171,7 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
+    @has_permission('auth.can_view_workouts')
     @action(detail=True, methods=['get'], url_path='log')
     def get_log(self, request, pk=None):
         workout_id = pk
@@ -177,7 +199,8 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
             return Response(response_data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        
+
+    @has_permission('auth.can_edit_workouts')
     @action(detail=True, methods=['delete'], url_path='delete-log')
     def delete_log(self, request, pk=None):
         workout_id = pk
@@ -198,6 +221,7 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
+    @has_permission('auth.can_edit_workouts')
     @action(detail=False, methods=['get'], url_path='user-templates')
     def user_workouts(self, request):
         user = request.user

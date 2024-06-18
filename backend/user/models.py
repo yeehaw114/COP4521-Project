@@ -1,7 +1,20 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
+from django.conf import settings
 
+class Role(models.Model):
+    ROLE_CHOICES = [
+        ('Admin', 'Admin'),
+        ('Trainer', 'Trainer'),
+        ('User', 'User'),
+    ]
 
+    name = models.CharField(max_length=50, choices=ROLE_CHOICES, unique=True)
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='roles')
+
+    def __str__(self):
+        return self.name
+    
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **kwargs):
         email = self.normalize_email(email)
