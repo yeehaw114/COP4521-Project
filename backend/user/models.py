@@ -40,6 +40,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(db_index=True, max_length=255, unique=True)
     email = models.EmailField(db_index=True, max_length=255, unique=True)
+    roles = models.ManyToManyField(Role)
     is_staff = models.BooleanField(
         default=False, help_text="Designates whether the user can log into this admin site."
     )
