@@ -6,8 +6,13 @@
       </v-card-title>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" prepend-icon="mdi-eye-circle-outline" link :to="`/workout/${props.log.workout_id}/log/${props.log.id}`"
-          >View</v-btn>
+        <v-btn
+          color="primary"
+          prepend-icon="mdi-eye-circle-outline"
+          link
+          :to="`/workout/${props.log.workout_id}/log/${props.log.id}`"
+          >View</v-btn
+        >
         <v-btn color="red" prepend-icon="mdi-delete-outline" link>Delete</v-btn>
         <!-- <v-btn color="secondary" link :to="`/workout/${props.log.workout_id}/log/${props.log.id}`">Log</v-btn> -->
         <v-spacer></v-spacer>
