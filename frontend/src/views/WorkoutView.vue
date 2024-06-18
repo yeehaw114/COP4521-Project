@@ -7,7 +7,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import type { Workout } from '@/types/workout'
 import type { Ref } from 'vue'
-import { getWorkout } from '@/requests/workout'
+import { getWorkout, stringArrayToInt } from '@/requests/workout'
 import WorkoutComponent from '@/components/Workout.vue'
 
 const contentLoaded = ref(false)
@@ -18,7 +18,7 @@ const workout: Ref<Workout> = ref({
 })
 
 onMounted(async () => {
-  const workoutid = parseInt(useRoute().params.workoutid[0])
+  const workoutid = stringArrayToInt(useRoute().params.workoutid as string[])
   workout.value = await getWorkout(workoutid)
   console.log(workout.value)
   contentLoaded.value = true
