@@ -15,7 +15,7 @@
             <div class="text-h4">{{ e.name }}</div>
           </v-col>
           <v-col>
-            <v-btn prepend-icon="mdi-trash-can-outline" color="red" @click="removeExercise(ei)">Delete</v-btn>
+            <v-btn prepend-icon="mdi-trash-can-outline" color="red-lighten-1" @click="removeExercise(ei)">Delete</v-btn>
           </v-col>
         </v-row>
         <!-- New set -->
@@ -51,7 +51,7 @@
                 {{ si + 1 }}<v-icon icon="mdi-chevron-right"></v-icon> Reps: {{ s.reps
                 }}<v-icon icon="mdi-weight-lifter"></v-icon> Weight: {{ s.weight }}
                 <v-icon icon="mdi-weight-pound"></v-icon>
-                <v-btn icon="mdi-trash-can-outline" color="red" @click="removeSet(ei, si)"></v-btn>
+                <v-btn icon="mdi-trash-can-outline" color="red-lighten-1" @click="removeSet(ei, si)"></v-btn>
               </div>
             </v-list-item>
           </v-list>
