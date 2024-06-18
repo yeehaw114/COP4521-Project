@@ -1,19 +1,25 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
 class Role(models.Model):
-    ROLE_CHOICES = [
+    Role = [
         ('Admin', 'Admin'),
         ('Trainer', 'Trainer'),
         ('User', 'User'),
     ]
 
-    name = models.CharField(max_length=50, choices=ROLE_CHOICES, unique=True)
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='roles')
+    name = models.CharField(max_length=50, choices=Role, unique=True, verbose_name='Role')
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='roles', verbose_name='Users with this Role')
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Role'
+        verbose_name_plural = 'Roles'
+
     
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **kwargs):
