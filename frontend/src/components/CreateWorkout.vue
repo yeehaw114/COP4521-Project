@@ -45,16 +45,20 @@
             </v-col>
           </v-row>
           <div class="text-subtitle-2 text-medium-emphasis">Sets</div>
-          <v-list>
-            <v-list-item v-for="(s, si) in e.sets" :key="si">
-              <div class="text-h8 pb-2">
-                {{ si + 1 }}<v-icon icon="mdi-chevron-right"></v-icon> Reps: {{ s.reps
-                }}<v-icon icon="mdi-weight-lifter"></v-icon> Weight: {{ s.weight }}
-                <v-icon icon="mdi-weight-pound"></v-icon>
-                <v-btn icon="mdi-trash-can-outline" color="red-lighten-1" @click="removeSet(ei, si)"></v-btn>
-              </div>
-            </v-list-item>
-          </v-list>
+          <v-row class="pa-3">
+            <v-col cols="12" md="6" v-for="(s, si) in e.sets" :key="si">
+              <v-card elevation="5">
+                <v-list-item>
+                  <div class="text-h8 pb-2">
+                    {{ si + 1 }}<v-icon icon="mdi-chevron-right"></v-icon> Reps: {{ s.reps
+                    }}<v-icon icon="mdi-weight-lifter"></v-icon> Weight: {{ s.weight }}
+                    <v-icon icon="mdi-weight-pound"></v-icon>
+                    <v-btn icon="mdi-trash-can-outline" color="red-lighten-1" @click="removeSet(ei, si)"></v-btn>
+                  </div>
+                </v-list-item>
+              </v-card>
+            </v-col>
+          </v-row>
         </v-card>
       </v-list-item>
     </v-list>
