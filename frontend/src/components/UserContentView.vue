@@ -52,6 +52,7 @@ onMounted(async () => {
   try {
     userLogs.value = await getUserLogs()
     userWorkouts.value = await getUserWorkouts()
+    console.log(userLogs.value)
   } catch (error) {
     errorOccured.value = true
     console.error(error)

@@ -2,7 +2,7 @@
   <v-container class="pa-4" style="max-width: 400px">
     <v-card>
       <v-card-title class="d-flex justify-center">
-        <h2>{{ formatDate(props.log.done_date) }}</h2>
+        <h2>{{ formatTime(String(props.log.done_date)) }}</h2>
       </v-card-title>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -13,7 +13,7 @@
           :to="`/workout/${props.log.workout_id}/log/${props.log.id}`"
           >View</v-btn
         >
-        <v-btn color="red" prepend-icon="mdi-delete-outline" link @click="deleteWork">Delete</v-btn>
+        <v-btn color="red" prepend-icon="mdi-delete-outline" link @click="delLog">Delete</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -32,7 +32,7 @@ const emits = defineEmits<{
   delete: null[]
 }>()
 
-const deleteWork = async () => {
+const delLog = async () => {
   try {
     await deleteLog(props.log.id)
     emits('delete')
@@ -42,12 +42,21 @@ const deleteWork = async () => {
   }
 }
 
-const formatDate = (date: Date): string => {
-  const dateDate = new Date(date)
-  const options: Intl.DateTimeFormatOptions = { month: 'long', day: '2-digit', year: 'numeric' }
-  const formattedDate = dateDate.toLocaleDateString('en-US', options)
-  return formattedDate
+const formatTime = (timeString:string): string => {
+
+    const [hours, minutes, secondsWithMicroseconds] = timeString.split(':');
+    const [seconds, microseconds] = secondsWithMicroseconds.split('.');
+
+    const date = new Date();
+    date.setHours(parseInt(hours));
+    date.setMinutes(parseInt(minutes));
+    date.setSeconds(parseInt(seconds));
+    date.setMilliseconds(parseInt(microseconds) / 1000);
+
+    const options: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
+    return date.toLocaleTimeString('en-US', options);
 }
+
 </script>
 
 <style scoped></style>
