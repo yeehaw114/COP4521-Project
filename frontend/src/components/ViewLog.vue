@@ -1,6 +1,6 @@
 <template>
   <v-card class="mx-auto pa-6" elevation="15" max-width="800" rounded="lg">
-    <div class="text-h3">{{ props.name }} <v-icon icon="mdi-at"/> {{ props. }}</div>
+    <div class="text-h3">{{ props.name }} <v-icon icon="mdi-at"/> {{ formatTime(String(props.time)) }}</div>
     <v-divider></v-divider>
     <v-list>
       <v-list-item v-for="(e, ei) in props.logged" :key="ei">
@@ -23,9 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import { type Workout, type Exercise, convertSetsToExercises } from '@/types/workout'
-import type { Ref } from 'vue'
-import { onUpdated, ref } from 'vue'
+import { type Exercise } from '@/types/workout'
+import { formatTime } from '@/helpers/format'
 
 const props = defineProps<{
   name: string

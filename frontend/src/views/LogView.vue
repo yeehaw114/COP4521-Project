@@ -1,5 +1,5 @@
 <template v-if="contentLoaded">
-    <ViewLog :name="name" :goal="goalExercises" :logged="loggedExercises" />
+    <ViewLog :time="time" :name="name" :goal="goalExercises" :logged="loggedExercises" />
     <Error v-if="errorOccured" text="Error occurred"/>
   </template>
   
@@ -18,6 +18,7 @@
   const errorOccured = ref(false)
 
   const name = ref("")
+  const time:Ref<Date> = ref(new Date())
   const goalExercises:Ref<Exercise[]> = ref([])
   const loggedExercises:Ref<Exercise[]> = ref([])
   
@@ -30,7 +31,7 @@
       goalExercises.value = convertSetsToExercises(goalWorkout.sets)
       console.log(goalExercises.value)
       const loggedWorkout = await getLog(logid)
-      console.log()
+      time.value = loggedWorkout.done_date
       loggedExercises.value = convertSetsToExercises(loggedWorkout.sets)
       console.log(loggedExercises.value)
 
