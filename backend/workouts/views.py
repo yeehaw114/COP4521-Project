@@ -205,15 +205,25 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
                 user_workout.done_date = data.get('done_date', user_workout.done_date)
                 user_workout.save()
 
-                User_Sets.objects.filter(user_workout_id=user_workout).delete()
+                existing_set_ids = [set_item['id'] for set_item in sets_data if 'id' in set_item]
+                User_Sets.objects.filter(user_workout_id=user_workout).exclude(id__in=existing_set_ids).delete()
+
                 for set_data in sets_data:
-                    User_Sets.objects.create(
-                        user_workout_id=user_workout,
-                        username=request.user,
-                        exercise=set_data.get('exercise'),
-                        reps=set_data.get('reps'),
-                        weight=set_data.get('weight')
-                    )
+                    set_id = set_data.get('id')
+                    if set_id:
+                        set_instance = User_Sets.objects.get(id=set_id, user_workout_id=user_workout)
+                        set_instance.exercise = set_data.get('exercise', set_instance.exercise)
+                        set_instance.reps = set_data.get('reps', set_instance.reps)
+                        set_instance.weight = set_data.get('weight', set_instance.weight)
+                        set_instance.save()
+                    else:
+                        User_Sets.objects.create(
+                            user_workout_id=user_workout,
+                            username=request.user,
+                            exercise=set_data.get('exercise'),
+                            reps=set_data.get('reps'),
+                            weight=set_data.get('weight')
+                        )
                     
                 serializer = UserWorkoutsSerializer(user_workout)
                 return Response(serializer.data, status=status.HTTP_200_OK)
