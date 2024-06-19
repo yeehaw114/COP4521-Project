@@ -18,8 +18,11 @@ import { RouterView } from 'vue-router'
 import NavBar from '@/components/NavBar.vue'
 import { onMounted } from 'vue'
 import { tokenLogin } from './requests/auth'
+import { setThemeFromLocalStorage } from './helpers/theme';
+import { useTheme } from 'vuetify';
 
 onMounted(async () => {
+  setThemeFromLocalStorage(useTheme())
   await tokenLogin()
 })
 </script>
