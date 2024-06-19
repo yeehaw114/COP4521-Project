@@ -2,13 +2,13 @@
   <Error v-if="errorOccured" text="Could not load resources." />
   <div v-if="contentLoaded">
     <div class="text-h4">My Workouts</div>
-    <div class="text-h6" v-if="userWorkouts.length == 0">No workouts created yet.</div>
+    <div class="text-h6 pb-3" v-if="userWorkouts.length == 0">No workouts created yet.</div>
     <v-row>
       <v-col v-for="w in userWorkouts" cols="4">
         <MiniWorkoutView @delete="refetchWorkouts" :workout="w" />
       </v-col>
     </v-row>
-    <div class="text-h4">My Logs</div>
+    <div class="text-h4 pt-3">My Logs</div>
     <div class="text-h6" v-if="userLogs.length == 0">No workouts logged yet.</div>
     <v-row>
       <v-col v-for="l in userLogs" cols="4">
