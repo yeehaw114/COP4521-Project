@@ -34,7 +34,13 @@ INSTALLED_APPS = [
     'corsheaders',
     'user',
     'workouts',
+    'guardian'
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # default
+    'guardian.backends.ObjectPermissionBackend',
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -146,6 +152,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+ANONYMOUS_USER_ID = -1
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

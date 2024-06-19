@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, Group, Permission
 from django.db import models
 from django.conf import settings
 
@@ -8,6 +8,18 @@ class Role(models.Model):
         ('Trainer', 'Trainer'),
         ('User', 'User'),
     ]
+
+    admin_group, created = Group.objects.get_or_create(name='Admin')
+    user_group, created = Group.objects.get_or_create(name='User')
+
+    # Define permissions
+    add_user_permission = Permission.objects.get(codename='add_user')
+    change_user_permission = Permission.objects.get(codename='change_user')
+    delete_user_permission = Permission.objects.get(codename='delete_user')
+
+    # Assign permissions to roles
+    admin_group.permissions.add(add_user_permission, change_user_permission, delete_user_permission)
+    user_group.permissions.add(change_user_permission)
 
     name = models.CharField(max_length=50, choices=Role, unique=True, verbose_name='Role')
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='roles', verbose_name='Users with this Role')
