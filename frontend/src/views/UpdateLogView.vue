@@ -17,7 +17,7 @@
   import type { Ref } from 'vue'
   import { convertSetsToExercises } from '@/types/workout'
   import { ref, onMounted } from 'vue'
-  import { useRoute } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
   import { getWorkout, stringArrayToInt } from '@/requests/workout'
   import { getLog, updateLog } from '@/requests/log'
   import Error from '@/components/ErrorComponent.vue'
@@ -31,10 +31,13 @@
   const contentLoaded = ref(false)
   const errorOccurred = ref(false)
 
+  const router = useRouter()
+
   const update = async(sets:Set[]) => {
     try {
       errorOccurred.value = false
       await updateLog(logid.value, sets)
+      router.push('/')
     } catch(error) {
       errorOccurred.value = true
     }
