@@ -6,8 +6,8 @@ from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 from rest_framework.decorators import action
-from backend.auth.serializers import LoginSerializer, RegisterSerializer
-from backend.user.models import User
+from auth.serializers import LoginSerializer, RegisterSerializer
+from user.models import User
 
 class RegistrationViewSet(ModelViewSet, TokenObtainPairView):
     permission_classes = (AllowAny,)

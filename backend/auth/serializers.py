@@ -4,8 +4,8 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.settings import api_settings
 from django.contrib.auth import get_user_model
-from backend.user.models import User
-from backend.user.serializers import UserSerializer
+from user.models import User
+from user.serializers import UserSerializer
 
 
 User = get_user_model()
