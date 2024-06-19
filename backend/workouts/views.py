@@ -198,12 +198,27 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
     def update_log(self, request, pk=None):
         try:
             user_workout = User_Workouts.objects.get(pk=pk, username=request.user)
-            serializer = UserWorkoutsSerializer(user_workout, data=request.data, partial=True)
+            data = request.data
+            sets_data = data.pop('sets', [])
 
-            if serializer.is_valid():
-                serializer.perform_update(serializer)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            with transaction.atomic():
+                serializer = UserWorkoutsSerializer(user_workout, data=data, partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                    existing_set_ids = [set_data['id'] for set_data in sets_data if 'id' in set_data]
+                    User_Sets.objects.filter(user_workout_id=user_workout).exclude(id__in=existing_set_ids).delete()
+                    for set_data in sets_data:
+                        set_id = set_data.get('id')
+                        if set_id:
+                            set_instance = User_Sets.objects.get(id=set_id, user_workout_id=user_workout)
+                            set_instance.exercise = set_data.get('exercise', set_instance.exercise)
+                            set_instance.reps = set_data.get('reps', set_instance.reps)
+                            set_instance.weight = set_data.get('weight', set_instance.weight)
+                            set_instance.save()
+                        else:
+                            User_Sets.objects.create(user_workout_id=user_workout, username=request.user, **set_data)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except User_Workouts.DoesNotExist:
             return Response({'error': 'User workout log not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
