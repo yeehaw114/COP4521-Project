@@ -34,8 +34,8 @@
       <div class="text-subtitle-1 text-medium-emphasis">Account Tier</div>
       <v-col class="py-2" cols="12">
         <v-btn-toggle v-model="creds.role" color="teal-lighten-2" rounded="3" group>
-          <v-btn prepend-icon="mdi-account-outline" value="User">User</v-btn>
-          <v-btn prepend-icon="mdi-currency-usd" value="Trainer">Trainer</v-btn>
+          <v-btn prepend-icon="mdi-account-outline" value="Free">Free</v-btn>
+          <v-btn prepend-icon="mdi-currency-usd" value="Premium">Premium</v-btn>
           <v-btn prepend-icon="mdi-gavel" value="Admin">Admin</v-btn>
         </v-btn-toggle>
       </v-col>
@@ -58,7 +58,7 @@ const creds: Ref<RegisterCreds> = ref<RegisterCreds>({
   password: '',
   email: '',
   username: '',
-  role: 'User'
+  role: 'Free'
 })
 
 const emit = defineEmits<{
