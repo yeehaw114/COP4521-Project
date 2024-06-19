@@ -2,21 +2,25 @@
     <LogWorkout
       v-if="contentLoaded"
       :workoutid="workoutid"
+      update
       :name="name"
       :goalExercises="goalExercises"
       :loggedExercises="loggedExercises"
+      @action="update"
     />
+    <Error v-if="errorOccurred" text="Could not update log" />
   </template>
-  
-  <script setup lang="ts">
+
+<script setup lang="ts">
   import LogWorkout from '@/components/LogWorkout.vue'
-  import type { Workout, Exercise } from '@/types/workout'
+  import type { Workout, Set, Exercise } from '@/types/workout'
   import type { Ref } from 'vue'
   import { convertSetsToExercises } from '@/types/workout'
   import { ref, onMounted } from 'vue'
   import { useRoute } from 'vue-router'
   import { getWorkout, stringArrayToInt } from '@/requests/workout'
-  import { getLog } from '@/requests/log'
+  import { getLog, updateLog } from '@/requests/log'
+  import Error from '@/components/ErrorComponent.vue'
   
   const workoutid: Ref<number> = ref(0)
   const logid: Ref<number> = ref(0)
@@ -25,6 +29,16 @@
   const goalExercises: Ref<Exercise[]> = ref([])
   const loggedExercises: Ref<Exercise[]> = ref([])
   const contentLoaded = ref(false)
+  const errorOccurred = ref(false)
+
+  const update = async(sets:Set[]) => {
+    try {
+      errorOccurred.value = false
+      await updateLog(logid.value, sets)
+    } catch(error) {
+      errorOccurred.value = true
+    }
+  }
   
   onMounted(async () => {
     try {

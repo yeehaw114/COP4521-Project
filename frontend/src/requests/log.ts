@@ -81,3 +81,23 @@ export async function getUserLogs(): Promise<MiniLog[]> {
       return data
     })
 }
+
+export async function updateLog(logid:number, logSets:Set[]) {
+  const token = localStorage.getItem('jwt-token')
+  const req = {
+    sets: logSets
+  }
+  return await fetch(SERV_NAME + '/api/'+logid+'/update-log/', {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(req)
+  })
+  .then((response) => {
+    if(!response.ok) {
+      throw new Error(response.statusText)
+    }
+    return response.json()
+  })
+}

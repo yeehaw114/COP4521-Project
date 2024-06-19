@@ -57,17 +57,16 @@
         </v-row>
       </v-list-item>
     </v-list>
-    <Error v-if="errorOccured" text="Could not log workout" />
-    <v-btn class="mb-8" color="green" size="large" variant="tonal" @click="log" block>Log</v-btn>
+    <!-- Log or Update based on props.update -->
+    <v-btn v-if="!props.update" class="mb-8" color="green" size="large" variant="tonal" @click="log" block>Log</v-btn>
+    <v-btn v-else class="mb-8" color="green" size="large" variant="tonal" @click="log" block>Update</v-btn>
   </v-card>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { Ref } from 'vue'
-import { postLog } from '@/requests/log'
 import { type Workout, type Set, type Exercise, convertExercisesToSets } from '@/types/workout'
-import Error from '@/components/ErrorComponent.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -76,6 +75,11 @@ const props = defineProps<{
   goalExercises: Exercise[]
   loggedExercises: Exercise[]
   workoutid: number
+  update: boolean
+}>()
+
+const emits = defineEmits<{
+  (event: 'action', sets: Set[]): void;
 }>()
 
 const loggedExercises:Ref<Exercise[]> = ref(props.loggedExercises)
@@ -86,17 +90,8 @@ const workout: Ref<Workout> = ref({
   sets: []
 })
 
-const errorOccured = ref(false)
-
 const log = async () => {
-  try {
-    errorOccured.value = false
-    const sets = convertExercisesToSets(loggedExercises.value)
-    await postLog(props.workoutid, sets)
-    router.push('/')
-  } catch (error) {
-    console.error(error)
-    errorOccured.value = true
-  }
+  const sets = convertExercisesToSets(loggedExercises.value)
+  emits('action', sets)
 }
 </script>
