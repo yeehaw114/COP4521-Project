@@ -131,13 +131,11 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'], url_path='log-workout')
     def log_workout(self, request, pk=None):
-        workout_id = pk
         user = request.user
         data = request.data
 
         try:
-            workout = Workouts.objects.get(pk=workout_id)
-            user_workout = User_Workouts.objects.create(workout_id_id=workout_id, username=user)
+            user_workout = User_Workouts.objects.create(username=user)
 
             sets = data.get('sets', [])
             for set_data in sets:
@@ -145,12 +143,9 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
                 reps = set_data.get('reps')
                 weight = set_data.get('weight')
 
-                set_instance = Sets.objects.create(workout_id=workout, exercise=exercise, reps=reps, weight=weight)
-                User_Sets.objects.create(user_workout_id=user_workout, set_id=set_instance, reps=reps, weight=weight, username=user)
+                User_Sets.objects.create(user_workout_id=user_workout, exercise=exercise, reps=reps, weight=weight, username=user)
 
             return Response({'message': 'Workout logged successfully'}, status=status.HTTP_200_OK)
-        except Workouts.DoesNotExist:
-            return Response({'error': 'Workout not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
