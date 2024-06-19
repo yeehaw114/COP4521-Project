@@ -90,8 +90,10 @@ const errorOccured = ref(false)
 const log = async () => {
   try {
     errorOccured.value = false
-    const sets = convertExercisesToSets(loggedExercises.value)
-    await postLog(props.workoutid, sets)
+    workout.value.id = props.workoutid
+    workout.value.name = props.name
+    workout.value.sets = convertExercisesToSets(loggedExercises.value)
+    await postLog(workout.value)
     router.push('/')
   } catch (error) {
     console.error(error)

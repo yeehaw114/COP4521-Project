@@ -21,16 +21,16 @@ export async function getLog(id: number): Promise<Workout> {
     })
 }
 
-export async function postLog(id: number, log: Set[]) {
+export async function postLog(workout: Workout) {
   const token = localStorage.getItem('jwt-token')
-  console.log(log)
-  return await fetch(SERV_NAME + '/api/workouts/' + id + '/log-workout/', {
+  console.log(JSON.stringify(workout))
+  return await fetch(SERV_NAME + '/api/workouts/' + workout.id + '/log-workout/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`
     },
-    body: JSON.stringify(log)
+    body: JSON.stringify(workout)
   }).then((response) => {
     if (!response.ok) {
       throw new Error(response.statusText)

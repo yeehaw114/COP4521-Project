@@ -1,9 +1,9 @@
 <template>
   <v-card class="mx-auto pa-6" elevation="15" max-width="800" rounded="lg">
-    <div class="text-h3">{{ props.workout.name }}</div>
+    <div class="text-h3">{{ props.name }}</div>
     <v-divider></v-divider>
     <v-list>
-      <v-list-item v-if="contentLoaded" v-for="(e, ei) in exercises" :key="ei">
+      <v-list-item v-if="contentLoaded" v-for="(e, ei) in goalExercises" :key="ei">
         <div class="text-h4">{{ e.name }}<v-icon icon="mdi-chevron-right"></v-icon></div>
         <v-row>
           <v-col v-for="(s, si) in e.sets" :key="si" cols="6">
@@ -32,16 +32,9 @@ const goalExercises: Ref<Exercise[]> = ref([])
 const contentLoaded = ref(false)
 
 const props = defineProps<{
-  workout: Workout
-  goalWorkout: Workout
+  name: string
+  goal: Exercise[]
+  logged: Exercise[]
 }>()
 
-onUpdated(() => {
-  console.log(props.workout)
-  exercises.value = convertSetsToExercises(props.workout.sets)
-  goalExercises.value = convertSetsToExercises(props.goalWorkout.sets)
-  console.log(props.goalWorkout)
-  console.log(exercises.value)
-  contentLoaded.value = true
-})
 </script>

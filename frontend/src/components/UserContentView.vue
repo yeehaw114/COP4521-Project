@@ -13,7 +13,8 @@
     <div class="text-h6" v-if="userLogs.length == 0">No workouts logged yet.</div>
     <div></div>
   </div>
-  <SuccessfulSnackbar v-model="success" text="Successfully deleted workout" />
+  <SuccessfulSnackbar v-model="deleteWorkoutSuccess" text="Successfully deleted workout" />
+  <SuccessfulSnackbar v-model="deleteLogSuccess" text="Successfully deleted log" />
 </template>
 
 <script setup lang="ts">
@@ -33,16 +34,18 @@ const errorOccured = ref(false)
 const userWorkouts: Ref<MiniWorkout[]> = ref([])
 const userLogs: Ref<MiniLog[]> = ref([])
 
-const success = ref(false)
+const deleteLogSuccess = ref(false)
+
+const deleteWorkoutSuccess = ref(false)
 
 const refetchLogs = async () => {
   userLogs.value = await getUserLogs()
-  success.value = true
+  deleteLogSuccess.value = true
 }
 
 const refetchWorkouts = async () => {
   userWorkouts.value = await getUserWorkouts()
-  success.value = true
+  deleteWorkoutSuccess.value = true
 }
 
 onMounted(async () => {
