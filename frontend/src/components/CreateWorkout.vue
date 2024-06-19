@@ -63,7 +63,7 @@
         <v-text-field v-model="newExercise.name" label="New Exercise" outlined></v-text-field>
       </v-col>
       <v-col cols="auto">
-        <v-btn rounded="0" icon="mdi-plus" @click="appendExercise"></v-btn>
+        <v-btn rounded="0" color="green" icon="mdi-plus" @click="appendExercise"></v-btn>
       </v-col>
     </v-row>
     <v-btn class="mb-8" color="green" size="large" variant="tonal" @click="createWorkout" block
