@@ -145,7 +145,7 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
                 reps = set_data.get('reps')
                 weight = set_data.get('weight')
 
-                set_instance = Sets.objects.get(workout_id=workout, exercise=exercise)
+                set_instance = Sets.objects.create(workout_id=workout, exercise=exercise, reps=reps, weight=weight)
                 User_Sets.objects.create(user_workout_id=user_workout, set_id=set_instance, reps=reps, weight=weight, username=user)
 
             return Response({'message': 'Workout logged successfully'}, status=status.HTTP_200_OK)
