@@ -60,6 +60,25 @@ export async function getUserWorkouts(): Promise<MiniWorkout[]> {
     })
 }
 
+export async function getAllWorkouts(): Promise<MiniWorkout[]> {
+  const token = localStorage.getItem('jwt-token')
+  return await fetch(SERV_NAME + '/api/workouts/all-templates/', {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.statusText)
+    }
+    return response.json()
+  })
+  .then((data:MiniWorkout[]) => {
+    return data
+  })
+}
+
 export async function deleteWorkout(id: number) {
   const token = localStorage.getItem('jwt-token')
   await fetch(SERV_NAME + '/api/workouts/' + id + '/', {
