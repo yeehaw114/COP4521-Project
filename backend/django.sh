@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "Waiting for 20 seconds..."
-sleep 10
+echo "Waiting for 5 seconds..."
+sleep 5
 echo "Done waiting, proceeding with migrations and server startup..."
 
 echo "Creating migrations..."
@@ -39,7 +39,7 @@ fi
 echo ======================
 
 echo "Starting Server..."
-if python3 manage.py runserver 0.0.0.0:8000; then
+if python3 manage.py runserver 0.0.0.0:8080; then
     echo "Server started successfully."
 else
     echo "Error starting server."
