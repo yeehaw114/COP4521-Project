@@ -1,13 +1,28 @@
 #!/bin/bash
 
 echo "Creating migrations..."
-python3 manage.py makemigrations
+if python3 manage.py makemigrations; then
+    echo "Migrations created successfully."
+else
+    echo "Error creating migrations."
+    exit 1
+fi
 echo ======================
 
 echo "Starting migrations..."
-python3 manage.py migrate
+if python3 manage.py migrate; then
+    echo "Migrations applied successfully."
+else
+    echo "Error applying migrations."
+    exit 1
+fi
 echo ======================
 
 echo "Starting Server..."
-python3 manage.py runserver 0.0.0.0:8080
+if python3 manage.py runserver 0.0.0.0:8080; then
+    echo "Server started successfully."
+else
+    echo "Error starting server."
+    exit 1
+fi
 echo ===================================

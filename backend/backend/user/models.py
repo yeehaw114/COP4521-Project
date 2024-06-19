@@ -1,16 +1,17 @@
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, Permission, Group
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.conf import settings
 
 class Role(models.Model):
     ROLE_CHOICES = [
         ('Admin', 'Admin'),
-        ('Trainer', 'Trainer'),
-        ('User', 'User'),
+        ('Premium', 'Premium'),
+        ('Free', 'Free'),
     ]
 
     name = models.CharField(max_length=50, choices=ROLE_CHOICES, unique=True, verbose_name='Role')
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='user_roles', verbose_name='Users with this Role')
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='role_users', verbose_name='Users with this Role')
+    permissions = models.ManyToManyField(Permission, related_name='role_permissions', verbose_name='Permissions for this Role')
 
     def __str__(self):
         return self.name
@@ -18,6 +19,7 @@ class Role(models.Model):
     class Meta:
         verbose_name = 'Role'
         verbose_name_plural = 'Roles'
+
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **kwargs):
@@ -33,10 +35,11 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(db_index=True, max_length=255, unique=True)
     email = models.EmailField(db_index=True, max_length=255, unique=True)
-    roles = models.ManyToManyField(Role, related_name='role_users')  # Changed related_name to 'role_users'
+    roles = models.ManyToManyField(Role, related_name='role_users')
 
     objects = UserManager()
 
