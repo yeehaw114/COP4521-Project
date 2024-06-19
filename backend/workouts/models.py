@@ -31,10 +31,10 @@ class User_Workouts(models.Model):
 class User_Sets(models.Model):
     id = models.AutoField(primary_key=True)
     user_workout_id = models.ForeignKey(User_Workouts, on_delete=models.CASCADE)
-    set_id = models.ForeignKey(Sets, on_delete=models.CASCADE)
+    exercise = models.CharField()
     reps = models.SmallIntegerField()
     weight = models.SmallIntegerField()
     username = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"User_Set(user={self.username}, set={self.set_id}, reps={self.reps}, weight={self.weight})"
+        return f"User_Set(user={self.username}, exercise={self.exercise}, reps={self.reps}, weight={self.weight})"
