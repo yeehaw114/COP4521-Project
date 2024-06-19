@@ -2,7 +2,6 @@ from rest_framework import serializers
 from .models import Workouts, Sets, User_Workouts, User_Sets
 
 class UserSetsSerializer(serializers.ModelSerializer):
-    exercise = serializers.CharField(source='set_id.exercise', read_only=True)
     class Meta:
         model = User_Sets
         fields = ['id', 'exercise', 'reps', 'weight']
@@ -20,11 +19,8 @@ class UserWorkoutsSerializer(serializers.ModelSerializer):
             request_user = self.context['request'].user
             instance = User_Workouts.objects.create(username=request_user, **validated_data)
 
-            if 'sets' in validated_data:
-                for set_data in sets_data:
-                    exercise = set_data.pop('exercise')
-                    set_instance = Sets.objects.get_or_create(workout_id=instance.workout_id, exercise=exercise, default={'reps': set_data.get('reps', 0), 'weight': set_data.get('weight', 0)})
-                    User_Sets.objects.create(user_workout_id=instance, set_id=set_instance, **set_data)
+            for set_data in sets_data:
+                User_Sets.objects.create(user_workout_id=instance, **set_data)
             return instance
 
 class SetsSerializer(serializers.ModelSerializer):
