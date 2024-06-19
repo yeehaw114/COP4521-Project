@@ -49,6 +49,7 @@ const refetchLogs = async () => {
 
 const refetchWorkouts = async () => {
   userWorkouts.value = await getUserWorkouts()
+  userLogs.value = await getUserLogs()
   deleteWorkoutSuccess.value = true
 }
 

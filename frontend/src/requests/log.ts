@@ -3,7 +3,7 @@ import type { Workout, Set, MiniLog, Log } from '@/types/workout'
 
 export async function getLog(id: number): Promise<Log[]> {
   const token = localStorage.getItem('jwt-token')
-  return await fetch(SERV_NAME + '/api/workouts/' + id + '/log/', {
+  return await fetch(SERV_NAME + '/api/workouts/' + id + '/log-workout/', {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`
