@@ -154,10 +154,14 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
                 reps = set_data.get('reps')
                 weight = set_data.get('weight')
 
-                set_instance = Sets.objects.create(workout_id=workout, exercise=exercise, reps=reps, weight=weight)
+                set_instance = Sets.objects.get(workout_id=workout, exercise=exercise)
                 User_Sets.objects.create(user_workout_id=user_workout, set_id=set_instance, reps=reps, weight=weight, username=user)
 
             return Response({'message': 'Workout logged successfully'}, status=status.HTTP_200_OK)
+        except Sets.DoesNotExist:
+            return Response({'error': 'One or more exercises do not exist in the workout template'}, status=status.HTTP_400_BAD_REQUEST)
+        except Workouts.DoesNotExist:
+            return Response({'error': 'Workout not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
