@@ -21,16 +21,25 @@ export async function getLog(id: number): Promise<Workout> {
     })
 }
 
-export async function postLog(workout: Workout) {
+const replacer = (key:any, value:any) => {
+  if(key==="id") {
+    return undefined
+  }
+  return value
+}
+
+export async function postLog(workoutid:number, s: Set[]) { 
+  const req = {
+    sets: s
+  } 
   const token = localStorage.getItem('jwt-token')
-  console.log(JSON.stringify(workout))
-  return await fetch(SERV_NAME + '/api/workouts/' + workout.id + '/log-workout/', {
+  return await fetch(SERV_NAME + '/api/workouts/' + workoutid + '/log-workout/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`
     },
-    body: JSON.stringify(workout)
+    body: JSON.stringify(req)
   }).then((response) => {
     if (!response.ok) {
       throw new Error(response.statusText)
