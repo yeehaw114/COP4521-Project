@@ -24,7 +24,6 @@ class UserSetsViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
-
     @action(detail=False, methods=['delete'])
     def clear(self, request):
         queryset = self.queryset.filter(username=self.request.user)
@@ -137,16 +136,18 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
         data = request.data
 
         try:
-            user_workout = User_Workouts.objects.create(workout_id_id=workout_id, username=user)
+            with transaction.atomic():
+                user_workout = User_Workouts.objects.create(workout_id_id=workout_id, username=user)
 
-            sets = data.get('sets', [])
-            for set_data in sets:
-                exercise = set_data.get('exercise')
-                reps = set_data.get('reps')
-                weight = set_data.get('weight')
-
-                set_instance, created = Sets.objects.get_or_create(workout_id=workout_id, exercise=exercise, defaults={'reps': reps, 'weight': weight})
-                User_Sets.objects.create(user_workout_id=user_workout, set_id=set_instance, reps=reps, weight=weight, username=user)
+                sets = data.get('sets', [])
+                for set_data in sets:
+                    User_Sets.objects.create(
+                        user_workout_id=user_workout,
+                        username=user,
+                        exercise=set_data.get('exercise'),
+                        reps=set_data.get('reps'),
+                        weight=set_data.get('weight')
+                    )
 
             return Response({'message': 'Workout logged successfully'}, status=status.HTTP_200_OK)
         except Exception as e:
@@ -154,49 +155,80 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
         
     @action(detail=True, methods=['get'], url_path='log')
     def get_log(self, request, pk=None):
-        workout_id = pk
+        log_id = pk
         user = request.user
 
         try:
-            user_workouts = User_Workouts.objects.filter(workout_id_id=workout_id, username=user)
-
-            if not user_workouts.exists():
-                return Response({'error': 'User workout log not found'}, status=status.HTTP_404_NOT_FOUND)
+            user_workout = User_Workouts.objects.get(id=log_id, username=user)
             
-            response_data = []
+            user_sets = User_Sets.objects.filter(user_workout_id=user_workout)
+            serializer = UserSetsSerializer(user_sets, many=True)
 
-            for user_workout in user_workouts:
-                user_sets = User_Sets.objects.filter(user_workout_id=user_workout)
+            workout_data = {
+                "name": user_workout.workout_id.name,
+                "done_date": user_workout.done_date,
+                "sets": serializer.data
+            }
 
-                serializer = UserSetsSerializer(user_sets, many=True)
-                workout_data = {
-                    "name": user_workout.workout_id.name,
-                    "done_date": user_workout.done_date,
-                    "sets": serializer.data
-                }
-                response_data.append(workout_data)
-
-            return Response(response_data, status=status.HTTP_200_OK)
+            return Response(workout_data, status=status.HTTP_200_OK)
+        except User_Workouts.DoesNotExist:
+            return Response({'error': 'User workout log not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=['delete'], url_path='delete-log')
     def delete_log(self, request, pk=None):
-        workout_id = pk
+        log_id = pk
         user = request.user
 
         try:
-            user_workouts = User_Workouts.objects.filter(workout_id_id=workout_id, username=user)
-
-            if not user_workouts.exists():
-                return Response({'error': 'User workout log not found'}, status=status.HTTP_404_NOT_FOUND)
+            user_workout = User_Workouts.objects.get(id=log_id, username=user)
             
             with transaction.atomic():
-                for user_workout in user_workouts:
-                    User_Sets.objects.filter(user_workout_id=user_workout).delete()
-                    user_workout.delete()
+                User_Sets.objects.filter(user_workout_id=user_workout).delete()
+                user_workout.delete()
 
             return Response({'message': 'User workout log deleted successfully'}, status=status.HTTP_200_OK)
+        except User_Workouts.DoesNotExist:
+            return Response({'error': 'User workout log not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+    @action(detail=True, methods=['put'], url_path='update-log')
+    def update_log(self, request, pk=None):
+        try:
+            user_workout = User_Workouts.objects.get(pk=pk, username=request.user)
+            data = request.data
+            sets_data = data.pop('sets', [])
+
+            with transaction.atomic():
+                user_workout.done_date = data.get('done_date', user_workout.done_date)
+                user_workout.save()
+
+                existing_set_ids = [set_item['id'] for set_item in sets_data if 'id' in set_item]
+                User_Sets.objects.filter(user_workout_id=user_workout).exclude(id__in=existing_set_ids).delete()
+
+                for set_data in sets_data:
+                    set_id = set_data.get('id')
+                    if set_id:
+                        set_instance = User_Sets.objects.get(id=set_id, user_workout_id=user_workout)
+                        set_instance.exercise = set_data.get('exercise', set_instance.exercise)
+                        set_instance.reps = set_data.get('reps', set_instance.reps)
+                        set_instance.weight = set_data.get('weight', set_instance.weight)
+                        set_instance.save()
+                    else:
+                        User_Sets.objects.create(
+                            user_workout_id=user_workout,
+                            username=request.user,
+                            exercise=set_data.get('exercise'),
+                            reps=set_data.get('reps'),
+                            weight=set_data.get('weight')
+                        )
+                    
+                serializer = UserWorkoutsSerializer(user_workout)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+        except User_Workouts.DoesNotExist:
+            return Response({'error': 'User workout log not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
