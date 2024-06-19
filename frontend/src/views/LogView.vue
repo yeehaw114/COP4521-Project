@@ -25,14 +25,14 @@
       const workoutid = stringArrayToInt(useRoute().params.workoutid as string[])
       const logid = stringArrayToInt(useRoute().params.logid as string[])
 
-
-      const loggedWorkout = await getWorkout(workoutid)
-      loggedExercises.value = convertSetsToExercises(loggedWorkout.sets)
-
-      const goalWorkout = await getLog(logid)
+      const goalWorkout = await getWorkout(workoutid)
       goalExercises.value = convertSetsToExercises(goalWorkout.sets)
+      console.log(goalExercises.value)
+      const loggedWorkout = await getLog(logid)
+      loggedExercises.value = convertSetsToExercises(loggedWorkout[0].sets)
+      console.log(loggedExercises.value)
 
-      name.value = loggedWorkout.name
+      name.value = loggedWorkout[0].name
 
       contentLoaded.value = true
     } catch(error) {

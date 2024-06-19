@@ -3,15 +3,15 @@
     <div class="text-h3">{{ props.name }}</div>
     <v-divider></v-divider>
     <v-list>
-      <v-list-item v-if="contentLoaded" v-for="(e, ei) in goalExercises" :key="ei">
+      <v-list-item v-for="(e, ei) in props.goal" :key="ei">
         <div class="text-h4">{{ e.name }}<v-icon icon="mdi-chevron-right"></v-icon></div>
         <v-row>
           <v-col v-for="(s, si) in e.sets" :key="si" cols="6">
             <div class="py-3">
               <v-card class="mx-auto pa-3" elevation="3" max-width="300" rounded="md">
                 <div class="text-body-1">
-                  {{ si + 1 }}. Reps: {{ s.reps }}/{{ goalExercises[ei].sets[si].reps }}<v-icon icon="mdi-counter"></v-icon> Weight:
-                  {{ s.weight }}/{{ goalExercises[ei].sets[si].reps }}<v-icon icon="mdi-weight-pound"></v-icon>
+                  {{ si + 1 }}. Reps: {{ s.reps }}/{{ props.goal[ei].sets[si].reps }}<v-icon icon="mdi-counter"></v-icon> Weight:
+                  {{ s.weight }}/{{ props.goal[ei].sets[si].weight }}<v-icon icon="mdi-weight-pound"></v-icon>
                 </div>
               </v-card>
             </div>
@@ -27,14 +27,9 @@ import { type Workout, type Exercise, convertSetsToExercises } from '@/types/wor
 import type { Ref } from 'vue'
 import { onUpdated, ref } from 'vue'
 
-const exercises: Ref<Exercise[]> = ref([])
-const goalExercises: Ref<Exercise[]> = ref([])
-const contentLoaded = ref(false)
-
 const props = defineProps<{
   name: string
   goal: Exercise[]
   logged: Exercise[]
 }>()
-
 </script>

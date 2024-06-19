@@ -4,6 +4,12 @@ export type Workout = {
   sets: Set[]
 }
 
+export type Log = {
+  name: string
+  done_date: Date
+  sets: Set[]
+}
+
 export type CreateWorkout = {
   name: string
   sets: Set[]
