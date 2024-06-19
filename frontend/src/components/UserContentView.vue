@@ -2,15 +2,19 @@
   <Error v-if="errorOccured" text="Could not load resources." />
   <div v-if="contentLoaded">
     <div class="text-h4">My Workouts</div>
-    <v-col v-for="w in userWorkouts" cols="12">
-      <MiniWorkoutView @delete="refetchWorkouts" :workout="w" />
-    </v-col>
     <div class="text-h6" v-if="userWorkouts.length == 0">No workouts created yet.</div>
+    <v-row>
+      <v-col v-for="w in userWorkouts" cols="4">
+        <MiniWorkoutView @delete="refetchWorkouts" :workout="w" />
+      </v-col>
+    </v-row>
     <div class="text-h4">My Logs</div>
-    <div v-for="l in userLogs" cols="12">
-      <MiniLogView @delete="refetchLogs" :log="l" />
-    </div>
     <div class="text-h6" v-if="userLogs.length == 0">No workouts logged yet.</div>
+    <v-row>
+      <v-col v-for="l in userLogs" cols="4">
+        <MiniLogView @delete="refetchLogs" :log="l" />
+      </v-col>
+    </v-row>
     <div></div>
   </div>
   <SuccessfulSnackbar v-model="deleteWorkoutSuccess" text="Successfully deleted workout" />

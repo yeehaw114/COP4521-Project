@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-4" style="max-width: 400px">
+  <v-container class="pa-4" style="max-width: 350px">
     <v-card>
       <v-card-title class="d-flex justify-center">
         <h2>{{ props.workout.name }}</h2>
