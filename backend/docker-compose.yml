@@ -1,4 +1,16 @@
 services:
+  db:
+    container_name: db
+    image: postgres:12
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=localhost
+    ports:
+      - "5432:5432"
+    networks:
+      - work-network
   workout:
     container_name: workoutapp
     build: .
@@ -14,19 +26,9 @@ services:
       - db
     networks:
       - work-network
-  db:
-    container_name: db
-    image: postgres:12
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_HOST=localhost
-    ports:
-      - "5432:5432"
-    networks:
-      - work-network
 networks:
   work-network:
     name: work-network
     driver: bridge
+  
+  

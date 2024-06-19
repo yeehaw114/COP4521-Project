@@ -11,8 +11,12 @@ COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . ./
+# Copy the rest of the application code including django.sh and wait-for-it.py
+COPY . .
+
+# Ensure the django.sh script is executable
+RUN chmod +x ./django.sh
 
 EXPOSE 8080
-RUN chmod +x ./django.sh
-ENTRYPOINT [ "./django.sh" ] 
+
+CMD ["./django.sh"]
