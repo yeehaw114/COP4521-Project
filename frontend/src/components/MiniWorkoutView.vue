@@ -7,18 +7,18 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          color="primary"
-          prepend-icon="mdi-eye-circle-outline"
-          link
-          :to="`/workout/${props.workout.id}`"
-          >View</v-btn
-        >
-        <v-btn
           color="secondary"
           prepend-icon="mdi-weight-lifter"
           link
           :to="`/workout/${props.workout.id}/log`"
           >Log</v-btn
+        >
+        <v-btn
+          color="primary"
+          prepend-icon="mdi-eye-circle-outline"
+          link
+          :to="`/workout/${props.workout.id}`"
+          >View</v-btn
         >
         <v-btn color="red" prepend-icon="mdi-delete-outline" link @click="deleteWork">Delete</v-btn>
         <v-spacer></v-spacer>
