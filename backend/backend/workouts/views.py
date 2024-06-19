@@ -5,7 +5,6 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from backend.workouts.models import Workouts, Sets, User_Workouts, User_Sets
 from backend.workouts.serializers import WorkoutsSerializer, SetsSerializer, UserWorkoutsSerializer, UserSetsSerializer
-from backend.custom_auth.decorators import has_permission
 
 class UserSetsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)

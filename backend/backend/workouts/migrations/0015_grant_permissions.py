@@ -25,15 +25,13 @@ def grant_permissions(apps, schema_editor):
         """)
         # Granting specific permissions to Premium
         cursor.execute("""
-            GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE workouts_workouts TO premium;
+            GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE workouts TO premium;
             GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE workouts_sets TO premium;
-            GRANT SELECT ON TABLE workouts_user_sets TO premium;
-            GRANT SELECT ON TABLE workouts_user_workouts TO premium;
+            GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE workouts_user_sets TO premium;
+            GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE workouts_user_workouts TO premium;
         """)
         # Granting specific permissions to Free
         cursor.execute("""
-            GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE workouts_user_sets TO free;
-            GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE workouts_user_workouts TO free;
             GRANT SELECT ON TABLE workouts_workouts TO free;
             GRANT SELECT ON TABLE workouts_sets TO free;
         """)
@@ -42,8 +40,8 @@ def grant_permissions(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workouts', '0001_initial'),
-        ('user', '0014_role_permissions'),
+        ('workouts', '0001_initial'),  # Ensure correct dependency
+
     ]
 
     operations = [
