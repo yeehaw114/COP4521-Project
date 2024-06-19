@@ -85,7 +85,7 @@ class SetsViewSet(viewsets.ModelViewSet):
     
 class WorkoutsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
-    http_method_names = ['get', 'post', 'delete']
+    http_method_names = ['get', 'post', 'put', 'delete']
     serializer_class = WorkoutsSerializer
     queryset = Workouts.objects.all()
 
