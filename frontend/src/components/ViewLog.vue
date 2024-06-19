@@ -10,8 +10,8 @@
             <div class="py-3">
               <v-card class="mx-auto pa-3" elevation="3" max-width="300" rounded="md">
                 <div class="text-body-1">
-                  {{ si + 1 }}. Reps: {{ s.reps }}/{{ props.goal[ei].sets[si].reps }}<v-icon icon="mdi-counter"></v-icon> Weight:
-                  {{ s.weight }}/{{ props.goal[ei].sets[si].weight }}<v-icon icon="mdi-weight-pound"></v-icon>
+                  {{ si + 1 }}. Reps: <span :style="{ color: s.reps < props.goal[ei].sets[si].reps ? 'red' : ''}">{{ s.reps }}</span>/{{ props.goal[ei].sets[si].reps }}<v-icon icon="mdi-counter"></v-icon> Weight:
+                  <span :style="{ color: s.weight < props.goal[ei].sets[si].weight ? 'red' : ''}">{{ s.weight }}</span>/{{ props.goal[ei].sets[si].weight }}<v-icon icon="mdi-weight-pound"></v-icon>
                 </div>
               </v-card>
             </div>
