@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'user',
     'workouts',
+    'auth',
 ]
 
 MIDDLEWARE = [
@@ -45,6 +46,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'middleware.middleware.RoleBasedDatabaseMiddleware',
 ]
 
 CORS_ORIGIN_WHITELIST = [
@@ -124,8 +126,47 @@ DATABASES = {
         'NAME': os.environ.get('PG_DB', 'postgres'),
         'PORT': os.environ.get('PG_PORT', '5432'),
         'HOST': os.environ.get('PG_HOST', 'localhost')
+    },
+    'admin': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'your_database',
+        'USER': 'admin_user',
+        'PASSWORD': 'admin_password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    },
+    'premium': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'your_database',
+        'USER': 'premium_user',
+        'PASSWORD': 'premium_password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    },
+    'free': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'your_database',
+        'USER': 'free_user',
+        'PASSWORD': 'free_password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    },
+}
+DATABASE_ROLES = {
+    'admin': {
+        'USER': 'app_admin',
+        'PASSWORD': 'admin_password',
+    },
+    'premium': {
+        'USER': 'app_premium',
+        'PASSWORD': 'premium_password',
+    },
+    'free': {
+        'USER': 'app_free',
+        'PASSWORD': 'free_password',
     }
 }
+
 
 
 # Password validation
