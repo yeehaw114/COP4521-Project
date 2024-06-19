@@ -135,15 +135,17 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
         data = request.data
 
         try:
-            user_workout = User_Workouts.objects.create(username=user)
+            user_workout_serializer = UserWorkoutsSerializer(data={'username': user.id})
+            user_workout_serializer.is_valid(raise_exception=True)
+            user_workout = user_workout_serializer.save()
 
             sets = data.get('sets', [])
             for set_data in sets:
-                exercise = set_data.get('exercise')
-                reps = set_data.get('reps')
-                weight = set_data.get('weight')
-
-                User_Sets.objects.create(user_workout_id=user_workout, exercise=exercise, reps=reps, weight=weight, username=user)
+                set_data['user_workout_id'] = user_workout.id
+                set_data['username'] = user.id
+                user_set_serializer = UserSetsSerializer(data=set_data)
+                user_set_serializer.is_valid(raise_exception=True)
+                user_set_serializer.save()
 
             return Response({'message': 'Workout logged successfully'}, status=status.HTTP_200_OK)
         except Exception as e:
