@@ -1,11 +1,9 @@
-# backend/user/migrations/0001_initial.py
-
-from django.conf import settings
 from django.db import migrations, models
+from django.conf import settings
 from django.contrib.auth.models import Permission
 
 def create_initial_roles(apps, schema_editor):
-    Role = apps.get_model('backend.user', 'Role')
+    Role = apps.get_model('user', 'Role')
     Permission = apps.get_model('auth', 'Permission')
 
     admin_role = Role.objects.create(name='Admin')
@@ -15,20 +13,20 @@ def create_initial_roles(apps, schema_editor):
     all_permissions = Permission.objects.filter(codename__in=[
         'can_view_workouts', 'can_edit_workouts', 'can_delete_workouts',
         'can_view_sets', 'can_edit_sets', 'can_delete_sets',
-        'can_view_userworkouts', 'can_edit_userworkouts', 'can_delete_userworkouts',
-        'can_view_usersets', 'can_edit_usersets', 'can_delete_usersets',
+        'can_view_user_workouts', 'can_edit_user_workouts', 'can_delete_user_workouts',
+        'can_view_user_sets', 'can_edit_user_sets', 'can_delete_user_sets',
     ])
 
     trainer_permissions = Permission.objects.filter(codename__in=[
         'can_view_workouts', 'can_edit_workouts', 'can_delete_workouts',
         'can_view_sets', 'can_edit_sets', 'can_delete_sets',
-        'can_view_userworkouts', 'can_view_usersets'
+        'can_view_user_workouts', 'can_view_user_sets'
     ])
 
     user_permissions = Permission.objects.filter(codename__in=[
         'can_view_workouts', 'can_view_sets',
-        'can_view_userworkouts', 'can_edit_userworkouts', 'can_delete_userworkouts',
-        'can_view_usersets', 'can_edit_usersets', 'can_delete_usersets',
+        'can_view_user_workouts', 'can_edit_user_workouts', 'can_delete_user_workouts',
+        'can_view_user_sets', 'can_edit_user_sets', 'can_delete_user_sets',
     ])
 
     admin_role.permissions.set(all_permissions)
@@ -39,7 +37,9 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = []
+    dependencies = [
+        ('auth', '0012_alter_user_first_name_max_length'),  # Ensure this matches your last auth migration
+    ]
 
     operations = [
         migrations.CreateModel(
@@ -51,7 +51,7 @@ class Migration(migrations.Migration):
                 ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
                 ('username', models.CharField(db_index=True, max_length=255, unique=True)),
                 ('email', models.EmailField(db_index=True, max_length=255, unique=True)),
-                ('role', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
+                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
                 ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),
             ],
             options={
@@ -63,13 +63,17 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(choices=[('Admin', 'Admin'), ('Trainer', 'Trainer'), ('User', 'User')], max_length=50, unique=True, verbose_name='Role')),
-                ('users', models.ManyToManyField(related_name='roles', to=settings.AUTH_USER_MODEL, verbose_name='Users with this Role')),
+                ('users', models.ManyToManyField(related_name='user_roles', to=settings.AUTH_USER_MODEL, verbose_name='Users with this Role')),  # Changed related_name to 'user_roles'
             ],
             options={
                 'verbose_name': 'Role',
                 'verbose_name_plural': 'Roles',
             },
         ),
-        
+        migrations.AddField(
+            model_name='user',
+            name='roles',
+            field=models.ManyToManyField(to='user.Role', related_name='role_users'),  # Corrected to point to 'user.Role' and changed related_name to 'role_users'
+        ),
         migrations.RunPython(create_initial_roles),  # Added custom operation
     ]
