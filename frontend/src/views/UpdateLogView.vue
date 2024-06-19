@@ -3,7 +3,8 @@
       v-if="contentLoaded"
       :workoutid="workoutid"
       :name="workout.name"
-      :exercises="exercises"
+      :goalExercises="exercises"
+      :loggedExercises="JSON.parse(JSON.stringify(exercises))"
     />
   </template>
   
@@ -17,7 +18,10 @@
   import { getWorkout, stringArrayToInt } from '@/requests/workout'
   
   const workoutid: Ref<number> = ref(0)
-  const exercises: Ref<Exercise[]> = ref([])
+  const logid: Ref<number> = ref(0)
+
+  const workoutExercises: Ref<Exercise[]> = ref([])
+  const loggedExercises: Ref<Exercise[]> = ref([])
   const contentLoaded = ref(false)
   const workout: Ref<Workout> = ref({
     name: '',
@@ -28,12 +32,17 @@
   onMounted(async () => {
     try {
       workoutid.value = stringArrayToInt(useRoute().params.workoutid as string[])
+      logid.value = stringArrayToInt(useRoute().params.logid as string[])
       try {
         if (isNaN(workoutid.value)) {
           throw new Error('Invalid workout id')
         }
         workout.value = await getWorkout(workoutid.value)
-        exercises.value = convertSetsToExercises(workout.value.sets)
+        logWorkout.value = await getLog(logid.value)
+
+        workoutExercises.value = convertSetsToExercises(workout.value.sets)
+        loggedExercises.value = convertExercisesToSets(logWorkout.value.sets)
+        
         contentLoaded.value = true
       } catch (error) {
         console.error(error)

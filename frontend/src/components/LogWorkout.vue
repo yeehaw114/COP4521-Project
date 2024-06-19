@@ -16,7 +16,7 @@
                   v-model="s.reps"
                   step="1"
                   :min="0"
-                  :max="props.exercises[ei].sets[si].reps"
+                  :max="props.goalExercises[ei].sets[si].reps"
                 >
                   <template v-slot:append>
                     <v-text-field
@@ -24,7 +24,7 @@
                       density="compact"
                       style="width: 100px"
                       :min="0"
-                      :max="props.exercises[ei].sets[si].reps"
+                      :max="props.goalExercises[ei].sets[si].reps"
                       type="number"
                       hide-details
                     ></v-text-field>
@@ -36,7 +36,7 @@
                   v-model="s.weight"
                   step="5"
                   :min="0"
-                  :max="props.exercises[ei].sets[si].weight"
+                  :max="props.goalExercises[ei].sets[si].weight"
                 >
                   <template v-slot:append>
                     <v-text-field
@@ -45,7 +45,7 @@
                       density="compact"
                       style="width: 100px"
                       :min="0"
-                      :max="props.exercises[ei].sets[si].weight"
+                      :max="props.goalExercises[ei].sets[si].weight"
                       type="number"
                       hide-details
                     ></v-text-field>
@@ -73,17 +73,18 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const props = defineProps<{
   name: string
-  exercises: Exercise[]
+  goalExercises: Exercise[]
+  loggedExercises: Exercise[]
   workoutid: number
 }>()
+
+const loggedExercises:Ref<Exercise[]> = ref(props.loggedExercises)
 
 const workout: Ref<Workout> = ref({
   name: '',
   id: 0,
   sets: []
 })
-
-const loggedExercises: Ref<Exercise[]> = ref(JSON.parse(JSON.stringify(props.exercises)))
 
 const errorOccured = ref(false)
 

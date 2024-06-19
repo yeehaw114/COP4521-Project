@@ -3,7 +3,8 @@
     v-if="contentLoaded"
     :workoutid="workoutid"
     :name="workout.name"
-    :exercises="exercises"
+    :goalExercises="exercises"
+    :loggedExercises="JSON.parse(JSON.stringify(exercises))"
   />
 </template>
 
