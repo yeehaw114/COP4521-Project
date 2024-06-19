@@ -6,7 +6,13 @@
       </v-card-title>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="secondary" prepend-icon="mdi-update" link :to="`/workout/${props.log.workout_id}/log/${props.log.id}/update`">Update</v-btn>
+        <v-btn
+          color="secondary"
+          prepend-icon="mdi-update"
+          link
+          :to="`/workout/${props.log.workout_id}/log/${props.log.id}/update`"
+          >Update</v-btn
+        >
         <v-btn
           color="primary"
           prepend-icon="mdi-eye-circle-outline"
@@ -24,6 +30,7 @@
 <script setup lang="ts">
 import { deleteLog } from '@/requests/log'
 import type { MiniLog } from '@/types/workout'
+import { formatTime } from '@/helpers/format'
 
 const props = defineProps<{
   log: MiniLog
@@ -42,22 +49,6 @@ const delLog = async () => {
     console.error(error)
   }
 }
-
-const formatTime = (timeString:string): string => {
-
-    const [hours, minutes, secondsWithMicroseconds] = timeString.split(':');
-    const [seconds, microseconds] = secondsWithMicroseconds.split('.');
-
-    const date = new Date();
-    date.setHours(parseInt(hours));
-    date.setMinutes(parseInt(minutes));
-    date.setSeconds(parseInt(seconds));
-    date.setMilliseconds(parseInt(microseconds) / 1000);
-
-    const options: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
-    return date.toLocaleTimeString('en-US', options);
-}
-
 </script>
 
 <style scoped></style>

@@ -1,5 +1,7 @@
-# Workout App
-A workout app where you will be able to make a workout routine which consists of different exercises. You will then be able to log each set for each exercise along with how many repitions you were able to complete and how much weight you were able to lift. "Premium" users will be able to view advanced statistics of their workouts such as a graph with they improvement week over week.
+# WeightBook: A Workout Tracking app
+WeightBook is a web app that allows users to create workouts with specific numbers of sets, reps and weight.
+Upon creating an account, you can select your role. Free users don't have the ability to add workouts, but can browse the app and view its features. Premium users get access to all of the available features on the app, including creating, adding and logging workouts. They can also view a graph displaying their progress. Administrators have access to all parts of the website.
+
 
 ## Installation
 `git clone git@github.com:yeehaw114/COP4521-Project.git`
@@ -12,6 +14,7 @@ Download these dependencies before running the project.
 [![NPM](https://skillicons.dev/icons?i=npm)](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 [![Docker](https://skillicons.dev/icons?i=docker)](https://docs.docker.com/engine/install/)
 
+WSL is recommended as well.
 
 ## Getting Started
 You want to ensure the backend is running before starting up the frontend to avoid network errors.

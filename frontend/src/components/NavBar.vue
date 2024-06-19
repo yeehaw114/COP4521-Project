@@ -35,7 +35,12 @@
     <v-list>
       <v-list-item prepend-icon="mdi-home" link to="/" title="Home"></v-list-item>
       <v-list-item prepend-icon="mdi-information" link to="/about" title="About"></v-list-item>
-      <v-list-item prepend-icon="mdi-theme-light-dark" link title="Toggle theme" @click="toggleTheme"></v-list-item>
+      <v-list-item
+        prepend-icon="mdi-theme-light-dark"
+        link
+        title="Toggle theme"
+        @click="toggleTheme(theme)"
+      ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 
@@ -59,26 +64,15 @@ import Signup from './SignUp.vue'
 import Login from './LoginComponent.vue'
 import SuccessSnackbar from './SuccessfulSnackbar.vue'
 import UserAvatar from './UserAvatar.vue'
+import { toggleTheme } from '@/helpers/theme'
 import { useTheme } from 'vuetify'
 
 const successLoginSnackbar = ref(false)
 const successSignupSnackbar = ref(false)
 
-const userStore = useUserStore()
-const username = ref('')
-
-watch(username, (newUsername) => {
-  console.log(`username changed to ${username}`)
-  //username.value = newUsername ?? ""
-})
-
 const theme = useTheme()
 
-const toggleTheme = () => {
-  const isDark = theme.global.current.value.dark
-  theme.global.name.value = isDark ? "light" : "dark"
-}
-
+const userStore = useUserStore()
 const signupDialog = ref(false)
 const openSignUpDialog = () => {
   signupDialog.value = true

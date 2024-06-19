@@ -15,7 +15,12 @@
             <div class="text-h4">{{ e.name }}</div>
           </v-col>
           <v-col cols="2">
-            <v-btn prepend-icon="mdi-trash-can-outline" color="red-lighten-1" @click="removeExercise(ei)">Delete</v-btn>
+            <v-btn
+              prepend-icon="mdi-trash-can-outline"
+              color="red-lighten-1"
+              @click="removeExercise(ei)"
+              >Delete</v-btn
+            >
           </v-col>
         </v-row>
         <!-- New set -->
@@ -53,7 +58,11 @@
                     {{ si + 1 }}<v-icon icon="mdi-chevron-right"></v-icon> Reps: {{ s.reps
                     }}<v-icon icon="mdi-weight-lifter"></v-icon> Weight: {{ s.weight }}
                     <v-icon icon="mdi-weight-pound"></v-icon>
-                    <v-btn icon="mdi-trash-can-outline" color="red-lighten-1" @click="removeSet(ei, si)"></v-btn>
+                    <v-btn
+                      icon="mdi-trash-can-outline"
+                      color="red-lighten-1"
+                      @click="removeSet(ei, si)"
+                    ></v-btn>
                   </div>
                 </v-list-item>
               </v-card>
@@ -98,12 +107,12 @@ const workout: Ref<Workout> = ref<Workout>({
   id: 0
 })
 
-const removeSet = (ei:number, si:number) => {
+const removeSet = (ei: number, si: number) => {
   exercises.value[ei].sets.splice(si, 1)
 }
 
-const removeExercise = (ei:number) => {
-  exercises.value.splice(ei,1)
+const removeExercise = (ei: number) => {
+  exercises.value.splice(ei, 1)
 }
 
 const router = useRouter()
@@ -115,14 +124,16 @@ const newExercise: Ref<Exercise> = ref({
   sets: []
 })
 
-const newSet: Ref<Set[]> = ref([{
-  exercise: '',
-  id: 0,
-  reps: 10,
-  weight: 50
-}])
+const newSet: Ref<Set[]> = ref([
+  {
+    exercise: '',
+    id: 0,
+    reps: 10,
+    weight: 50
+  }
+])
 
-const appendSet = (ei:number) => {
+const appendSet = (ei: number) => {
   const copy = JSON.parse(JSON.stringify(newSet.value[ei]))
   copy.exercise = exercises.value[ei].name
   exercises.value[ei].sets.push(copy)
@@ -134,7 +145,7 @@ const appendExercise = () => {
     return
   }
 
-  const newSetCopy = JSON.parse(JSON.stringify(newSet.value[newSet.value.length-1]))
+  const newSetCopy = JSON.parse(JSON.stringify(newSet.value[newSet.value.length - 1]))
   newSet.value.push(newSetCopy)
 
   const copy = JSON.parse(JSON.stringify(newExercise.value))

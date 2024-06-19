@@ -7,7 +7,8 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import type { Workout } from '@/types/workout'
 import type { Ref } from 'vue'
-import { getWorkout, stringArrayToInt } from '@/requests/workout'
+import { getWorkout } from '@/requests/workout'
+import { stringArrayToInt } from '@/helpers/convert'
 import WorkoutComponent from '@/components/Workout.vue'
 
 const contentLoaded = ref(false)

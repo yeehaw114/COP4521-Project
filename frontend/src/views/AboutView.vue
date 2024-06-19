@@ -8,7 +8,9 @@
           Fernando de Torres
         </div>
         <div class="text-body-1">
-          This is a project made for COP 4521 at Florida State University. We used Vue.js with Vuetify components for the frontend. We used Django for the backend along with a PostgreSQL database. Additionally, we containerized the entire application using Docker.
+          This is a project made for COP 4521 at Florida State University. We used Vue.js with
+          Vuetify components for the frontend. We used Django for the backend along with a
+          PostgreSQL database. Additionally, we containerized the entire application using Docker.
         </div>
       </v-card>
     </div>
