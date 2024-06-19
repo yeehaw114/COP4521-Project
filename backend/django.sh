@@ -1,12 +1,5 @@
 #!/bin/bash
-
-function wait_for_postgres() {
-    echo "Waiting for PostgreSQL to be ready..."
-    while ! pg_isready -h db -p 5432 -U postgres; do
-        sleep 1
-    done
-    echo "PostgreSQL is ready."
-}
+sleep 10
 
 echo "Creating migrations..."
 if python3 manage.py makemigrations; then
@@ -16,7 +9,6 @@ else
     exit 1
 fi
 echo ======================
-
 echo "Starting migrations..."
 if python3 manage.py migrate; then
     echo "Migrations applied successfully."
@@ -34,6 +26,8 @@ else
     exit 1
 fi
 echo ===================================
+sleep 10
+
 
 echo "Starting migrations..."
 if python3 manage.py migrate; then
