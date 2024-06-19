@@ -3,7 +3,7 @@
     <div class="text-h3">{{ props.name }}</div>
     <v-divider></v-divider>
     <v-list>
-      <v-list-item v-for="(e, ei) in props.goal" :key="ei">
+      <v-list-item v-for="(e, ei) in props.logged" :key="ei">
         <div class="text-h4">{{ e.name }}<v-icon icon="mdi-chevron-right"></v-icon></div>
         <v-row>
           <v-col v-for="(s, si) in e.sets" :key="si" cols="6">

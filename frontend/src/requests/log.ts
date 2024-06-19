@@ -1,7 +1,7 @@
 import { SERV_NAME } from '@/requests/host'
 import type { Workout, Set, MiniLog, Log } from '@/types/workout'
 
-export async function getLog(id: number): Promise<Log[]> {
+export async function getLog(id: number): Promise<Log> {
   const token = localStorage.getItem('jwt-token')
   return await fetch(SERV_NAME + '/api/workouts/' + id + '/log/', {
     method: 'GET',
@@ -15,7 +15,7 @@ export async function getLog(id: number): Promise<Log[]> {
       }
       return response.json()
     })
-    .then((data: Log[]) => {
+    .then((data: Log) => {
       console.log(data)
       return data
     })

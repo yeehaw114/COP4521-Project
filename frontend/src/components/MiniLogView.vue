@@ -6,7 +6,7 @@
       </v-card-title>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="secondary" prepend-icon="mdi-update" link>Update</v-btn>
+        <v-btn color="secondary" prepend-icon="mdi-update" link :to="`/workout/${props.log.workout_id}/log/${props.log.id}/update`">Update</v-btn>
         <v-btn
           color="primary"
           prepend-icon="mdi-eye-circle-outline"

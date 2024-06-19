@@ -53,7 +53,7 @@
 
         name.value = goalWorkout.name
         goalExercises.value = convertSetsToExercises(goalWorkout.sets)
-        loggedExercises.value = convertSetsToExercises(logWorkout[0].sets)
+        loggedExercises.value = convertSetsToExercises(logWorkout.sets)
         
         contentLoaded.value = true
       } catch (error) {

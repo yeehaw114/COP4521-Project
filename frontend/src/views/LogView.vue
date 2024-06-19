@@ -29,10 +29,11 @@
       goalExercises.value = convertSetsToExercises(goalWorkout.sets)
       console.log(goalExercises.value)
       const loggedWorkout = await getLog(logid)
-      loggedExercises.value = convertSetsToExercises(loggedWorkout[0].sets)
+      console.log()
+      loggedExercises.value = convertSetsToExercises(loggedWorkout.sets)
       console.log(loggedExercises.value)
 
-      name.value = loggedWorkout[0].name
+      name.value = loggedWorkout.name
 
       contentLoaded.value = true
     } catch(error) {
