@@ -155,49 +155,42 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
         
     @action(detail=True, methods=['get'], url_path='log')
     def get_log(self, request, pk=None):
-        workout_id = pk
+        log_id = pk
         user = request.user
 
         try:
-            user_workouts = User_Workouts.objects.filter(workout_id_id=workout_id, username=user)
-
-            if not user_workouts.exists():
-                return Response({'error': 'User workout log not found'}, status=status.HTTP_404_NOT_FOUND)
+            user_workout = User_Workouts.objects.get(id=log_id, username=user)
             
-            response_data = []
+            user_sets = User_Sets.objects.filter(user_workout_id=user_workout)
+            serializer = UserSetsSerializer(user_sets, many=True)
 
-            for user_workout in user_workouts:
-                user_sets = User_Sets.objects.filter(user_workout_id=user_workout)
+            workout_data = {
+                "name": user_workout.workout_id.name,
+                "done_date": user_workout.done_date,
+                "sets": serializer.data
+            }
 
-                serializer = UserSetsSerializer(user_sets, many=True)
-                workout_data = {
-                    "name": user_workout.workout_id.name,
-                    "done_date": user_workout.done_date,
-                    "sets": serializer.data
-                }
-                response_data.append(workout_data)
-
-            return Response(response_data, status=status.HTTP_200_OK)
+            return Response(workout_data, status=status.HTTP_200_OK)
+        except User_Workouts.DoesNotExist:
+            return Response({'error': 'User workout log not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=['delete'], url_path='delete-log')
     def delete_log(self, request, pk=None):
-        workout_id = pk
+        log_id = pk
         user = request.user
 
         try:
-            user_workouts = User_Workouts.objects.filter(workout_id_id=workout_id, username=user)
-
-            if not user_workouts.exists():
-                return Response({'error': 'User workout log not found'}, status=status.HTTP_404_NOT_FOUND)
+            user_workout = User_Workouts.objects.get(id=log_id, username=user)
             
             with transaction.atomic():
-                for user_workout in user_workouts:
-                    User_Sets.objects.filter(user_workout_id=user_workout).delete()
-                    user_workout.delete()
+                User_Sets.objects.filter(user_workout_id=user_workout).delete()
+                user_workout.delete()
 
             return Response({'message': 'User workout log deleted successfully'}, status=status.HTTP_200_OK)
+        except User_Workouts.DoesNotExist:
+            return Response({'error': 'User workout log not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
