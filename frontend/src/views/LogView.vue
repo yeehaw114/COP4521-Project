@@ -1,5 +1,5 @@
 <template v-if="contentLoaded">
-    <ViewLog :name="name" :goal="goalExercises" :logged="loggedExercises" />
+    <ViewLog :time="time" :name="name" :goal="goalExercises" :logged="loggedExercises" />
     <Error v-if="errorOccured" text="Error occurred"/>
   </template>
   
@@ -8,7 +8,8 @@
   import { useRoute } from 'vue-router'
   import { convertSetsToExercises, type Workout, type Exercise } from '@/types/workout'
   import type { Ref } from 'vue'
-  import { getWorkout, stringArrayToInt } from '@/requests/workout'
+  import { getWorkout } from '@/requests/workout'
+  import { stringArrayToInt } from '@/helpers/convert'
   import ViewLog from '@/components/ViewLog.vue'
   import { getLog } from '@/requests/log'
   import Error from '@/components/ErrorComponent.vue'
@@ -17,6 +18,7 @@
   const errorOccured = ref(false)
 
   const name = ref("")
+  const time:Ref<Date> = ref(new Date())
   const goalExercises:Ref<Exercise[]> = ref([])
   const loggedExercises:Ref<Exercise[]> = ref([])
   
@@ -29,7 +31,7 @@
       goalExercises.value = convertSetsToExercises(goalWorkout.sets)
       console.log(goalExercises.value)
       const loggedWorkout = await getLog(logid)
-      console.log()
+      time.value = loggedWorkout.done_date
       loggedExercises.value = convertSetsToExercises(loggedWorkout.sets)
       console.log(loggedExercises.value)
 
