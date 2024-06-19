@@ -7,6 +7,17 @@ def grant_permissions(apps, schema_editor):
         cursor.execute("DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'premium') THEN CREATE ROLE premium; END IF; END $$;")
         cursor.execute("DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'free') THEN CREATE ROLE free; END IF; END $$;")
 
+        # Creating users if they don't exist
+        cursor.execute("DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'app_admin') THEN CREATE USER app_admin WITH PASSWORD 'admin_password'; END IF; END $$;")
+        cursor.execute("DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'app_premium') THEN CREATE USER app_premium WITH PASSWORD 'premium_password'; END IF; END $$;")
+        cursor.execute("DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'app_free') THEN CREATE USER app_free WITH PASSWORD 'free_password'; END IF; END $$;")
+        
+        # Granting roles to users
+        cursor.execute("GRANT admin TO app_admin;")
+        cursor.execute("GRANT premium TO app_premium;")
+        cursor.execute("GRANT free TO app_free;")
+        
+        
         # Granting full permissions to Admin
         cursor.execute("""
             GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO admin;
@@ -31,6 +42,7 @@ def grant_permissions(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('workouts', '0001_initial'),
         ('user', '0002_role_permissions'),
         ('auth', '0013_assign_permissions'),
     ]

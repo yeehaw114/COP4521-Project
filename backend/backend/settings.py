@@ -46,6 +46,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'backend.middleware.middleware.RoleBasedDatabaseMiddleware',
 ]
 
 CORS_ORIGIN_WHITELIST = [
@@ -151,7 +152,20 @@ DATABASES = {
         'PORT': '5432',
     },
 }
-
+DATABASE_ROLES = {
+    'admin': {
+        'USER': 'app_admin',
+        'PASSWORD': 'admin_password',
+    },
+    'premium': {
+        'USER': 'app_premium',
+        'PASSWORD': 'premium_password',
+    },
+    'free': {
+        'USER': 'app_free',
+        'PASSWORD': 'free_password',
+    }
+}
 
 
 # Password validation
