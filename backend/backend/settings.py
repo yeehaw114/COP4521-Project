@@ -152,15 +152,15 @@ DATABASES = {
     },
 }
 DATABASE_ROLES = {
-    'admin': {
+    'Admin': {
         'USER': 'app_admin',
         'PASSWORD': 'admin_password',
     },
-    'premium': {
+    'Premium': {
         'USER': 'app_premium',
         'PASSWORD': 'premium_password',
     },
-    'free': {
+    'Free': {
         'USER': 'app_free',
         'PASSWORD': 'free_password',
     }
