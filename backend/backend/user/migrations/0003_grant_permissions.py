@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('workouts', '0001_initial'),
         ('user', '0002_role_permissions'),
-        ('auth', '0013_assign_permissions'),
+        ('user', '0013_assign_permissions'),
     ]
 
     operations = [

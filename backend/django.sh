@@ -34,3 +34,12 @@ else
     exit 1
 fi
 echo ===================================
+
+echo "Starting migrations..."
+if python3 manage.py migrate; then
+    echo "Migrations applied successfully."
+else
+    echo "Error applying migrations."
+    exit 1
+fi
+echo ======================
