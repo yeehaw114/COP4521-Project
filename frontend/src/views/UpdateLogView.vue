@@ -18,7 +18,8 @@
   import { convertSetsToExercises } from '@/types/workout'
   import { ref, onMounted } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
-  import { getWorkout, stringArrayToInt } from '@/requests/workout'
+  import { getWorkout } from '@/requests/workout'
+  import { stringArrayToInt } from '@/helpers/convert'
   import { getLog, updateLog } from '@/requests/log'
   import Error from '@/components/ErrorComponent.vue'
   

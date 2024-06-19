@@ -1,6 +1,6 @@
 <template>
   <v-card class="mx-auto pa-6" elevation="15" max-width="800" rounded="lg">
-    <div class="text-h3">{{ props.name }}</div>
+    <div class="text-h3">{{ props.name }} <v-icon icon="mdi-at"/> {{ props. }}</div>
     <v-divider></v-divider>
     <v-list>
       <v-list-item v-for="(e, ei) in props.logged" :key="ei">
@@ -29,6 +29,7 @@ import { onUpdated, ref } from 'vue'
 
 const props = defineProps<{
   name: string
+  time: Date
   goal: Exercise[]
   logged: Exercise[]
 }>()
