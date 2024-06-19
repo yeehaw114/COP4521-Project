@@ -6,7 +6,13 @@
       </v-card-title>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="secondary" prepend-icon="mdi-update" link :to="`/workout/${props.log.workout_id}/log/${props.log.id}/update`">Update</v-btn>
+        <v-btn
+          color="secondary"
+          prepend-icon="mdi-update"
+          link
+          :to="`/workout/${props.log.workout_id}/log/${props.log.id}/update`"
+          >Update</v-btn
+        >
         <v-btn
           color="primary"
           prepend-icon="mdi-eye-circle-outline"
@@ -24,7 +30,7 @@
 <script setup lang="ts">
 import { deleteLog } from '@/requests/log'
 import type { MiniLog } from '@/types/workout'
-import { formatTime } from '@/helpers/format';
+import { formatTime } from '@/helpers/format'
 
 const props = defineProps<{
   log: MiniLog
@@ -43,7 +49,6 @@ const delLog = async () => {
     console.error(error)
   }
 }
-
 </script>
 
 <style scoped></style>

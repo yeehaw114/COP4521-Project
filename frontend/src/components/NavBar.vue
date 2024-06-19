@@ -35,7 +35,12 @@
     <v-list>
       <v-list-item prepend-icon="mdi-home" link to="/" title="Home"></v-list-item>
       <v-list-item prepend-icon="mdi-information" link to="/about" title="About"></v-list-item>
-      <v-list-item prepend-icon="mdi-theme-light-dark" link title="Toggle theme" @click="toggleTheme"></v-list-item>
+      <v-list-item
+        prepend-icon="mdi-theme-light-dark"
+        link
+        title="Toggle theme"
+        @click="toggleTheme"
+      ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 
@@ -76,7 +81,7 @@ const theme = useTheme()
 
 const toggleTheme = () => {
   const isDark = theme.global.current.value.dark
-  theme.global.name.value = isDark ? "light" : "dark"
+  theme.global.name.value = isDark ? 'light' : 'dark'
 }
 
 const signupDialog = ref(false)

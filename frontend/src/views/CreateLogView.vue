@@ -2,13 +2,13 @@
   <LogWorkout
     v-if="contentLoaded"
     :workoutid="workoutid"
-    :update=false
+    :update="false"
     :name="workout.name"
     :goalExercises="exercises"
     :loggedExercises="JSON.parse(JSON.stringify(exercises))"
     @action="post"
   />
-  <Error v-if="errorOccurred" text="Could not post log"/>
+  <Error v-if="errorOccurred" text="Could not post log" />
 </template>
 
 <script setup lang="ts">
@@ -35,12 +35,12 @@ const workout: Ref<Workout> = ref({
 
 const router = useRouter()
 
-const post = async(sets: Set[]) => {
+const post = async (sets: Set[]) => {
   try {
     errorOccurred.value = false
     await postLog(workoutid.value, sets)
     router.push('/')
-  } catch(error) {
+  } catch (error) {
     errorOccurred.value = true
     console.error(error)
   }

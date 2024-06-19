@@ -58,8 +58,19 @@
       </v-list-item>
     </v-list>
     <!-- Log or Update based on props.update -->
-    <v-btn v-if="!props.update" class="mb-8" color="green" size="large" variant="tonal" @click="log" block>Log</v-btn>
-    <v-btn v-else class="mb-8" color="green" size="large" variant="tonal" @click="log" block>Update</v-btn>
+    <v-btn
+      v-if="!props.update"
+      class="mb-8"
+      color="green"
+      size="large"
+      variant="tonal"
+      @click="log"
+      block
+      >Log</v-btn
+    >
+    <v-btn v-else class="mb-8" color="green" size="large" variant="tonal" @click="log" block
+      >Update</v-btn
+    >
   </v-card>
 </template>
 
@@ -79,10 +90,10 @@ const props = defineProps<{
 }>()
 
 const emits = defineEmits<{
-  (event: 'action', sets: Set[]): void;
+  (event: 'action', sets: Set[]): void
 }>()
 
-const loggedExercises:Ref<Exercise[]> = ref(props.loggedExercises)
+const loggedExercises: Ref<Exercise[]> = ref(props.loggedExercises)
 
 const workout: Ref<Workout> = ref({
   name: '',
