@@ -36,7 +36,6 @@ class User_Sets(models.Model):
     id = models.AutoField(primary_key=True)
     user_workout_id = models.ForeignKey(User_Workouts, on_delete=models.CASCADE)
     exercise = models.CharField()
-    set_id = models.ForeignKey(Sets, on_delete=models.CASCADE)
     reps = models.SmallIntegerField()
     weight = models.SmallIntegerField()
     username = models.ForeignKey(User, on_delete=models.CASCADE)

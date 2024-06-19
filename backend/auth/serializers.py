@@ -3,12 +3,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.settings import api_settings
-from django.contrib.auth import get_user_model
 from user.models import User
 from user.serializers import UserSerializer
 
 
-User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=128, min_length=8, write_only=True, required=True)
@@ -20,12 +18,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'password', 'created', 'modified', 'role']
 
     def create(self, validated_data):
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            password=validated_data['password'],
-            role=validated_data['role']
-        )
+        try:
+            user = User.objects.get(email=validated_data['email'])
+        except ObjectDoesNotExist:
+            user = User.objects.create_user(**validated_data)
         return user
 
 
