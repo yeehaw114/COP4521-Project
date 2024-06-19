@@ -145,6 +145,7 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
         data = request.data
 
         try:
+            workout = Workouts.objects.get(pk=workout_id)
             user_workout = User_Workouts.objects.create(workout_id_id=workout_id, username=user)
 
             sets = data.get('sets', [])
@@ -153,7 +154,7 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
                 reps = set_data.get('reps')
                 weight = set_data.get('weight')
 
-                set_instance, created = Sets.objects.get_or_create(workout_id=workout_id, exercise=exercise, defaults={'reps': reps, 'weight': weight})
+                set_instance = Sets.objects.create(workout_id=workout, exercise=exercise, reps=reps, weight=weight)
                 User_Sets.objects.create(user_workout_id=user_workout, set_id=set_instance, reps=reps, weight=weight, username=user)
 
             return Response({'message': 'Workout logged successfully'}, status=status.HTTP_200_OK)
