@@ -10,18 +10,18 @@
     <div class="text-subtitle-1 text-medium-emphasis">Exercises</div>
     <v-list>
       <v-list-item v-for="(e, ei) in exercises" :key="e.name">
-        <v-row>
-          <v-col>
+        <v-row class="pb-3">
+          <v-col cols="10">
             <div class="text-h4">{{ e.name }}</div>
           </v-col>
-          <v-col>
+          <v-col cols="2">
             <v-btn prepend-icon="mdi-trash-can-outline" color="red-lighten-1" @click="removeExercise(ei)">Delete</v-btn>
           </v-col>
         </v-row>
         <!-- New set -->
         <v-card>
           <v-row>
-            <v-col>
+            <v-col cols="5">
               <VNumberInput
                 inset
                 :min="1"
@@ -30,7 +30,7 @@
                 control-variant="stacked"
               ></VNumberInput>
             </v-col>
-            <v-col>
+            <v-col cols="5">
               <VNumberInput
                 :min="1"
                 inset
@@ -40,14 +40,14 @@
                 control-variant="split"
               ></VNumberInput>
             </v-col>
-            <v-col>
-              <v-btn color="green" icon="mdi-plus" @click="appendSet(ei)"></v-btn>
+            <v-col cols="2">
+              <v-btn color="green" prepend-icon="mdi-plus" @click="appendSet(ei)">Add set</v-btn>
             </v-col>
           </v-row>
           <div class="text-subtitle-2 text-medium-emphasis">Sets</div>
           <v-list>
             <v-list-item v-for="(s, si) in e.sets" :key="si">
-              <div class="text-h8">
+              <div class="text-h8 pb-2">
                 {{ si + 1 }}<v-icon icon="mdi-chevron-right"></v-icon> Reps: {{ s.reps
                 }}<v-icon icon="mdi-weight-lifter"></v-icon> Weight: {{ s.weight }}
                 <v-icon icon="mdi-weight-pound"></v-icon>
@@ -59,11 +59,11 @@
       </v-list-item>
     </v-list>
     <v-row align="center">
-      <v-col>
+      <v-col cols="10">
         <v-text-field v-model="newExercise.name" label="New Exercise" outlined></v-text-field>
       </v-col>
-      <v-col cols="auto">
-        <v-btn rounded="0" color="green" icon="mdi-plus" @click="appendExercise"></v-btn>
+      <v-col cols="2">
+        <v-btn rounded="0" color="green" prepend-icon="mdi-plus" @click="appendExercise">Add</v-btn>
       </v-col>
     </v-row>
     <v-btn class="mb-8" color="green" size="large" variant="tonal" @click="createWorkout" block
