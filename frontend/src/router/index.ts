@@ -5,6 +5,7 @@ import CreateWorkoutView from '../views/CreateWorkoutView.vue'
 import WorkoutView from '../views/WorkoutView.vue'
 import CreateLogView from '../views/CreateLogView.vue'
 import LogView from '@/views/LogView.vue'
+import UpdateLogView from '@/views/UpdateLogView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +40,11 @@ const router = createRouter({
       path: '/workout/:workoutid/log/:logid',
       name: 'logview',
       component: LogView
+    },
+    {
+      path: '/workout/:workoutid/log/:logid/update',
+      name: 'updatelogview',
+      component: UpdateLogView
     }
   ]
 })

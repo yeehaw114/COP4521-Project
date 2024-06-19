@@ -2,9 +2,9 @@
     <LogWorkout
       v-if="contentLoaded"
       :workoutid="workoutid"
-      :name="workout.name"
-      :goalExercises="exercises"
-      :loggedExercises="JSON.parse(JSON.stringify(exercises))"
+      :name="name"
+      :goalExercises="goalExercises"
+      :loggedExercises="loggedExercises"
     />
   </template>
   
@@ -16,32 +16,30 @@
   import { ref, onMounted } from 'vue'
   import { useRoute } from 'vue-router'
   import { getWorkout, stringArrayToInt } from '@/requests/workout'
+  import { getLog } from '@/requests/log'
   
   const workoutid: Ref<number> = ref(0)
   const logid: Ref<number> = ref(0)
+  const name = ref("")
 
-  const workoutExercises: Ref<Exercise[]> = ref([])
+  const goalExercises: Ref<Exercise[]> = ref([])
   const loggedExercises: Ref<Exercise[]> = ref([])
   const contentLoaded = ref(false)
-  const workout: Ref<Workout> = ref({
-    name: '',
-    id: 0,
-    sets: []
-  })
   
   onMounted(async () => {
     try {
       workoutid.value = stringArrayToInt(useRoute().params.workoutid as string[])
       logid.value = stringArrayToInt(useRoute().params.logid as string[])
       try {
-        if (isNaN(workoutid.value)) {
+        if (isNaN(workoutid.value) || isNaN(logid.value)) {
           throw new Error('Invalid workout id')
         }
-        workout.value = await getWorkout(workoutid.value)
-        logWorkout.value = await getLog(logid.value)
+        const goalWorkout:Workout = await getWorkout(workoutid.value)
+        const logWorkout = await getLog(logid.value)
 
-        workoutExercises.value = convertSetsToExercises(workout.value.sets)
-        loggedExercises.value = convertExercisesToSets(logWorkout.value.sets)
+        name.value = goalWorkout.name
+        goalExercises.value = convertSetsToExercises(goalWorkout.sets)
+        loggedExercises.value = convertSetsToExercises(logWorkout[0].sets)
         
         contentLoaded.value = true
       } catch (error) {
