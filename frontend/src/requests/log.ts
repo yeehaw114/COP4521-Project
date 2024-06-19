@@ -91,6 +91,7 @@ export async function updateLog(logid:number, logSets:Set[]) {
   return await fetch(SERV_NAME + '/api/workouts/'+logid+'/update-log/', {
     method: 'PUT',
     headers: {
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`
     },
     body: JSON.stringify(req)
