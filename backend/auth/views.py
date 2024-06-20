@@ -16,9 +16,9 @@ class RegistrationViewSet(ModelViewSet, TokenObtainPairView):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-
+        role = self.request.data.get('role', 'Free')
         serializer.is_valid(raise_exception=True)
-        user = serializer.save()
+        user = serializer.save(role=role)
         refresh = RefreshToken.for_user(user)
 
         res = {

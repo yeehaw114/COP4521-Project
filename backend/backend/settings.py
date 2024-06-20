@@ -125,8 +125,37 @@ DATABASES = {
         'NAME': os.environ.get('PG_DB', 'postgres'),
         'PORT': os.environ.get('PG_PORT', '5432'),
         'HOST': os.environ.get('PG_HOST', 'localhost')
-    }
+    },
+    'free': {
+        'ENGINE': os.environ.get('DB_DRIVER','django.db.backends.postgresql'),
+        'NAME': 'your_free_db',
+        'USER': 'app_free',
+        'PASSWORD': 'free_password',
+        'HOST': os.environ.get('PG_HOST', 'localhost'),
+        'PORT': os.environ.get('PG_PORT', '5432'),
+    },
+    'premium': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'your_premium_db',
+        'USER': 'app_premium',
+        'PASSWORD': 'premium_password',
+        'HOST': os.environ.get('PG_HOST', 'localhost'),
+        'PORT': os.environ.get('PG_PORT', '5432'),
+    },
+    'admin': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'your_admin_db',
+        'USER': 'app_admin',
+        'PASSWORD': 'admin_password',
+        'HOST': os.environ.get('PG_HOST', 'localhost'),
+        'PORT': os.environ.get('PG_PORT', '5432'),
+    },
 }
+
+# DATABASE_ROUTERS = {
+#     ['db_router.RoleBasedRouter']
+# }
+
 DATABASE_ROLES = {
     'Admin': {
         'USER': 'app_admin',

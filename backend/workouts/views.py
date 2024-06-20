@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.db import connection
 
 class UserSetsViewSet(viewsets.ModelViewSet):
+    
     permission_classes = (IsAuthenticated,)
     http_method_names = ['get', 'post', 'delete']
     serializer_class = UserSetsSerializer

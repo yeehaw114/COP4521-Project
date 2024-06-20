@@ -1,71 +1,62 @@
 from django.utils.deprecation import MiddlewareMixin
-from django.db import connections
+from django.db import connections, connection
 from django.conf import settings
+from rest_framework.permissions import IsAuthenticated
+from user.serializers import UserSerializer
 import logging
 import json
 from django.urls import resolve
 from user.models import User       
 from django.db import connections
+from rest_framework_simplejwt.tokens import UntypedToken
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 logger = logging.getLogger(__name__)
 
 class RoleBasedDatabaseMiddleware(MiddlewareMixin):
     def process_view(self, request, view_func, view_args, view_kwargs):
+        db_conn = connections['default']
         role = None
-        if request.user.is_authenticated:
-            role = user.role
+        logger.debug(f"Request user is {request.user}")
 
-        # Check for Role in query parameters
-        role = request.GET.get('role', None)
-        
-        # Check for Role in form data (for POST requests)
-        if not role:
-            role = request.POST.get('role', None)
-        
-        # Check for Role in JSON data (for POST/PUT requests with JSON body)
-        if not role:
-            try:
-                body_data = json.loads(request.body)
-                role = body_data.get('role', None)  # None is the default if 'role' is not found
-            except (json.JSONDecodeError, TypeError):
-                pass
-
-        logger.debug(f'Role from request: {role}')
-        
-        # Fetch role from the database if not provided in the request and user is authenticated
-        if role == None:
-            try:
-                # Log the username and primary key for debugging
-                logger.debug(f'Attempting to retrieve user with primary key: {request.user.pk} and username: {request.user.username}')
-                
-                # Fetch the user from the database using the primary key or username
-                user = User.objects.get(pk=request.user.pk)
-                # Alternatively, use username if needed
-                # user = User.objects.get(username=request.user.username)
-
-                # Access the role attribute of the user object
-                role = user.role
-                logger.debug(f'Role from database: {role}')
-            except User.DoesNotExist:
-                logger.error(f'User with primary key {request.user.pk} or username {request.user.username} does not exist.')
-                role = None
-
-        logger.debug(f'Final role: {role}')
-        
         # Get the view name
         view_name = resolve(request.path_info).view_name
         logger.debug(f'View name: {view_name}')
         
-        
-        db_conn = connections['default']
-
-
         # Check if the view is in the excluded views list
-        if view_name == 'api:auth-register-list':
+        if view_name == 'api:auth-register-list' or view_name == 'api:auth-login-list':
+            db_conn.settings_dict['USER'] = 'postgres'
+            db_conn.settings_dict['PASSWORD'] = 'postgres'
             return
-        
-        elif role == 'Free':
+
+        auth_header = request.headers.get('Authorization')
+        logger.debug(f'Authorization header: {auth_header}')
+        tokenString = ""
+        if auth_header:
+            try:
+                jwt_auth = JWTAuthentication()
+                validated_token = jwt_auth.get_validated_token(auth_header.split()[1])
+                tokenString = str(jwt_auth.get_user(validated_token))
+            except (InvalidToken, TokenError) as e:
+                logger.error(f'Invalid token: {e}')
+
+        # Step 1: Extract substring containing 'username=jim'
+        start_index = tokenString.find("username=") + len("username=")
+        end_index = tokenString.find(")", start_index)
+        uname = tokenString[start_index:end_index]
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT role FROM user_user WHERE username = %s;", [uname])
+            result = cursor.fetchone()
+            role = result[0]
+        # logger.debug(f"User is authenticated and role is {request.user.role}")
+        # role = request.user.role
+
+        logger.debug(f'Final role: {role}')
+
+        # Set the appropriate database user based on role
+        if role == 'Free':
             db_conn.settings_dict['USER'] = 'app_free'
             db_conn.settings_dict['PASSWORD'] = 'free_password'
             logger.debug('Switched to app_free user')
@@ -78,4 +69,24 @@ class RoleBasedDatabaseMiddleware(MiddlewareMixin):
             db_conn.settings_dict['PASSWORD'] = 'admin_password'
             logger.debug('Switched to app_admin user')
         else:
-            return
+            return None
+        # Execute the view function
+        # response = view_func(request, *view_args, **view_kwargs)
+
+        # db_conn.settings_dict['USER'] = 'postgres'
+        # db_conn.settings_dict['PASSWORD'] = 'postgres'
+
+        # logger.debug('Reset database connection to default settings')
+        # return response
+        
+class AttachUserRoleMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        if request.user.is_authenticated:
+            request.role = request.user.role
+        else:
+            request.role = 'default'
+        response = self.get_response(request)
+        return response
