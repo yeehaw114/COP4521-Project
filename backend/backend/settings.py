@@ -125,31 +125,7 @@ DATABASES = {
         'NAME': os.environ.get('PG_DB', 'postgres'),
         'PORT': os.environ.get('PG_PORT', '5432'),
         'HOST': os.environ.get('PG_HOST', 'localhost')
-    },
-    'Admin': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'app_admin',
-        'PASSWORD': 'admin_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    },
-    'Premium': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'app_premium',
-        'PASSWORD': 'premium_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    },
-    'Free': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'app_free',
-        'PASSWORD': 'free_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    },
+    }
 }
 DATABASE_ROLES = {
     'Admin': {
@@ -208,3 +184,34 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+    'django': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+        'propagate': False,
+    },
+}
