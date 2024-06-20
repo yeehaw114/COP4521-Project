@@ -126,26 +126,26 @@ DATABASES = {
         'PORT': os.environ.get('PG_PORT', '5432'),
         'HOST': os.environ.get('PG_HOST', 'localhost')
     },
-    'admin': {
+    'Admin': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'your_database',
-        'USER': 'admin_user',
+        'NAME': 'postgres',
+        'USER': 'app_admin',
         'PASSWORD': 'admin_password',
         'HOST': 'localhost',
         'PORT': '5432',
     },
-    'premium': {
+    'Premium': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'your_database',
-        'USER': 'premium_user',
+        'NAME': 'postgres',
+        'USER': 'app_premium',
         'PASSWORD': 'premium_password',
         'HOST': 'localhost',
         'PORT': '5432',
     },
-    'free': {
+    'Free': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'your_database',
-        'USER': 'free_user',
+        'NAME': 'postgres',
+        'USER': 'app_free',
         'PASSWORD': 'free_password',
         'HOST': 'localhost',
         'PORT': '5432',

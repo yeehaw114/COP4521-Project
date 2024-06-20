@@ -26,9 +26,9 @@ do
         SUCCESS=true
         break
     else
-        echo "Error applying migrations. Retrying in 10 seconds..."
+        echo "Error applying migrations. Retrying in 5 seconds..."
         RETRY_COUNT=$((RETRY_COUNT+1))
-        sleep 10
+        sleep 5
     fi
 done
 
