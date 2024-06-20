@@ -6,13 +6,16 @@ from rest_framework_simplejwt.settings import api_settings
 from user.models import User
 from user.serializers import UserSerializer
 
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=128, min_length=8, write_only=True, required=True)
     email = serializers.EmailField(required=True, max_length=128)
+    role = serializers.ChoiceField(choices=User.ROLE_CHOICES, write_only=True, required=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'created', 'modified']
+        fields = ['id', 'username', 'email', 'password', 'created', 'modified', 'role']
 
     def create(self, validated_data):
         try:
@@ -20,6 +23,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         except ObjectDoesNotExist:
             user = User.objects.create_user(**validated_data)
         return user
+
 
 class LoginSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
