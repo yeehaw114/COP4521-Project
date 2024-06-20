@@ -61,6 +61,7 @@ __Frontend:__ `npm ci && npm run dev`
 #### Gavin McDavitt
 - Wrote the distributed computing report
 - Assisted with RBAC
+- Name the app
 
 #### Zachary Herman
 - Prototyped some Vue.js coponents
