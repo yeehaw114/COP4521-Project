@@ -45,7 +45,7 @@ __Frontend:__ `npm ci && npm run dev`
 ## Separation of work
 
 #### Zachary Lima: 
-- Primarily worked on the django backend, creating and managing the different get and post endpoints in the server. He had created every single endpoint and implemented the user authentication as well. 
+- Primarily worked on the Django backend, creating and managing all of the different endpoints in the server. Implemented user authentication as well.
 
 #### Alex Gonzalez:
 - Primarily handled front end application in Vue.js, as well as docker setup. Dockerized the application.
