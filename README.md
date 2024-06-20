@@ -44,21 +44,29 @@ __Frontend:__ `npm ci && npm run dev`
 
 ## Separation of work
 
-#### Zachary Lima: 
-- Primarily worked on the Django backend, creating and managing all of the different endpoints in the server. Implemented user authentication as well.
+#### Zachary Lima
+- Created the endpoints in the Django HTTP server
+- Designed and implemented the serializers in Django
+- Implemented user authentication
 
 #### Alex Gonzalez:
-- Primarily handled front end application in Vue.js, as well as docker setup. Dockerized the application.
+- Created the frontend application that interacts with the backend
+- Designed the Vue.js components and views
+- Dockerized the application.
 
 #### Fernando de Tores: 
-- RBAC, custom migrations, custom middleware, and database setup. Implemented the django.sh, 
+- Implemented Role Based Access through custom migrations
+- Created custom middleware to allow users to access the database through their role
 
 #### Gavin McDavitt: 
-- Wrote the report, and assisted in RBAC.
+- Wrote the distributed computing report
+- Assisted with RBAC
 
 #### Zachary Herman:
-- Prototyped some Vue.js coponents and worked mostly on frontend design.
+- Prototyped some Vue.js coponents
+- Worked mostly on frontend design.
 
 #### Ethan Burke: 
-- Worked on potential Role-Based Access Control implementations, and helped design the capabilities each type of user would have in the database.
+- Worked on potential Role-Based Access Control implementations
+- Helped design the capabilities each type of user would have in the database
 
