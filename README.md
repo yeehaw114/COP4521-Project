@@ -22,3 +22,43 @@ You want to ensure the backend is running before starting up the frontend to avo
 __Backend:__ `docker compose up`
 
 __Frontend:__ `npm ci && npm run dev`
+
+### Backend Libraries
+
+- Django
+- psycopg2-binary
+- djangorestframework
+- django-cors-headers
+- djangorestframework-simplejwt
+- timedelta 
+
+
+
+### Frontend Libraries
+
+- mdi/font
+- pinia
+- vue
+- vue-router
+- vuetify
+
+## Separation of work
+
+#### Zachary Lima: 
+- Primarily worked on the django backend, creating and managing the different get and post endpoints in the server. He had created every single endpoint and implemented the user authentication as well. 
+
+#### Alex Gonzalez:
+- Primarily handled front end application in Vue.js, as well as docker setup. Dockerized the application.
+
+#### Fernando de Tores: 
+- RBAC, custom migrations, custom middleware, and database setup. Implemented the django.sh, 
+
+#### Gavin McDavitt: 
+- Wrote the report, and assisted in RBAC.
+
+#### Zachary Herman:
+- Prototyped some Vue.js coponents and worked mostly on frontend design.
+
+#### Ethan Burke: 
+- Worked on potential Role-Based Access Control implementations, and helped design the capabilities each type of user would have in the database.
+
