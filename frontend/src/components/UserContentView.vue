@@ -5,7 +5,7 @@
     <div class="text-h6 pb-3" v-if="userWorkouts.length == 0">No workouts created yet.</div>
     <v-row>
       <v-col v-for="w in userWorkouts" cols="4">
-        <MiniWorkoutView @delete="refetchUserWorkouts" :workout="w" />
+        <MiniWorkoutView @delete="refetchAllWorkouts" :workout="w" />
       </v-col>
     </v-row>
     <div class="text-h4 pt-3">My Logs</div>
@@ -55,15 +55,10 @@ const refetchLogs = async () => {
   deleteLogSuccess.value = true
 }
 
-const refetchUserWorkouts = async () => {
-  userWorkouts.value = await getUserWorkouts()
-  userLogs.value = await getUserLogs()
-  deleteWorkoutSuccess.value = true
-}
-
 const refetchAllWorkouts = async () => {
+  userWorkouts.value = await getUserWorkouts()
   allWorkouts.value = await getAllWorkouts()
-  refetchUserWorkouts()
+  refetchLogs()
   deleteWorkoutSuccess.value = true
 }
 
