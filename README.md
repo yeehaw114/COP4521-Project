@@ -49,24 +49,24 @@ __Frontend:__ `npm ci && npm run dev`
 - Designed and implemented the serializers in Django
 - Implemented user authentication
 
-#### Alex Gonzalez:
+#### Alex Gonzalez
 - Created the frontend application that interacts with the backend
 - Designed the Vue.js components and views
 - Dockerized the application.
 
-#### Fernando de Tores: 
+#### Fernando de Tores
 - Implemented Role Based Access through custom migrations
 - Created custom middleware to allow users to access the database through their role
 
-#### Gavin McDavitt: 
+#### Gavin McDavitt
 - Wrote the distributed computing report
 - Assisted with RBAC
 
-#### Zachary Herman:
+#### Zachary Herman
 - Prototyped some Vue.js coponents
 - Worked mostly on frontend design.
 
-#### Ethan Burke: 
+#### Ethan Burke
 - Worked on potential Role-Based Access Control implementations
 - Helped design the capabilities each type of user would have in the database
 
