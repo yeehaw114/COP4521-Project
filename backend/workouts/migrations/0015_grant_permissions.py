@@ -34,9 +34,9 @@ def grant_permissions(apps, schema_editor):
         # Granting specific permissions to Free
         cursor.execute("""
             GRANT SELECT ON TABLE workouts_workouts TO free;
-            GRANT SELECT, INSERT ON TABLE workouts_user_workouts TO FREE;
-            GRANT SELECT, INSERT ON TABLE workouts_user_sets TO FREE;
             GRANT SELECT ON TABLE workouts_sets TO free;
+            GRANT SELECT, INSERT ON TABLE workouts_user_workouts TO free;
+            GRANT SELECT, INSERT ON TABLE workouts_user_sets TO free;
             GRANT SELECT ON TABLE user_user TO free;
         """)
 

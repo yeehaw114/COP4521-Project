@@ -19,18 +19,16 @@ class RoleBasedDatabaseMiddleware(MiddlewareMixin):
     def process_view(self, request, view_func, view_args, view_kwargs):
         db_conn = connections['default']
         role = None
-        logger.debug(f"Request user is {request.user}")
-
         # Get the view name
         view_name = resolve(request.path_info).view_name
         logger.debug(f'View name: {view_name}')
         
         # Check if the view is in the excluded views list
-        if view_name == 'api:auth-register-list' or view_name == 'api:auth-login-list':
+        if view_name == 'api:auth-register-list' or view_name == 'api:auth-login-list' or view_name == 'api:auth-refresh-list':
             db_conn.settings_dict['USER'] = 'postgres'
             db_conn.settings_dict['PASSWORD'] = 'postgres'
             return
-
+        # Get username from token
         auth_header = request.headers.get('Authorization')
         logger.debug(f'Authorization header: {auth_header}')
         tokenString = ""
@@ -42,7 +40,7 @@ class RoleBasedDatabaseMiddleware(MiddlewareMixin):
             except (InvalidToken, TokenError) as e:
                 logger.error(f'Invalid token: {e}')
 
-        # Step 1: Extract substring containing 'username=jim'
+        # Extract substring containing 'username=jim'
         start_index = tokenString.find("username=") + len("username=")
         end_index = tokenString.find(")", start_index)
         uname = tokenString[start_index:end_index]
@@ -50,10 +48,6 @@ class RoleBasedDatabaseMiddleware(MiddlewareMixin):
             cursor.execute("SELECT role FROM user_user WHERE username = %s;", [uname])
             result = cursor.fetchone()
             role = result[0]
-        # logger.debug(f"User is authenticated and role is {request.user.role}")
-        # role = request.user.role
-
-        logger.debug(f'Final role: {role}')
 
         # Set the appropriate database user based on role
         if role == 'Free':
@@ -70,23 +64,3 @@ class RoleBasedDatabaseMiddleware(MiddlewareMixin):
             logger.debug('Switched to app_admin user')
         else:
             return None
-        # Execute the view function
-        # response = view_func(request, *view_args, **view_kwargs)
-
-        # db_conn.settings_dict['USER'] = 'postgres'
-        # db_conn.settings_dict['PASSWORD'] = 'postgres'
-
-        # logger.debug('Reset database connection to default settings')
-        # return response
-        
-class AttachUserRoleMiddleware:
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
-        if request.user.is_authenticated:
-            request.role = request.user.role
-        else:
-            request.role = 'default'
-        response = self.get_response(request)
-        return response
