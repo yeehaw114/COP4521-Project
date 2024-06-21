@@ -1,4 +1,5 @@
 from django.db import transaction
+import logging
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -8,9 +9,11 @@ from workouts.serializers import WorkoutsSerializer, SetsSerializer, UserWorkout
 from django.http import JsonResponse
 from django.db import connection
 
+logger = logging.getLogger(__name__)
+
 class UserSetsViewSet(viewsets.ModelViewSet):
     
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     http_method_names = ['get', 'post', 'delete']
     serializer_class = UserSetsSerializer
     queryset = User_Sets.objects.all()
@@ -34,7 +37,7 @@ class UserSetsViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_200_OK)
     
 class UserWorkoutsViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     http_method_names = ['get', 'post', 'delete']
     serializer_class = UserWorkoutsSerializer
     queryset = User_Workouts.objects.all()
@@ -92,7 +95,8 @@ class WorkoutsViewSet(viewsets.ModelViewSet):
     queryset = Workouts.objects.all()
 
     def get_queryset(self):
-        return self.queryset.filter(username=self.request.user)
+        logger.debug(self)
+        return self.queryset
     
     def perform_create(self, serializer):
         sets_data = serializer.validated_data.pop('sets', [])

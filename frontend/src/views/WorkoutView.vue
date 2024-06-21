@@ -13,7 +13,7 @@ import WorkoutComponent from '@/components/Workout.vue'
 
 const contentLoaded = ref(false)
 const workout: Ref<Workout> = ref({
-  name: 'test',
+  name: 'Could not load workout...',
   id: 0,
   sets: []
 })
