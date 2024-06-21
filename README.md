@@ -4,7 +4,7 @@ WeightBook is a web app that allows users to create workouts with specific numbe
 
 
 ## Installation
-`git clone git@github.com:yeehaw114/COP4521-Project.git`
+```git clone git@github.com:yeehaw114/COP4521-Project.git```
 
 ## Dependencies
 Download these dependencies before running the project.
@@ -14,7 +14,7 @@ Download these dependencies before running the project.
 [![NPM](https://skillicons.dev/icons?i=npm)](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 [![Docker](https://skillicons.dev/icons?i=docker)](https://docs.docker.com/engine/install/)
 
-WSL is recommended as well.
+If you're on Windows, WSL is a dependency of Docker so that must be downloaded.
 
 ## Getting Started
 You want to ensure the backend is running before starting up the frontend to avoid network errors.
