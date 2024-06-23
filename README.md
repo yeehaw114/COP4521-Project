@@ -69,14 +69,14 @@ __Frontend:__ `npm ci && npm run dev`
 - Designed the Vue.js components and views
 - Dockerized the application.
 
-#### Fernando de Tores
+#### Fernando de Torres
 - Implemented Role Based Access through custom migrations
 - Created custom middleware to allow users to access the database through their role
 
 #### Gavin McDavitt
 - Wrote the distributed computing report
 - Assisted with RBAC
-- Name the app
+- Named the app
 
 #### Zachary Herman
 - Prototyped some Vue.js coponents
